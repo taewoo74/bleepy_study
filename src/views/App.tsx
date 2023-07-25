@@ -1,12 +1,14 @@
-import '../styles/App.css'
+import "../styles/App.css";
+import React from 'react'
+import Login from './login/Login.tsx';
 
-function App() {
 
+const App:React.FC = () => {
   return (
-    <div className='container flex h-max' >
-      <div className='justify-center' ></div>
+    <div className="flex flex-col justify-center items-center h-f">
+      <Login />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
