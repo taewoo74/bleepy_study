@@ -1,12 +1,17 @@
 import "../styles/App.css";
-import React from 'react'
-import Login from './login/Login.tsx';
+import { useState } from "react";
+import LoginView from './login/LoginView.tsx';
+import Popup from "../components/Popup.tsx";
 
+const App = () => {
+  const [popupState, setPopupState] = useState(false);
 
-const App:React.FC = () => {
   return (
     <div className="flex flex-col justify-center items-center h-f">
-      <Login />
+      <LoginView setPopupState = {setPopupState} />
+      {popupState && (
+        <Popup title="현재 준비중인 서비스 입니다." text="조금만 기다려주세요" button="확인" setPopupState={setPopupState} />
+      )}
     </div>
   );
 }
