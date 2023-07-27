@@ -2,19 +2,21 @@ import { useState, ChangeEvent } from "react";
 import InputForm from "./loginComponent/InputForm.tsx";
 import FullButton from "../../components/FullButton.tsx";
 import { login } from "../../apis/loginApi/login.ts";
+import { useNavigate } from 'react-router-dom';
 
 type propsType = {
   setPopupState: (result: boolean) => void
 }
 
-const LoginView = (props:propsType) => {
+const LoginView = (props: propsType) => {
+  const navigate = useNavigate();
   const { setPopupState } = props;
   const [id, setId] = useState('');
   const [passWord, setPassWord] = useState(''); // 한개로
 
   const InputChangeValue = (event: ChangeEvent<HTMLInputElement>, title: string) => {
     const value = event.target.value;
-    var check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+    const check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
     if (check.test(value)) {
       return;
     }
@@ -26,25 +28,26 @@ const LoginView = (props:propsType) => {
     }
   }
 
-  const LoginSubmit = () => {
-    if(!buttonState) {
+  const LoginSubmit = async () => {
+    if (!buttonState) {
       return;
     }
 
-    const loginInfo = { 
-      "email": id, 
-      "password": passWord 
+    const loginInfo = {
+      "email": id,
+      "password": passWord
     }
 
-    const result = login(loginInfo);
-    console.log(result);
+    const accessToken = await login(loginInfo);
+    localStorage.setItem('accessToken', accessToken);
+    navigate('/insight/dau')
 
   }
 
 
   let buttonState = false;
   if ((id && id.length > 0) || (passWord && passWord.length > 0)) {
-      buttonState = true;
+    buttonState = true;
   }
 
   return (

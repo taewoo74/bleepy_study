@@ -6,10 +6,11 @@ import App from "./views/App.tsx";
 import "../src/styles/index.css";
 import ReactDOM from "react-dom/client";
 
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <React.StrictMode>
-      <App />
+        <App />
     </React.StrictMode>
   </Provider>
 );
