@@ -37,3 +37,36 @@ html,
 .text-tw {
   color: #ffffffb8;
 }
+
+.gray-color{
+  color: #1212127A;
+}
+
+.small_button {
+  padding: 5px 11px;
+  height: 26px;
+  margin-right: 6px;
+  border-radius: 42px;
+  background-color: #FFECDE;
+  font-size: 12px;
+  text-align: center;
+  line-height: 17px;
+  color:#FB6218;
+  margin-top: 6px;
+}
+
+.select_box {
+  width: 132px;
+  height: 37px;
+  margin-left: 20px;
+  border-bottom: 1px solid #E0E0E0;
+  padding-left: 5px;
+}
+
+.num_container {
+  width: 190px;
+  height: 86px;
+  border-radius: 8px;
+  background-color: #EEEEEE;
+  margin-left: 14px;
+}

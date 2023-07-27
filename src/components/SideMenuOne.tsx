@@ -12,7 +12,7 @@ const SideMenuOne = ({ value }: sideMenuType) => {
 
     return (
         <Link to={value.side ? '#' : value.href} >
-            <div className={'w-[198px] min-height-[40px] leading-10 pl-4 text-white'} key={value.title} onClick={() => setSideMenu(!sideMenu)} >
+            <div className={'w-f min-height-[40px] leading-10 pl-4 text-white'} key={value.title} onClick={() => setSideMenu(!sideMenu)} >
                 {value.title}
                 {sideMenu && value.side && (
                     <>
