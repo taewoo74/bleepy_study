@@ -38,8 +38,8 @@ html,
   color: #ffffffb8;
 }
 
-.gray-color{
-  color: #1212127A;
+.gray-color {
+  color: #1212127a;
 }
 
 .small_button {
@@ -47,19 +47,25 @@ html,
   height: 26px;
   margin-right: 6px;
   border-radius: 42px;
-  background-color: #FFECDE;
+  background-color: #ffecde;
   font-size: 12px;
   text-align: center;
   line-height: 17px;
-  color:#FB6218;
+  color: #fb6218;
   margin-top: 6px;
+  cursor: pointer;
+}
+
+.small_button.on {
+  background-color: #ff7a30;
+  color: white;
 }
 
 .select_box {
   width: 132px;
   height: 37px;
   margin-left: 20px;
-  border-bottom: 1px solid #E0E0E0;
+  border-bottom: 1px solid #e0e0e0;
   padding-left: 5px;
 }
 
@@ -67,6 +73,27 @@ html,
   width: 190px;
   height: 86px;
   border-radius: 8px;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   margin-left: 14px;
+}
+
+.warrning_button {
+  width: 340px;
+  height: 36px;
+  border-radius: 4px;
+  background-color: #ea6971;
+  color: white;
+  margin-top:20px;
+  line-height:36px;
+  cursor:pointer;
+}
+.error_button {
+  width: 160px;
+  height: 36px;
+  border-radius: 4px;
+  background-color: #eeeeee;
+  color: black;
+  margin-top:20px;
+  line-height:36px;
+  cursor:pointer;
 }

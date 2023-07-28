@@ -2,9 +2,21 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
 interface sideMenuType {
-    value: { title: string; href: string; side?: undefined; } |
-    { title: string; href: string; side: { title: string; href: string; }[]; }
-}
+    value: { 
+        title: string; 
+        href: string; 
+        side?: undefined; 
+    }
+    | 
+    { 
+        title: string;
+        href: string;
+        side: { 
+            title: string;
+             href: string;
+             }[]; 
+            }
+}// 오밋 파셜 픽 
 
 const SideMenuOne = ({ value }: sideMenuType) => {
     const [sideMenu, setSideMenu] = useState(false);
@@ -12,12 +24,12 @@ const SideMenuOne = ({ value }: sideMenuType) => {
 
     return (
         <Link to={value.side ? '#' : value.href} >
-            <div className={'w-f min-height-[40px] leading-10 pl-4 text-white'} key={value.title} onClick={() => setSideMenu(!sideMenu)} >
+            <div className={'w-f min-height-[40px] leading-10 pl-4 text-white'} onClick={() => setSideMenu(!sideMenu)} >
                 {value.title}
                 {sideMenu && value.side && (
                     <>
                         {value.side.map((sideOne) => (
-                            <Link to={sideOne.href} key={sideOne.title}  >
+                            <Link to={sideOne.href} key={sideOne.title}  > 
                                 <div className='w-f h-[40px]' >
                                     {sideOne.title}
                                 </div>

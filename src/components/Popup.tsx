@@ -1,19 +1,26 @@
-import React from 'react'
+import { RootState } from "../store/reducer";
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from "../store"
+import popupSlice from "../store/slice/popup";
+import error from "../assets/img/Error.png";
+import warning from "../assets/img/warning.png";
 
-interface propsType {
-    title: string;
-    text: string;
-    button: string;
-    setPopupState: (result: boolean) => void
-};
+const Popup = () => {
+    const { title, text, button, type } = useSelector((state: RootState) => state.popup);
+    const dispatch = useAppDispatch();
 
-const Popup = ({ text, title, button, setPopupState }: propsType) => {
+    const popupClose = () => {
+        dispatch(popupSlice.actions.setPopup({ popupState: false }))
+    }
 
     return (
         <div className='absolute w-pw h-ph rounded-lg shadow-md bg-white border-gray-200 border p-6 text-center flex flex-col items-center' >
-            <div className='mt-20 text-lg font-bold' >{title}</div>
+            <div className="mt-2" >
+                <img src={type == "error" ? error : warning} />
+            </div>
+            <div className='mt-6 text-lg font-bold' >{title}</div>
             <div className='text-base mt-1' >{text}</div>
-            <div className='w-bw2 h-bh2 bg-slate-200 mt-5 leading-9' onClick={() => setPopupState(false)} >{button}</div>
+            <div className={type == "error" ? "warrning_button" : "error_button"  } onClick={popupClose} >{button}</div>
         </div>
     )
 };

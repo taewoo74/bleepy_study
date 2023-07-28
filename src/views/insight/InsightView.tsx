@@ -1,4 +1,8 @@
+
+
 const InsightView = () => {
+
+
   return (
     <div className="w-f">
       <div className="text-xl font-bold">조회기간별 방문현황 합계</div>

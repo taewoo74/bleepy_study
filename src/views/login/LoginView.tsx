@@ -3,16 +3,24 @@ import InputForm from "./loginComponent/InputForm.tsx";
 import FullButton from "../../components/FullButton.tsx";
 import { login } from "../../apis/loginApi/login.ts";
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from "../../store"
+import popupSlice from "../../store/slice/popup.ts";
 
-type propsType = {
-  setPopupState: (result: boolean) => void
-}
-
-const LoginView = (props: propsType) => {
+const LoginView = () => {
   const navigate = useNavigate();
-  const { setPopupState } = props;
   const [id, setId] = useState('');
   const [passWord, setPassWord] = useState(''); // 한개로
+  const dispatch = useAppDispatch();
+
+  const openPopup = () => {
+    dispatch(popupSlice.actions.setPopup({
+      title: '현재 준비중인 서비스입니다.',
+      text: '조금만 기다려주세요.',
+      button: '확인',
+      type: 'default',
+      popupState: true
+    }))
+  }
 
   const InputChangeValue = (event: ChangeEvent<HTMLInputElement>, title: string) => {
     const value = event.target.value;
@@ -39,7 +47,9 @@ const LoginView = (props: propsType) => {
     }
 
     const accessToken = await login(loginInfo);
-    localStorage.setItem('accessToken', accessToken);
+    console.log(accessToken.accessToken);
+    
+    localStorage.setItem('accessToken', accessToken.accessToken);
     navigate('/insight/dau')
 
   }
@@ -66,8 +76,8 @@ const LoginView = (props: propsType) => {
       </div>
 
       <div className="flex mt-4 h-tch items-start flex-col text-sm" >
-        <div className="text-gray-400" >계정이 없으신가요? <span onClick={() => setPopupState(true)} className="underline text-black ml-2 cursor-pointer" >회원가입</span></div>
-        <div className="text-gray-400" >아이디/비빌번호를 잊으셨나요? <span onClick={() => setPopupState(true)} className="underline text-black ml-2 cursor-pointer">아이디/비밀번호</span></div>
+        <div className="text-gray-400" >계정이 없으신가요? <span onClick={() => openPopup()} className="underline text-black ml-2 cursor-pointer" >회원가입</span></div>
+        <div className="text-gray-400" >아이디/비빌번호를 잊으셨나요? <span onClick={() => openPopup()} className="underline text-black ml-2 cursor-pointer">아이디/비밀번호</span></div>
       </div>
     </div>
   );
