@@ -17,16 +17,17 @@ export interface chartDataType {
 }
 
 export interface rewardType {
+    id:number;
     gameName: string;
     itemName: string;
     achievementScore: number,
-    pendingPaymentCount: number
+    pendingPaymentCount: number;
 }
 
 const Home = () => {
     const [headerData, sethHaderData] = useState<headerDataType>({ monthVisit: 0, monthVisitTime: 0, mau: 0 });
     const [chartData, setChartData] = useState<Array<chartDataType>>([{ name: '', visite: 0 }]);
-    const [rewardData, setRewardData] = useState<Array<rewardType>>([{ gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }]);
+    const [rewardData, setRewardData] = useState<Array<rewardType>>([{id: 0 , gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }]);
 
     let d = new Date();
     let year = d.getFullYear();
@@ -52,7 +53,6 @@ const Home = () => {
             mau: mau[0].mau
         }
         sethHaderData(headerData);
-
     }
 
     const getChartData = async () => {
@@ -75,9 +75,11 @@ const Home = () => {
         }
 
         const rewardData = await getRewardState(data);
+        console.log(rewardData);
         let result: Array<rewardType> = [];
-        rewardData.forEach((arr: any) => {
-            let one = { gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }
+        rewardData.data.forEach((arr: any) => {
+            let one = { id:0 , gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }
+            one.id = arr.id;
             one.gameName = arr.gameName;
             one.itemName = arr.itemName;
             one.achievementScore = arr.achievementScore;
