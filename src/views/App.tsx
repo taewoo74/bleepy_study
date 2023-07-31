@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar.tsx';
 import InsightView from './insight/InsightView.tsx'
 import RewardView from "./reward/RewardView.tsx";
+import Home from "./home/Home.tsx";
 import { useSelector } from 'react-redux';
 import { RootState } from "../store/reducer";
 
@@ -18,6 +19,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LoginView  />} />
           <Route element={<NavigationBar />} >
+            <Route path="/home"  element={<Home />} ></Route>
             <Route path="/insight" element={<InsightHeader />} >
               <Route path=":id" element={<InsightView />} ></Route>
             </Route>

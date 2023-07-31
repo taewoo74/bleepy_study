@@ -97,3 +97,13 @@ html,
   line-height:36px;
   cursor:pointer;
 }
+
+.small_box{
+  width:190px;
+  height:86px;
+  border: 1px solid #eee;
+  border-radius:8px;
+  background-color:#eee;
+  margin-right: 12px;
+  padding:10px;
+}

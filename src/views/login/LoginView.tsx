@@ -50,7 +50,7 @@ const LoginView = () => {
     console.log(accessToken.accessToken);
     
     localStorage.setItem('accessToken', accessToken.accessToken);
-    navigate('/insight/dau')
+    navigate('/home')
 
   }
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://mvp-api.bleepy.net/api/client-admin/insight";
+const BASE_URL = "https://mvp-api.bleepy.net/api/client-admin/";
 const token = localStorage.getItem("accessToken");
 
 const baseAPI = (url: string) => {
@@ -12,4 +12,6 @@ const baseAPI = (url: string) => {
   });
 };
 
-export const insightApi = baseAPI(BASE_URL);
+
+
+export const homeApi = baseAPI(BASE_URL);

@@ -4,7 +4,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useAppDispatch } from "../../../store"
 import popupSlice from "../../../store/slice/popup.ts";
-import { getInsightData } from '../../../apis/insightApi/insightapi.ts'
+import { getDau, getNewVisitor, getReturnVisitor } from '../../../apis/insightApi/insightapi.ts'
+import { dateFormat } from "../../../utils/utils.ts";
 
 const list = [
     { title: "DAU", link: "/insight/DAU" },
@@ -17,7 +18,7 @@ const InsightHeader = () => {
     const location = useLocation().pathname;
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
-    const [dateState, setDateState] = useState<string>('default')
+    const [dateState, setDateState] = useState<string>('default');
     const dispatch = useAppDispatch();
 
 
@@ -68,8 +69,17 @@ const InsightHeader = () => {
     }
 
     const submitInsightData = async () => {
-        const insightData = await getInsightData(startDate, endDate);
-        console.log(insightData);
+        const data = {
+            "startDate": dateFormat(startDate),
+            "endDate": dateFormat(endDate),
+        };
+        const dau = await getDau(data);
+        const visitor = await getNewVisitor(data);
+        const returnVisitor = await getReturnVisitor(data);
+
+        console.log(dau, visitor, returnVisitor);
+
+
     }
 
     useEffect(() => {
