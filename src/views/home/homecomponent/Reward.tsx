@@ -8,7 +8,9 @@ const Reward = ({ rewardData }: rewardDataType) => {
   return (
     <div className="w-[1163px] h-[550px] flex">
       <div className="w-f h-[550px]">
-        <div className="mt-10 text-xl font-bold">리워드 지급현황</div>
+        <div className="mt-10 text-xl font-bold">리워드 지급현황
+        <span> {'>'}</span>
+        </div>
         <div className="text-xs mt-3 text-[#121212B8]">
           진행 중인 리워드에 한해, 리워드 지급현황을 최대 5개까지 안내합니다.
         </div>

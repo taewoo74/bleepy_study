@@ -57,7 +57,7 @@ const getDateVisits = async (params: DateType) => {
  * @returns MAU 데이터 
  */
 
-const getMau = async (params: DateType) => {
+const getMau = async (params: MonthType) => {
   try {
     const { data } = await insightApi.get(`/visits/by-month`, { params });
     return data;

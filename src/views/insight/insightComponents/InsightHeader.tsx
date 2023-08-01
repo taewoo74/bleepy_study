@@ -12,7 +12,8 @@ const list = [
 
 interface InsightHeaderType {
   DateSetting: (num: number, str: string) => void
-  submitInsightData: MouseEventHandler<HTMLInputElement>
+  // submitInsightData: MouseEventHandler<HTMLInputElement>
+  // submitMauData:() => void;
   onChangeEndDate: (date: Date) => void
   onChangeStartDate: (date: Date) => void
   endDate: Date;
@@ -21,11 +22,12 @@ interface InsightHeaderType {
   onClickTabMenu: (str: string) => void;
   dateState: string;
   datePickerFormat: string;
+  onClickSubmit:MouseEventHandler<HTMLInputElement>
 }
 
 
 const InsightHeader = (props: InsightHeaderType) => {
-  const { DateSetting, submitInsightData, onChangeEndDate, onChangeStartDate, startDate, endDate, tabState, onClickTabMenu, dateState, datePickerFormat } = props
+  const { DateSetting, onClickSubmit, onChangeEndDate, onChangeStartDate, startDate, endDate, tabState, onClickTabMenu, dateState, datePickerFormat } = props
 
   const tabStyled = (dataKey: string) => {
     if (tabState === dataKey)
@@ -91,7 +93,7 @@ const InsightHeader = (props: InsightHeaderType) => {
             />
 
             <div
-              onClick={submitInsightData}
+              onClick={onClickSubmit}
               className="bg-og w-[53px] h-[33px] rounded text-white text-base text-center leading-8 ml-4"
             >
               조회
