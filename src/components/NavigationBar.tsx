@@ -6,7 +6,7 @@ import SideMenuOne from './SideMenuOne.tsx';
 const NavigationBar = () => {
 
     return (
-        <div className='flex direction-row w-f h-f' >
+        <div className='flex direction-row w-[1440px] h-f box-s' >
             <div className='w-[219px] h-f bg-og pt-24' >
                 {navigationBarData.map((menuOne) => (
                     <SideMenuOne value={menuOne} key={menuOne.title} />

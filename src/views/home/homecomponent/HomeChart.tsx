@@ -2,7 +2,7 @@ import Chart from '../../../components/Chart'
 import { chartDataType } from '../Home.tsx'
 
 export type chartType = {
-    chartData: Array<chartDataType>
+    chartData: chartDataType
 }
 
 

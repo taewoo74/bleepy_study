@@ -107,3 +107,7 @@ html,
   margin-right: 12px;
   padding:10px;
 }
+
+.box-s {
+  box-shadow:0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+}

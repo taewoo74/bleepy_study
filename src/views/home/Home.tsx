@@ -12,12 +12,15 @@ export interface headerDataType {
 }
 
 export interface chartDataType {
-    name: string;
-    visite: number;
+    widht: number;
+    height: number;
+    grid: boolean,
+    chartLine: Array<any>;
+    LineArr: Array<{ dataKey: string, color: string , name: string }>,
 }
 
 export interface rewardType {
-    id:number;
+    id: number;
     gameName: string;
     itemName: string;
     achievementScore: number,
@@ -26,8 +29,14 @@ export interface rewardType {
 
 const Home = () => {
     const [headerData, sethHaderData] = useState<headerDataType>({ monthVisit: 0, monthVisitTime: 0, mau: 0 });
-    const [chartData, setChartData] = useState<Array<chartDataType>>([{ name: '', visite: 0 }]);
-    const [rewardData, setRewardData] = useState<Array<rewardType>>([{id: 0 , gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }]);
+    const [rewardData, setRewardData] = useState<Array<rewardType>>([{ id: 0, gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }]);
+    const [chartData, setChartData] = useState<chartDataType>({
+        widht: 0,
+        height: 0,
+        grid: false,
+        chartLine: [],
+        LineArr: [{ dataKey: '', color: '' , name: '' }],
+    });
 
     let d = new Date();
     let year = d.getFullYear();
@@ -57,14 +66,22 @@ const Home = () => {
 
     const getChartData = async () => {
         const monthVisit = await getDayVisits(data);
-        let reulst: Array<chartDataType> = [];
+        let chartLine: Array<any> = [];
         monthVisit.forEach((arr: any) => {
             let one = { name: '', visite: 0 }
             one.name = arr.date.substring(5);
             one.visite = arr.visitCount
-            reulst.push(one);
+            chartLine.push(one);
         });
-        setChartData(reulst);
+        const result: chartDataType = {
+            widht: 670,
+            height: 290,
+            grid: false,
+            chartLine: chartLine,
+            LineArr: [{ dataKey: 'visite', color: '#8884d8', name: '' }]
+        }
+        setChartData(result);
+
     }
 
     const getRewardData = async () => {
@@ -75,10 +92,9 @@ const Home = () => {
         }
 
         const rewardData = await getRewardState(data);
-        console.log(rewardData);
         let result: Array<rewardType> = [];
         rewardData.data.forEach((arr: any) => {
-            let one = { id:0 , gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }
+            let one = { id: 0, gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }
             one.id = arr.id;
             one.gameName = arr.gameName;
             one.itemName = arr.itemName;
@@ -87,8 +103,6 @@ const Home = () => {
             result.push(one);
         });
         setRewardData(result);
-
-
     }
 
     useEffect(() => {
@@ -98,10 +112,10 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="flex p-20 w-f h-f flex-col" >
+        <div className="flex pt-10 px-10  w-[1220px] h-f flex-col" >
             <HomeHeader headerData={headerData} />
             <HomeChart chartData={chartData} />
-            <Reward  rewardData={rewardData} />
+            <Reward rewardData={rewardData} />
         </div>
     )
 }
