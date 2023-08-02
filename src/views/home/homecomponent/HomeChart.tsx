@@ -55,8 +55,8 @@ const HomeChart = ({ dateData }: HomeChartType) => {
   /* ChartData(30일단 방문현황) 가져오고 ChartData 셋팅해줌  */
   const getChartData = async () => {
     const monthVisit = await getDayVisits(dateData);
-    // setChartData(monthVisit);
-    setChartData(dummyData);
+    setChartData(monthVisit);
+    // setChartData(dummyData);
   };
 
   useEffect(() => {
