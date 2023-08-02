@@ -137,7 +137,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex pt-10 px-10  w-[1220px] h-f flex-col">
+    <div className="flex pt-10 px-10  w-[1220px] h-[auto] flex-col">
       <HomeHeader headerData={headerData} />
       <HomeChart chartData={chartData} />
       <Reward rewardData={rewardData} />

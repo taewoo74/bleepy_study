@@ -13,7 +13,7 @@ const App = () => {
   const { popupState } = useSelector((state: RootState) => state.popup);
 
   return (
-    <div className="flex flex-col justify-center items-center h-[1260px] w-f ">
+    <div className="flex flex-col justify-center items-center h-f w-f ">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginView />} />
