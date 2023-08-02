@@ -3,75 +3,60 @@ import { Link } from 'react-router-dom';
 import BulrBox from './BulrBox.tsx';
 import { useEffect, useState } from 'react';
 import { getDayVisits } from '../../../apis/homeApi/homeapi.tsx';
-import { dateDataType } from '../Home.tsx'
-
-
-interface subDataType {
-  dataKey: string;
-  color: string;
-  name: string
-}
-
-interface chartDataType {
-  widht: number;
-  height: number;
-  grid: boolean;
-  columnData: Partial<columnDataType>[];
-  subData: Array<subDataType>;
-}
+import { dateDataType } from '../Home.tsx';
+import arrow from '../../../assets/img/arrow_icon.png';
 
 interface HomeChartType {
-  dateData: dateDataType
+  dateData: dateDataType;
 }
 
-export interface columnDataType {
-  name: string;
-  visite: number;
-  evedau: number | string;
-  prevmau: number | string;
-  visitCount: number;
-  id: number;
-  mau: any;
-  dau: any;
-  newVisitorCount: number;
-  returningVisitorCount: number;
-}
-
-interface monthVisitType {
+export interface chartDataType {
   date: string;
+  visitCount: number;
   dau: number;
   newVisitorCount: number;
   returningVisitorCount: number;
-  visitCount: number;
 }
 
+const dummyData = [
+  {
+    "date": "2023-08-02",
+    "visitCount": 623,
+    "dau": 423,
+    "newVisitorCount": 234,
+    "returningVisitorCount": 500
+  },
+  {
+    "date": "2023-08-03",
+    "visitCount": 123,
+    "dau": 423,
+    "newVisitorCount": 234,
+    "returningVisitorCount": 500
+  },
+  {
+    "date": "2023-08-04",
+    "visitCount": 321,
+    "dau": 423,
+    "newVisitorCount": 234,
+    "returningVisitorCount": 500
+  },
+  {
+    "date": "2023-08-05",
+    "visitCount": 446,
+    "dau": 423,
+    "newVisitorCount": 234,
+    "returningVisitorCount": 500
+  }
+]
+
 const HomeChart = ({ dateData }: HomeChartType) => {
-  const [chartData, setChartData] = useState<chartDataType>({
-    widht: 0,
-    height: 0,
-    grid: false,
-    columnData: [],
-    subData: [{ dataKey: '', color: '', name: '' }],
-  });
+  const [chartData, setChartData] = useState<Array<chartDataType>>([]);
 
   /* ChartData(30일단 방문현황) 가져오고 ChartData 셋팅해줌  */
   const getChartData = async () => {
     const monthVisit = await getDayVisits(dateData);
-    const columnData: Partial<columnDataType>[] = [];
-    monthVisit.forEach((arr: monthVisitType) => {
-      const one = { name: '', visite: 0 };
-      one.name = arr.date.substring(5);
-      one.visite = arr.visitCount;
-      columnData.push(one);
-    });
-    const result: chartDataType = {
-      widht: 670,
-      height: 290,
-      grid: false,
-      columnData: columnData,
-      subData: [{ dataKey: 'visite', color: '#8884d8', name: '' }],
-    };
-    setChartData(result);
+    // setChartData(monthVisit);
+    setChartData(dummyData);
   };
 
   useEffect(() => {
@@ -81,13 +66,13 @@ const HomeChart = ({ dateData }: HomeChartType) => {
   return (
     <div className="w-f h-[350px] flex-row flex">
       <div className="w-[676px] h-[300px]">
-        <div className="mt-10 text-xl font-bold">
-          최근 30일간 방문현황 그래프
-          <Link to='/insight' >
-            <span> {'>'}</span>
+        <div className="mt-10 text-xl font-bold flex-row flex">
+          <div className='flex'>최근 30일간 방문현황 그래프</div>
+          <Link to="/insight">
+            <img className='flex mt-[7px] ml-[8px]' src={arrow} />
           </Link>
         </div>
-        <Chart chartData={chartData} />
+        <Chart chartData={chartData} state={"monthVisit"} />
       </div>
       <BulrBox />
     </div>
