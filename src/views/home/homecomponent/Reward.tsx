@@ -2,6 +2,7 @@ import { getRewardState } from '../../../apis/homeApi/homeapi.tsx';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import arrow from '../../../assets/img/arrow_icon.png';
+import noReward from '../../../assets/img/noReward.png';
 
 interface rewardType {
   id: number;
@@ -12,100 +13,100 @@ interface rewardType {
 }
 
 const dummy = {
-  "data": [
+  data: [
     {
-      "id": 9,
-      "achievementScore": 102320,
-      "gameName": "탈출하라",
-      "name": "리워드",
-      "actionType": "MANUAL",
-      "limit": 100,
-      "itemType": "PRODUCT",
-      "itemName": "물병",
-      "status": "PAYING",
-      "pendingPaymentCount": 0,
-      "registeredAt": "2023.06.29 05:47:13"
+      id: 9,
+      achievementScore: 102320,
+      gameName: '탈출하라',
+      name: '리워드',
+      actionType: 'MANUAL',
+      limit: 100,
+      itemType: 'PRODUCT',
+      itemName: '물병',
+      status: 'PAYING',
+      pendingPaymentCount: 0,
+      registeredAt: '2023.06.29 05:47:13',
     },
     {
-      "id": 11,
-      "achievementScore": 202320,
-      "gameName": "탈출하라",
-      "name": "리워드2",
-      "actionType": "MANUAL",
-      "limit": 100,
-      "itemType": "PRODUCT",
-      "itemName": "물병",
-      "status": "PAYING",
-      "pendingPaymentCount": 0,
-      "registeredAt": "2023.06.29 06:16:47"
+      id: 11,
+      achievementScore: 202320,
+      gameName: '탈출하라',
+      name: '리워드2',
+      actionType: 'MANUAL',
+      limit: 100,
+      itemType: 'PRODUCT',
+      itemName: '물병',
+      status: 'PAYING',
+      pendingPaymentCount: 0,
+      registeredAt: '2023.06.29 06:16:47',
     },
     {
-      "id": 12,
-      "achievementScore": 223300,
-      "gameName": "탈출하라",
-      "name": "리워드3",
-      "actionType": "MANUAL",
-      "limit": 1,
-      "itemType": "PRODUCT",
-      "itemName": "물병",
-      "status": "PAYING",
-      "pendingPaymentCount": 0,
-      "registeredAt": "2023.06.29 06:16:55"
+      id: 12,
+      achievementScore: 223300,
+      gameName: '탈출하라',
+      name: '리워드3',
+      actionType: 'MANUAL',
+      limit: 1,
+      itemType: 'PRODUCT',
+      itemName: '물병',
+      status: 'PAYING',
+      pendingPaymentCount: 0,
+      registeredAt: '2023.06.29 06:16:55',
     },
     {
-      "id": 13,
-      "achievementScore": 422300,
-      "gameName": "탈출하라",
-      "name": "리워드4",
-      "actionType": "MANUAL",
-      "limit": 100,
-      "itemType": "PRODUCT",
-      "itemName": "물병",
-      "status": "PAYING",
-      "pendingPaymentCount": 0,
-      "registeredAt": "2023.06.29 06:17:03"
+      id: 13,
+      achievementScore: 422300,
+      gameName: '탈출하라',
+      name: '리워드4',
+      actionType: 'MANUAL',
+      limit: 100,
+      itemType: 'PRODUCT',
+      itemName: '물병',
+      status: 'PAYING',
+      pendingPaymentCount: 0,
+      registeredAt: '2023.06.29 06:17:03',
     },
     {
-      "id": 14,
-      "achievementScore": 1500,
-      "gameName": "탈출하라",
-      "name": "리워드5",
-      "actionType": "MANUAL",
-      "limit": 4,
-      "itemType": "PRODUCT",
-      "itemName": "물병",
-      "status": "PAYING",
-      "pendingPaymentCount": 0,
-      "registeredAt": "2023.06.29 06:17:10"
-    }
+      id: 14,
+      achievementScore: 1500,
+      gameName: '탈출하라',
+      name: '리워드5',
+      actionType: 'MANUAL',
+      limit: 4,
+      itemType: 'PRODUCT',
+      itemName: '물병',
+      status: 'PAYING',
+      pendingPaymentCount: 0,
+      registeredAt: '2023.06.29 06:17:10',
+    },
   ],
-  "pagingInfo": {
-    "totalPages": 2,
-    "totalElements": 10,
-    "pageSize": 5,
-    "pageNumber": 1,
-    "isFirst": true,
-    "isLast": false,
-    "hasNext": true,
-    "hasPrevious": false,
-    "isEmpty": false
-  }
-}
+  pagingInfo: {
+    totalPages: 2,
+    totalElements: 10,
+    pageSize: 5,
+    pageNumber: 1,
+    isFirst: true,
+    isLast: false,
+    hasNext: true,
+    hasPrevious: false,
+    isEmpty: false,
+  },
+};
 
 const dummyData = {
-  "data": [],
-  "pagingInfo": {
-    "totalPages": 2,
-    "totalElements": 10,
-    "pageSize": 5,
-    "pageNumber": 1,
-    "isFirst": true,
-    "isLast": false,
-    "hasNext": true,
-    "hasPrevious": false,
-    "isEmpty": false
-  }
-}
+  data: [],
+  pagingInfo: {
+    totalPages: 2,
+    totalElements: 10,
+    pageSize: 5,
+    pageNumber: 1,
+    isFirst: true,
+    isLast: false,
+    hasNext: true,
+    hasPrevious: false,
+    isEmpty: false,
+  },
+};
 
 const Reward = () => {
   const [rewardData, setRewardData] = useState<rewardType[]>([
@@ -164,35 +165,39 @@ const Reward = () => {
           </div>
         </div>
 
-       {rewardData ? (
-      <>
-        {rewardData.map((val) => (
-          <div
-            key={val.id}
-            className="w-f h-[64px] flex flex-row border-[#E0E0E0] border border-x-0 border-t-0"
-          >
-            <div className="w-[35%] h-f text-center text-sm leading-[64px]">
-              {val.gameName}
-            </div>
-            <div className="w-[20%] h-f text-center text-sm leading-[64px] text-[#FB6218]">
-              {val.achievementScore.toLocaleString()} BP
-            </div>
-            <div className="w-[20%] h-f text-center text-sm leading-[64px]">
-              {val.pendingPaymentCount}
-            </div>
-            <div className="w-[25%] h-f text-center text-sm leading-[64px]">
-              {val.itemName}
+        {rewardData.length > 0 ? (
+          <>
+            {rewardData.map((val) => (
+              <div
+                key={val.id}
+                className="w-f h-[64px] flex flex-row border-[#E0E0E0] border border-x-0 border-t-0"
+              >
+                <div className="w-[35%] h-f text-center text-sm leading-[64px]">
+                  {val.gameName}
+                </div>
+                <div className="w-[20%] h-f text-center text-sm leading-[64px] text-[#FB6218]">
+                  {val.achievementScore.toLocaleString()} BP
+                </div>
+                <div className="w-[20%] h-f text-center text-sm leading-[64px]">
+                  {val.pendingPaymentCount}
+                </div>
+                <div className="w-[25%] h-f text-center text-sm leading-[64px]">
+                  {val.itemName}
+                </div>
+              </div>
+            ))}
+          </>
+        ) : (
+          <div>
+            <div className="flex justify-center items-center w-f h-[320px]">
+              <div className='flex flex-col w-[220px] items-center text-center' >
+                <img className="w-[84px] h-[84px]" src={noReward} />
+                <div className='text-lg text-[#FF3D00] font-bold mt-4'>등록된 리워드가 없습니다</div>
+                <div className='text-[11px] mt-3 text-[#1212127A]'>리워드를 등록하고 사용자를 모아보세요!</div>
+              </div>
             </div>
           </div>
-        ))}
-        </>
-       ) : (
-        <div>
-          
-        </div>
-       )}
-
-
+        )}
       </div>
     </div>
   );
