@@ -30,7 +30,7 @@ const Chart = ({ chartData, state }: ChartType) => {
     if (state === 'monthVisit') {
       const data :any = [];
       chartData.forEach(one => {
-        data.push({ name:one.date , visitCount:one.visitCount });
+        data.push({ name:one.date.substring(5) , visitCount:one.visitCount });
       });
       setGraphData(data);
       const result = { width: 670, height: 290 };
