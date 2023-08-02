@@ -6,6 +6,7 @@ type TableType = {
   columns: GridColDef[];
 };
 
+
 const Table = ({ tableData, columns }: TableType) => {
   return (
     <div className="w-[1140px] h-[400px]">

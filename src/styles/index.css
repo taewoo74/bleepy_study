@@ -1,16 +1,16 @@
-@import "tailwind.scss";
+@import 'tailwind.scss';
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
@@ -83,9 +83,9 @@ html,
   border-radius: 4px;
   background-color: #ea6971;
   color: white;
-  margin-top:20px;
-  line-height:36px;
-  cursor:pointer;
+  margin-top: 20px;
+  line-height: 36px;
+  cursor: pointer;
 }
 .error_button {
   width: 160px;
@@ -93,21 +93,25 @@ html,
   border-radius: 4px;
   background-color: #eeeeee;
   color: black;
-  margin-top:20px;
-  line-height:36px;
-  cursor:pointer;
+  margin-top: 20px;
+  line-height: 36px;
+  cursor: pointer;
 }
 
-.small_box{
-  width:190px;
-  height:86px;
+.small_box {
+  width: 190px;
+  height: 86px;
   border: 1px solid #eee;
-  border-radius:8px;
-  background-color:#eee;
+  border-radius: 8px;
+  background-color: #eee;
   margin-right: 12px;
-  padding:10px;
+  padding: 10px;
 }
 
 .box-s {
-  box-shadow:0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+}
+
+.scale {
+  transform: scaleY(-1);
 }

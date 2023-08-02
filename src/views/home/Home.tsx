@@ -17,12 +17,39 @@ export interface headerDataType {
   mau: number;
 }
 
+export interface columnDataType {
+  name: string;
+  visite: number;
+  evedau: number|string;
+  prevmau: number|string;
+  visitCount:number;
+  id:number;
+  mau: any;
+  dau: any;
+  newVisitorCount:number;
+  returningVisitorCount:number;
+}
+
+interface monthVisitType {
+  date: string;
+  dau:number;
+  newVisitorCount:number;
+  returningVisitorCount:number;
+  visitCount:number;
+}
+
+export interface subDataType {
+  dataKey: string; 
+  color: string; 
+  name: string 
+}
+
 export interface chartDataType {
   widht: number;
   height: number;
   grid: boolean;
-  chartLine: Array<any>;
-  LineArr: Array<{ dataKey: string; color: string; name: string }>;
+  columnData: Partial<columnDataType>[];
+  subData: Array<subDataType>;
 }
 
 export interface rewardType {
@@ -34,26 +61,14 @@ export interface rewardType {
 }
 
 const Home = () => {
-  const [headerData, sethHaderData] = useState<headerDataType>({
-    monthVisit: 0,
-    monthVisitTime: 0,
-    mau: 0,
-  });
-  const [rewardData, setRewardData] = useState<Array<rewardType>>([
-    {
-      id: 0,
-      gameName: '',
-      itemName: '',
-      achievementScore: 0,
-      pendingPaymentCount: 0,
-    },
-  ]);
+  const [headerData, sethHaderData] = useState<Partial<headerDataType>>({});
+  const [rewardData, setRewardData] = useState<Partial<rewardType>[]>([]);
   const [chartData, setChartData] = useState<chartDataType>({
     widht: 0,
     height: 0,
     grid: false,
-    chartLine: [],
-    LineArr: [{ dataKey: '', color: '', name: '' }],
+    columnData: [],
+    subData: [{ dataKey: '', color: '', name: '' }],
   });
 
   let d = new Date();
@@ -65,6 +80,7 @@ const Home = () => {
     endDate: dateFormat(new Date(year, month, day - 1)),
   };
 
+  /* Home 상단 방문횟수, 체류시간 , MAU 데이터를 불러오고 셋팅 해줌  */
   const getHeaderData = async () => {
     const mauData = {
       startMonth: dateFormat2(new Date(year, month, day)),
@@ -82,25 +98,27 @@ const Home = () => {
     sethHaderData(headerData);
   };
 
+  /* ChartData(30일단 방문현황) 가져오고 ChartData 셋팅해줌  */
   const getChartData = async () => {
     const monthVisit = await getDayVisits(data);
-    let chartLine: Array<any> = [];
-    monthVisit.forEach((arr: any) => {
-      let one = { name: '', visite: 0 };
+    const columnData: Partial<columnDataType>[] = [];
+    monthVisit.forEach((arr: monthVisitType) => {
+      const one = { name: '', visite: 0 };
       one.name = arr.date.substring(5);
       one.visite = arr.visitCount;
-      chartLine.push(one);
+      columnData.push(one);
     });
     const result: chartDataType = {
       widht: 670,
       height: 290,
       grid: false,
-      chartLine: chartLine,
-      LineArr: [{ dataKey: 'visite', color: '#8884d8', name: '' }],
+      columnData: columnData,
+      subData: [{ dataKey: 'visite', color: '#8884d8', name: '' }],
     };
     setChartData(result);
   };
 
+    /* 리워드 지급현황 데이터를 가져오고 셋팅해줌  */
   const getRewardData = async () => {
     const data = {
       pageSize: 5,
@@ -109,23 +127,7 @@ const Home = () => {
     };
 
     const rewardData = await getRewardState(data);
-    let result: Array<rewardType> = [];
-    rewardData.data.forEach((arr: any) => {
-      let one = {
-        id: 0,
-        gameName: '',
-        itemName: '',
-        achievementScore: 0,
-        pendingPaymentCount: 0,
-      };
-      one.id = arr.id;
-      one.gameName = arr.gameName;
-      one.itemName = arr.itemName;
-      one.achievementScore = arr.achievementScore;
-      one.pendingPaymentCount = arr.pendingPaymentCount;
-      result.push(one);
-    });
-    setRewardData(result);
+    setRewardData(rewardData.data);
   };
 
   useEffect(() => {

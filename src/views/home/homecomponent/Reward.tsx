@@ -1,7 +1,7 @@
 import { rewardType } from '../Home.tsx';
 
 export type rewardDataType = {
-  rewardData: Array<rewardType>;
+  rewardData: Partial<rewardType>[];
 };
 
 const Reward = ({ rewardData }: rewardDataType) => {

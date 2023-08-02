@@ -62,6 +62,12 @@ const getMau = async (params: MonthType) => {
   }
 };
 
+/**
+* 일자별 방문현황 목록
+* @param params startDate - 시작날짜 , endDate - 끝나는 날짜
+* @returns [ {date:'2023-08-02' , visitCount:0 , dau:0 , newVisitorCount:0,  returningVisitorCount:0 }]
+*/
+
 const getDayVisits = async (params: DateType) => {
   try {
     const { data } = await homeApi.get(`insight/visits/by-date`, { params });
@@ -70,6 +76,12 @@ const getDayVisits = async (params: DateType) => {
     console.error(error);
   }
 };
+
+/**
+* 리워드 리스트 조회
+* @param params  pageSize: 5, sortOption: 'REWARD_ACHIEVEMENT_SCORE', sortType: 'ASC', (고정)
+* @returns   data : [] , pageInfo : {}
+*/
 
 const getRewardState = async (params: RewardType) => {
   try {

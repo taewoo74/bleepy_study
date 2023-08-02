@@ -11,8 +11,9 @@ import {
 } from '../../apis/insightApi/insightapi.ts';
 import { dateFormat, dateFormat2 } from '../../utils/utils.ts';
 import { useState, useEffect } from 'react';
-import { chartDataType } from '../home/Home.tsx';
+import { chartDataType , columnDataType , subDataType } from '../home/Home.tsx';
 import { useLocation } from 'react-router-dom';
+
 
 export type visitorType = {
   visitorTotal: number;
@@ -21,30 +22,37 @@ export type visitorType = {
   returnVisitor: number;
 };
 
+type tableDataType = {
+  evedau: number|string;
+  prevmau: number|string;
+  date: string;
+  visitCount:number;
+  id:number;
+  mau: any;
+  dau: any;
+  newVisitorCount:number;
+  returningVisitorCount:number;
+}
+
 const Insight = () => {
   const location = useLocation();
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [visitorData, SetVisitorData] = useState<visitorType>({
-    visitorTotal: 0,
-    dau: 0,
-    visitor: 0,
-    returnVisitor: 0,
-  });
+  const [visitorData, SetVisitorData] = useState<Partial<visitorType>>({});
   const [dateState, setDateState] = useState<string>('default');
-  const [tableData, setTableData] = useState<string>();
+  const [tableData, setTableData] = useState<Partial<tableDataType>[]>();
   const [tabState, setTabState] = useState<string>('DAU');
-  const [datePickerFormat, setDatePickerFormat] =
-    useState<string>('yyyy-MM-dd');
+  const [datePickerFormat, setDatePickerFormat] = useState<string>('yyyy-MM-dd');
   const [chartData, setChartData] = useState<chartDataType>({
     widht: 0,
     height: 0,
     grid: false,
-    chartLine: [],
-    LineArr: [{ dataKey: '', color: '', name: '' }],
+    columnData: [],
+    subData: [{ dataKey: '', color: '', name: '' }],
   });
   const dispatch = useAppDispatch();
 
+  /* 날짜 바꿨을때 날짜데이터 셋팅해주는 함수 */
   const DateSetting = (date: number, state: string) => {
     let d = new Date();
     let year = d.getFullYear();
@@ -62,6 +70,7 @@ const Insight = () => {
     setDateState(state);
   };
 
+   /* 팝업창 셋팅하고 열어주는 함수 */
   const settingPopup = (
     title: string,
     text: string,
@@ -80,6 +89,7 @@ const Insight = () => {
     );
   };
 
+   /* 시작 일짜 바꿔주는 함수 */
   const onChangeStartDate = (date: Date) => {
     if (endDate.getTime() < date.getTime()) {
       settingPopup(
@@ -106,6 +116,7 @@ const Insight = () => {
     setStartDate(new Date(date));
   };
 
+   /* 끝나는 일자 바꿔주는 함수 */
   const onChangeEndDate = (date: Date) => {
     const diffTime = Math.abs(startDate.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -122,11 +133,13 @@ const Insight = () => {
     setEndDate(new Date(date));
   };
 
+   /* 조회 클릭시 데이터 불러오는 함수 */
   const onClickSubmit = async () => {
     if (tabState === 'DAU') submitInsightData();
     if (tabState === 'MAU') submitMauData();
   };
 
+   /* DAU 탭일때 조회 클릭시 데이터 불러와줌 */
   const submitInsightData = async () => {
     const data = {
       startDate: dateFormat(startDate),
@@ -141,6 +154,7 @@ const Insight = () => {
     getChartData(data);
   };
 
+   /* MAU 탭일때 조회 클릭시 데이터 불러와줌 */
   const submitMauData = async () => {
     const mauData: { startMonth: string; endMonth: string } = {
       startMonth: dateFormat2(startDate),
@@ -151,24 +165,26 @@ const Insight = () => {
     settingChartData(mau);
   };
 
+  /* Chart 데이터 가져와주는 함수 */
   const getChartData = async (data: { startDate: string; endDate: string }) => {
     const chartData = await getDateVisits(data);
     settingTableData(chartData);
     settingChartData(chartData);
   };
 
-  const settingChartData = async (chartData: any) => {
-    let chartLine: Array<any> = [];
+  /* Chart 데이터 가공해주는 함수 */
+  const settingChartData = async (chartData: Array<Partial<tableDataType>>) => {
+    let columnData: columnDataType[] = [];
     chartData.forEach((arr: any) => {
       if (tabState === 'DAU') arr.name = arr.date;
       if (tabState === 'MAU') arr.name = arr.yearMonth;
-      chartLine.push(arr);
+      columnData.push(arr);
     });
 
-    let LineArr: any = [];
+    let subData: subDataType[] = [];
 
     if (tabState === 'MAU') {
-      LineArr = [
+      subData = [
         { dataKey: 'visitCount', color: '#FF3D00', name: '방문횟수' },
         { dataKey: 'mau', color: '#FF7A30', name: '월간활성사용자(MAU)' },
         {
@@ -180,7 +196,7 @@ const Insight = () => {
     }
 
     if (tabState === 'DAU') {
-      LineArr = [
+      subData = [
         { dataKey: 'visitCount', color: '#FF3D00', name: '방문횟수' },
         { dataKey: 'dau', color: '#FF7A30', name: '일일활성사용자(DAU)' },
         {
@@ -200,15 +216,16 @@ const Insight = () => {
       widht: 1123,
       height: 290,
       grid: false,
-      chartLine: chartLine,
-      LineArr: LineArr,
+      columnData: columnData,
+      subData: subData,
     };
     setChartData(result);
   };
 
-  const settingTableData = (chartData: any) => {
-    let result: any = [];
-    chartData.forEach((val: any, index: number) => {
+  /* 테이블 데이터 가공해주는 함수 */
+  const settingTableData = (chartData: Array<Partial<tableDataType>> ) => {
+    let result: Array<Partial<tableDataType>>  = [];
+    chartData.forEach((val: Partial<tableDataType>, index: number) => {
       val.id = index;
       if (tabState === 'DAU') {
         if (index === 0) {
@@ -231,6 +248,7 @@ const Insight = () => {
     setTableData(result);
   };
 
+  /* 탭 변경시 새로고침 함수 */
   const onClickTabMenu = async (tab: string) => {
     window.location.replace(`/insight?${tab}`);
   };

@@ -8,8 +8,8 @@ import xlsx from '../../../assets/img/xlsx.png';
 import icon from '../../../assets/img/icon.png';
 
 interface InsightViewType {
-  visitorData: visitorType;
-  chartData: chartDataType;
+  visitorData: Partial<visitorType>;
+  chartData: Partial<chartDataType>;
   tableData: any;
   settingPopup: (
     str: string,
@@ -30,6 +30,7 @@ const InsightView = ({
 }: InsightViewType) => {
   const [tooltip, setTooltip] = useState<boolean>(false);
 
+  /* 엑셀 클릭시 팝업창 생성 */
   const onClickExcel = () => {
     settingPopup(
       '현재 준비중인 서비스입니다.',
@@ -40,8 +41,9 @@ const InsightView = ({
     );
   };
 
-  const colums = columns1;
-  if (tabState === 'MAU') columns2;
+  let colums = columns1;
+  if (tabState === 'MAU')
+    colums = columns2;
 
   return (
     <div className="w-f">
@@ -107,11 +109,10 @@ const InsightView = ({
               onClick={onClickExcel}
               className="flex bg-[#EEEEEE] w-[120px] h-[31px] text-[11px] py-1.5 px-4 ml-auto mb-2 rounded"
             >
-              {' '}
               <img
                 className="w-[16px] h-[16px] mt-0.5 mr-[3px]"
                 src={xlsx}
-              />{' '}
+              />
               엑셀 다운로드
             </div>
             <Table

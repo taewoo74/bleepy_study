@@ -3,7 +3,7 @@ import { chartDataType } from '../Home.tsx';
 import { Link } from 'react-router-dom';
 
 export type chartType = {
-  chartData: chartDataType;
+  chartData: Partial<chartDataType>;
 };
 
 const HomeChart = ({ chartData }: chartType) => {

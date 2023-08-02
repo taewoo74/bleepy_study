@@ -1,11 +1,10 @@
-
 interface propsType {
     text: string;
     LoginSubmit(): void;
     buttonState: boolean
 };
 
-const LongButton = ({ text, LoginSubmit, buttonState }: propsType) => {
+const FullButton = ({ text, LoginSubmit, buttonState }: propsType) => {
 
     return (
         <div onClick={LoginSubmit} className={"w-f h-bh text-center leading-10" + (buttonState ? " bg-og" : " bg-slate-200")}>
@@ -14,4 +13,4 @@ const LongButton = ({ text, LoginSubmit, buttonState }: propsType) => {
     );
 };
 
-export default LongButton;
+export default FullButton;

@@ -47,7 +47,6 @@ const LoginView = () => {
     }
 
     const accessToken = await login(loginInfo);
-    console.log(accessToken.accessToken);
     
     localStorage.setItem('accessToken', accessToken.accessToken);
     navigate('/home')

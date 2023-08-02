@@ -4,7 +4,7 @@ import vector from '../../../assets/img/Vector.png'
 import { headerDataType } from '../Home'
 
 interface propsType {
-    headerData: headerDataType
+    headerData: Partial<headerDataType>
 }
 
 const HomeHeader = ({ headerData }: propsType) => {

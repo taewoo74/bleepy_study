@@ -6,12 +6,9 @@ const token = localStorage.getItem("accessToken");
 const baseAPI = (url: string) => {
   return axios.create({
     baseURL: url,
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
+    headers: { Authorization: `Bearer ${token ? token : ''} ` }
   });
 };
-
 
 
 export const homeApi = baseAPI(BASE_URL);

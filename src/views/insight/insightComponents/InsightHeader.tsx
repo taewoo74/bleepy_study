@@ -11,18 +11,16 @@ const list = [
 ];
 
 interface InsightHeaderType {
-  DateSetting: (num: number, str: string) => void
-  // submitInsightData: MouseEventHandler<HTMLInputElement>
-  // submitMauData:() => void;
-  onChangeEndDate: (date: Date) => void
-  onChangeStartDate: (date: Date) => void
-  endDate: Date;
-  startDate: Date;
-  tabState: string;
-  onClickTabMenu: (str: string) => void;
-  dateState: string;
-  datePickerFormat: string;
-  onClickSubmit:MouseEventHandler<HTMLInputElement>
+  DateSetting: (num: number, str: string) => void // 
+  onChangeEndDate: (date: Date) => void // 
+  onChangeStartDate: (date: Date) => void //
+  endDate: Date; //
+  startDate: Date; //
+  tabState: string; // 
+  onClickTabMenu: (str: string) => void; //
+  dateState: string; //
+  datePickerFormat: string; // 
+  onClickSubmit:MouseEventHandler<HTMLInputElement> //
 }
 
 
@@ -42,8 +40,6 @@ const InsightHeader = (props: InsightHeaderType) => {
     else
       return ''
   }
-
-
 
   return (
     <div className="flex w-f h-[220px] flex-col">
