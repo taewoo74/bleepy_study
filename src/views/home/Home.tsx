@@ -9,7 +9,7 @@ import {
   getRewardState,
 } from '../../../src/apis/homeApi/homeapi.tsx';
 import { useEffect, useState } from 'react';
-import { dateFormat, dateFormat2 } from '../../utils/utils.ts';
+import { dateFormat, monthDateFormat } from '../../utils/utils.ts';
 
 export interface headerDataType {
   monthVisit: number;
@@ -20,28 +20,28 @@ export interface headerDataType {
 export interface columnDataType {
   name: string;
   visite: number;
-  evedau: number|string;
-  prevmau: number|string;
-  visitCount:number;
-  id:number;
+  evedau: number | string;
+  prevmau: number | string;
+  visitCount: number;
+  id: number;
   mau: any;
   dau: any;
-  newVisitorCount:number;
-  returningVisitorCount:number;
+  newVisitorCount: number;
+  returningVisitorCount: number;
 }
 
 interface monthVisitType {
   date: string;
-  dau:number;
-  newVisitorCount:number;
-  returningVisitorCount:number;
-  visitCount:number;
+  dau: number;
+  newVisitorCount: number;
+  returningVisitorCount: number;
+  visitCount: number;
 }
 
 export interface subDataType {
-  dataKey: string; 
-  color: string; 
-  name: string 
+  dataKey: string;
+  color: string;
+  name: string
 }
 
 export interface chartDataType {
@@ -61,8 +61,8 @@ export interface rewardType {
 }
 
 const Home = () => {
-  const [headerData, sethHaderData] = useState<Partial<headerDataType>>({});
-  const [rewardData, setRewardData] = useState<Partial<rewardType>[]>([]);
+  const [headerData, sethHaderData] = useState<headerDataType>({ monthVisit: 0, monthVisitTime: 0, mau: 0 });
+  const [rewardData, setRewardData] = useState<rewardType[]>([{ id: 0, gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }]);
   const [chartData, setChartData] = useState<chartDataType>({
     widht: 0,
     height: 0,
@@ -83,8 +83,8 @@ const Home = () => {
   /* Home 상단 방문횟수, 체류시간 , MAU 데이터를 불러오고 셋팅 해줌  */
   const getHeaderData = async () => {
     const mauData = {
-      startMonth: dateFormat2(new Date(year, month, day)),
-      endMonth: dateFormat2(new Date(year, month, day)),
+      startMonth: monthDateFormat(new Date(year, month, day)),
+      endMonth: monthDateFormat(new Date(year, month, day)),
     };
 
     const monthVisit = await getMonthVisit(data);
@@ -118,7 +118,7 @@ const Home = () => {
     setChartData(result);
   };
 
-    /* 리워드 지급현황 데이터를 가져오고 셋팅해줌  */
+  /* 리워드 지급현황 데이터를 가져오고 셋팅해줌  */
   const getRewardData = async () => {
     const data = {
       pageSize: 5,

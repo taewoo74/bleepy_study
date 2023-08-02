@@ -9,7 +9,7 @@ import {
   getDateVisits,
   getMau,
 } from '../../apis/insightApi/insightapi.ts';
-import { dateFormat, dateFormat2 } from '../../utils/utils.ts';
+import { dateFormat, monthDateFormat } from '../../utils/utils.ts';
 import { useState, useEffect } from 'react';
 import { chartDataType , columnDataType , subDataType } from '../home/Home.tsx';
 import { useLocation } from 'react-router-dom';
@@ -157,8 +157,8 @@ const Insight = () => {
    /* MAU 탭일때 조회 클릭시 데이터 불러와줌 */
   const submitMauData = async () => {
     const mauData: { startMonth: string; endMonth: string } = {
-      startMonth: dateFormat2(startDate),
-      endMonth: dateFormat2(endDate),
+      startMonth: monthDateFormat(startDate),
+      endMonth: monthDateFormat(endDate),
     };
     const mau = await getMau(mauData);
     settingTableData(mau);
