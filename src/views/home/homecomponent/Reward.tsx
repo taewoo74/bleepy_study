@@ -1,5 +1,7 @@
 import { getRewardState } from '../../../apis/homeApi/homeapi.tsx';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import arrow from '../../../assets/img/arrow_icon.png';
 
 interface rewardType {
   id: number;
@@ -9,8 +11,112 @@ interface rewardType {
   pendingPaymentCount: number;
 }
 
+const dummy = {
+  "data": [
+    {
+      "id": 9,
+      "achievementScore": 102320,
+      "gameName": "탈출하라",
+      "name": "리워드",
+      "actionType": "MANUAL",
+      "limit": 100,
+      "itemType": "PRODUCT",
+      "itemName": "물병",
+      "status": "PAYING",
+      "pendingPaymentCount": 0,
+      "registeredAt": "2023.06.29 05:47:13"
+    },
+    {
+      "id": 11,
+      "achievementScore": 202320,
+      "gameName": "탈출하라",
+      "name": "리워드2",
+      "actionType": "MANUAL",
+      "limit": 100,
+      "itemType": "PRODUCT",
+      "itemName": "물병",
+      "status": "PAYING",
+      "pendingPaymentCount": 0,
+      "registeredAt": "2023.06.29 06:16:47"
+    },
+    {
+      "id": 12,
+      "achievementScore": 223300,
+      "gameName": "탈출하라",
+      "name": "리워드3",
+      "actionType": "MANUAL",
+      "limit": 1,
+      "itemType": "PRODUCT",
+      "itemName": "물병",
+      "status": "PAYING",
+      "pendingPaymentCount": 0,
+      "registeredAt": "2023.06.29 06:16:55"
+    },
+    {
+      "id": 13,
+      "achievementScore": 422300,
+      "gameName": "탈출하라",
+      "name": "리워드4",
+      "actionType": "MANUAL",
+      "limit": 100,
+      "itemType": "PRODUCT",
+      "itemName": "물병",
+      "status": "PAYING",
+      "pendingPaymentCount": 0,
+      "registeredAt": "2023.06.29 06:17:03"
+    },
+    {
+      "id": 14,
+      "achievementScore": 1500,
+      "gameName": "탈출하라",
+      "name": "리워드5",
+      "actionType": "MANUAL",
+      "limit": 4,
+      "itemType": "PRODUCT",
+      "itemName": "물병",
+      "status": "PAYING",
+      "pendingPaymentCount": 0,
+      "registeredAt": "2023.06.29 06:17:10"
+    }
+  ],
+  "pagingInfo": {
+    "totalPages": 2,
+    "totalElements": 10,
+    "pageSize": 5,
+    "pageNumber": 1,
+    "isFirst": true,
+    "isLast": false,
+    "hasNext": true,
+    "hasPrevious": false,
+    "isEmpty": false
+  }
+}
+
+const dummyData = {
+  "data": [],
+  "pagingInfo": {
+    "totalPages": 2,
+    "totalElements": 10,
+    "pageSize": 5,
+    "pageNumber": 1,
+    "isFirst": true,
+    "isLast": false,
+    "hasNext": true,
+    "hasPrevious": false,
+    "isEmpty": false
+  }
+}
+
 const Reward = () => {
-  const [rewardData, setRewardData] = useState<rewardType[]>([{ id: 0, gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }]);
+  const [rewardData, setRewardData] = useState<rewardType[]>([
+    {
+      id: 0,
+      gameName: '',
+      itemName: '',
+      achievementScore: 0,
+      pendingPaymentCount: 0,
+    },
+  ]);
 
   /* 리워드 지급현황 데이터를 가져오고 셋팅해줌  */
   const getRewardData = async () => {
@@ -19,8 +125,11 @@ const Reward = () => {
       sortOption: 'REWARD_ACHIEVEMENT_SCORE',
       sortType: 'ASC',
     };
+
     const rewardData = await getRewardState(data);
     setRewardData(rewardData.data);
+    // setRewardData(dummy.data);
+    // setRewardData(dummyData.data);
   };
 
   useEffect(() => {
@@ -29,9 +138,12 @@ const Reward = () => {
 
   return (
     <div className="w-[1163px] h-[550px] flex">
-      <div className="w-f h-[550px]">
-        <div className="mt-10 text-xl font-bold">리워드 지급현황
-          <span> {'>'}</span>
+      <div className="w-f h-[550px] ">
+        <div className="mt-10 text-xl font-bold flex-row flex">
+          <div className="flex">리워드 지급현황</div>
+          <Link to="/reward">
+            <img className="flex mt-[7px] ml-[8px]" src={arrow} />
+          </Link>
         </div>
         <div className="text-xs mt-3 text-[#121212B8]">
           진행 중인 리워드에 한해, 리워드 지급현황을 최대 5개까지 안내합니다.
@@ -52,6 +164,8 @@ const Reward = () => {
           </div>
         </div>
 
+       {rewardData ? (
+      <>
         {rewardData.map((val) => (
           <div
             key={val.id}
@@ -61,7 +175,7 @@ const Reward = () => {
               {val.gameName}
             </div>
             <div className="w-[20%] h-f text-center text-sm leading-[64px] text-[#FB6218]">
-              {val.achievementScore} BP
+              {val.achievementScore.toLocaleString()} BP
             </div>
             <div className="w-[20%] h-f text-center text-sm leading-[64px]">
               {val.pendingPaymentCount}
@@ -71,6 +185,14 @@ const Reward = () => {
             </div>
           </div>
         ))}
+        </>
+       ) : (
+        <div>
+          
+        </div>
+       )}
+
+
       </div>
     </div>
   );
