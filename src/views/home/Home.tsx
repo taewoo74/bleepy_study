@@ -10,7 +10,6 @@ export interface dateDataType {
 }
 
 const Home = () => {
-
   let d = new Date();
   let year = d.getFullYear();
   let month = d.getMonth();

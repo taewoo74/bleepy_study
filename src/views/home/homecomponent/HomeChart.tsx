@@ -2,7 +2,7 @@ import Chart from '../../../components/Chart.tsx';
 import { Link } from 'react-router-dom';
 import BulrBox from './BulrBox.tsx';
 import { useEffect, useState } from 'react';
-import { getDayVisits } from '../../../../src/apis/homeApi/homeapi.tsx';
+import { getDayVisits } from '../../../apis/homeApi/homeapi.tsx';
 import { dateDataType } from '../Home.tsx'
 
 

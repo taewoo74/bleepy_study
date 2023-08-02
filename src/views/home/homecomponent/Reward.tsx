@@ -1,4 +1,4 @@
-import { getRewardState } from '../../../../src/apis/homeApi/homeapi.tsx';
+import { getRewardState } from '../../../apis/homeApi/homeapi.tsx';
 import { useEffect, useState } from 'react';
 
 interface rewardType {
