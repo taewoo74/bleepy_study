@@ -1,15 +1,37 @@
-import { rewardType } from '../Home.tsx';
+import { getRewardState } from '../../../../src/apis/homeApi/homeapi.tsx';
+import { useEffect, useState } from 'react';
 
-export type rewardDataType = {
-  rewardData: Partial<rewardType>[];
-};
+interface rewardType {
+  id: number;
+  gameName: string;
+  itemName: string;
+  achievementScore: number;
+  pendingPaymentCount: number;
+}
 
-const Reward = ({ rewardData }: rewardDataType) => {
+const Reward = () => {
+  const [rewardData, setRewardData] = useState<rewardType[]>([{ id: 0, gameName: '', itemName: '', achievementScore: 0, pendingPaymentCount: 0 }]);
+
+  /* 리워드 지급현황 데이터를 가져오고 셋팅해줌  */
+  const getRewardData = async () => {
+    const data = {
+      pageSize: 5,
+      sortOption: 'REWARD_ACHIEVEMENT_SCORE',
+      sortType: 'ASC',
+    };
+    const rewardData = await getRewardState(data);
+    setRewardData(rewardData.data);
+  };
+
+  useEffect(() => {
+    getRewardData();
+  }, []);
+
   return (
     <div className="w-[1163px] h-[550px] flex">
       <div className="w-f h-[550px]">
         <div className="mt-10 text-xl font-bold">리워드 지급현황
-        <span> {'>'}</span>
+          <span> {'>'}</span>
         </div>
         <div className="text-xs mt-3 text-[#121212B8]">
           진행 중인 리워드에 한해, 리워드 지급현황을 최대 5개까지 안내합니다.

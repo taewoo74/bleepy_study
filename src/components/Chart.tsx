@@ -1,5 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { chartType } from '../views/home/homecomponent/HomeChart';
+import { chartType } from '../views/home/homeComponent/HomeChart';
 
 
 const Chart = ({ chartData }: chartType) => {

@@ -1,12 +1,83 @@
-import Chart from '../../../components/Chart';
-import { chartDataType } from '../Home.tsx';
+import Chart from '../../../components/Chart.tsx';
 import { Link } from 'react-router-dom';
+import BulrBox from './BulrBox.tsx';
+import { useEffect, useState } from 'react';
+import { getDayVisits } from '../../../../src/apis/homeApi/homeapi.tsx';
+import { dateDataType } from '../Home.tsx'
 
-export type chartType = {
-  chartData: Partial<chartDataType>;
-};
 
-const HomeChart = ({ chartData }: chartType) => {
+interface subDataType {
+  dataKey: string;
+  color: string;
+  name: string
+}
+
+interface chartDataType {
+  widht: number;
+  height: number;
+  grid: boolean;
+  columnData: Partial<columnDataType>[];
+  subData: Array<subDataType>;
+}
+
+interface HomeChartType {
+  dateData: dateDataType
+}
+
+export interface columnDataType {
+  name: string;
+  visite: number;
+  evedau: number | string;
+  prevmau: number | string;
+  visitCount: number;
+  id: number;
+  mau: any;
+  dau: any;
+  newVisitorCount: number;
+  returningVisitorCount: number;
+}
+
+interface monthVisitType {
+  date: string;
+  dau: number;
+  newVisitorCount: number;
+  returningVisitorCount: number;
+  visitCount: number;
+}
+
+const HomeChart = ({ dateData }: HomeChartType) => {
+  const [chartData, setChartData] = useState<chartDataType>({
+    widht: 0,
+    height: 0,
+    grid: false,
+    columnData: [],
+    subData: [{ dataKey: '', color: '', name: '' }],
+  });
+
+  /* ChartData(30일단 방문현황) 가져오고 ChartData 셋팅해줌  */
+  const getChartData = async () => {
+    const monthVisit = await getDayVisits(dateData);
+    const columnData: Partial<columnDataType>[] = [];
+    monthVisit.forEach((arr: monthVisitType) => {
+      const one = { name: '', visite: 0 };
+      one.name = arr.date.substring(5);
+      one.visite = arr.visitCount;
+      columnData.push(one);
+    });
+    const result: chartDataType = {
+      widht: 670,
+      height: 290,
+      grid: false,
+      columnData: columnData,
+      subData: [{ dataKey: 'visite', color: '#8884d8', name: '' }],
+    };
+    setChartData(result);
+  };
+
+  useEffect(() => {
+    getChartData();
+  }, []);
+
   return (
     <div className="w-f h-[350px] flex-row flex">
       <div className="w-[676px] h-[300px]">
@@ -18,38 +89,7 @@ const HomeChart = ({ chartData }: chartType) => {
         </div>
         <Chart chartData={chartData} />
       </div>
-      <div className="relative flex ">
-        <div className="w-[405px] h-[346px] bg-[#FFF8F5] ml-28 p-5 blur-sm">
-          공지사항
-          <div className="flex mt-5">
-            <div className="mr-auto">TEXT</div>
-            <div>YY.MM.DD</div>
-          </div>
-          <div className="flex mt-5">
-            <div className="mr-auto">TEXT</div>
-            <div>YY.MM.DD</div>
-          </div>
-          <div className="flex mt-5">
-            <div className="mr-auto">TEXT</div>
-            <div>YY.MM.DD</div>
-          </div>
-          <div className="flex mt-5">
-            <div className="mr-auto">TEXT</div>
-            <div>YY.MM.DD</div>
-          </div>
-          <div className="flex mt-5">
-            <div className="mr-auto">TEXT</div>
-            <div>YY.MM.DD</div>
-          </div>
-          <div className="flex mt-5">
-            <div className="mr-auto">TEXT</div>
-            <div>YY.MM.DD</div>
-          </div>
-        </div>
-        <div className="w-[108px] h-[41px] bg-black absolute text-white text-center rounded-2xl leading-10 text-sm top-[148.5px] left-[264.5px]">
-          준비중입니다.
-        </div>
-      </div>
+      <BulrBox />
     </div>
   );
 };

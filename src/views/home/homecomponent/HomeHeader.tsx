@@ -1,13 +1,66 @@
 import chart from '../../../assets/img/chart.png'
 import clock from '../../../assets/img/clock.png'
 import vector from '../../../assets/img/Vector.png'
-import { headerDataType } from '../Home'
+import { useEffect, useState } from 'react';
+import { monthDateFormat } from '../../../utils/utils.ts';
+import { getMonthVisit, getMonthTimeVisit, getMau, } from '../../../apis/homeApi/homeapi.tsx';
+import { dateDataType } from '../Home.tsx'
 
-interface propsType {
-    headerData: Partial<headerDataType>
+interface HomeHeaderType {
+    dateData: dateDataType
 }
 
-const HomeHeader = ({ headerData }: propsType) => {
+interface headerDataType {
+    monthVisit: string;
+    monthVisitTime: string;
+    mau: string;
+}
+
+const dummyMonthVisit = {
+    
+}
+
+const dummyMonthVisitTime= {
+
+}
+
+const dummyMau = {
+
+}
+
+const HomeHeader = ({ dateData }: HomeHeaderType) => {
+    const [headerData, sethHaderData] = useState<headerDataType>({ monthVisit: '', monthVisitTime: '', mau: '' });
+
+    const d = new Date();
+    const month = d.getMonth();
+
+    /* Home 상단 방문횟수, 체류시간 , MAU 데이터를 불러오고 셋팅 해줌  */
+    const getHeaderData = async () => {
+        const mauData = {
+            startMonth: monthDateFormat(new Date()),
+            endMonth: monthDateFormat(new Date()),
+        };
+
+        const monthVisit = await getMonthVisit(dateData);
+        const monthVisitTime = await getMonthTimeVisit(dateData);
+        const mau = await getMau(mauData);
+
+        const headerData = { monthVisit : '' , monthVisitTime : '' , mau : '' };
+        headerData.monthVisit = monthVisit.toLocaleString();
+        headerData.monthVisitTime = (monthVisitTime / 60) + '분' + (monthVisitTime % 60) + '초';
+        let result = '0';
+        if(mau.length > 0) {
+            result = mau[0].mau.toLocaleString();
+        } 
+        headerData.mau = result;
+
+        sethHaderData(headerData);
+    };
+
+    useEffect(() => {
+        getHeaderData();
+    }, []);
+
     return (
         <div className="w-f h-[200px]">
             <div className="text-3xl font-extrabold">클라이언트 사업자명님 환영합니다!</div>
@@ -31,7 +84,7 @@ const HomeHeader = ({ headerData }: propsType) => {
                     </div>
                 </div>
                 <div className="small_box">
-                    <div className="text-xs text-gray-500" >5월 MAU</div>
+                    <div className="text-xs text-gray-500" >{month}월 MAU</div>
                     <div className='flex flex-row' >
                         <img className='w-[30px] h-[30px] mt-4 ml-2 mr-auto' src={chart} />
                         <div className='mt-6'>{headerData.mau}</div>

@@ -47,7 +47,7 @@ const LoginView = () => {
     }
 
     const accessToken = await login(loginInfo);
-    
+
     localStorage.setItem('accessToken', accessToken.accessToken);
     navigate('/home')
 
@@ -60,23 +60,25 @@ const LoginView = () => {
   }
 
   return (
-    <div className="w-[440px] h-sm border rounded-lg border-gray-300 text-center p-5">
-      <div className="text-2xl font-extrabold my-28">로그인</div>
+    <div className="flex flex-col justify-center items-center h-f w-f " >
+      <div className="w-[440px] h-sm border rounded-lg border-gray-300 text-center p-5">
+        <div className="text-2xl font-extrabold my-28">로그인</div>
 
-      <div className="flex justify-center">
-        <InputForm title={"아이디"} placeholder={"이메일 주소 입력"} value={id} InputChangeValue={InputChangeValue} />
-      </div>
-      <div className="flex justify-center">
-        <InputForm title={"비밀번호"} placeholder={""} value={passWord} InputChangeValue={InputChangeValue} />
-      </div>
+        <div className="flex justify-center">
+          <InputForm title={"아이디"} placeholder={"이메일 주소 입력"} value={id} InputChangeValue={InputChangeValue} />
+        </div>
+        <div className="flex justify-center">
+          <InputForm title={"비밀번호"} placeholder={""} value={passWord} InputChangeValue={InputChangeValue} />
+        </div>
 
-      <div className="flex justify-center mt-4" >
-        <FullButton buttonState={buttonState} text={"로그인"} LoginSubmit={LoginSubmit} />
-      </div>
+        <div className="flex justify-center mt-4" >
+          <FullButton buttonState={buttonState} text={"로그인"} LoginSubmit={LoginSubmit} />
+        </div>
 
-      <div className="flex mt-4 h-tch items-start flex-col text-sm" >
-        <div className="text-gray-400" >계정이 없으신가요? <span onClick={() => openPopup()} className="underline text-black ml-2 cursor-pointer" >회원가입</span></div>
-        <div className="text-gray-400" >아이디/비빌번호를 잊으셨나요? <span onClick={() => openPopup()} className="underline text-black ml-2 cursor-pointer">아이디/비밀번호</span></div>
+        <div className="flex mt-4 h-tch items-start flex-col text-sm" >
+          <div className="text-gray-400" >계정이 없으신가요? <span onClick={() => openPopup()} className="underline text-black ml-2 cursor-pointer" >회원가입</span></div>
+          <div className="text-gray-400" >아이디/비빌번호를 잊으셨나요? <span onClick={() => openPopup()} className="underline text-black ml-2 cursor-pointer">아이디/비밀번호</span></div>
+        </div>
       </div>
     </div>
   );
