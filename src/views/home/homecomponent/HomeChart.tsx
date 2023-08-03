@@ -76,8 +76,8 @@ const HomeChart = ({ dateData }: HomeChartType) => {
   });
   /* ChartData(30일단 방문현황) 가져오고 ChartData 셋팅해줌  */
   const getChartData = async () => {
-    const monthVisit = await getDayVisits(dateData);
-    // const monthVisit = dummyData;
+    // const monthVisit = await getDayVisits(dateData);
+    const monthVisit = dummyData;
 
     const data: any = [];
     monthVisit.forEach((one: monthVisitType) => {

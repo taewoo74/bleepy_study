@@ -13,7 +13,7 @@ const App = () => {
   const { popupState } = useSelector((state: RootState) => state.popup);
 
   return (
-    <div className="relative">
+    <div className="relative min-h-screen w-f flex items-center justify-center">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginView />} />

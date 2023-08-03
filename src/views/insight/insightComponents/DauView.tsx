@@ -127,6 +127,10 @@ const DauView = ({ settingPopup }: DauViewType) => {
   });
 
   /* 날짜 바꿨을때 날짜데이터 셋팅해주는 함수 */
+  /**
+   *
+   * @param date
+   */
   const DateSetting = (date: number) => {
     let d = new Date();
     let year = d.getFullYear();
@@ -146,6 +150,7 @@ const DauView = ({ settingPopup }: DauViewType) => {
         'error',
         true,
       );
+      DateSetting(8);
       return;
     }
     const diffTime = Math.abs(date.getTime() - endDate.getTime());
@@ -185,12 +190,12 @@ const DauView = ({ settingPopup }: DauViewType) => {
       startDate: dateFormat(startDate),
       endDate: dateFormat(endDate),
     };
-    const dau = await getDau(data);
-    const visitor = await getNewVisitor(data);
-    const returnVisitor = await getReturnVisitor(data);
-    // const dau = dummyDau;
-    // const visitor = dummyVisitor;
-    // const returnVisitor = dummyReturnVisitor;
+    // const dau = await getDau(data);
+    // const visitor = await getNewVisitor(data);
+    // const returnVisitor = await getReturnVisitor(data);
+    const dau = dummyDau;
+    const visitor = dummyVisitor;
+    const returnVisitor = dummyReturnVisitor;
 
     const visitorTotal = dau + visitor + returnVisitor;
     const result: visitorType = { visitorTotal, dau, visitor, returnVisitor };
@@ -199,8 +204,8 @@ const DauView = ({ settingPopup }: DauViewType) => {
   };
 
   const getChartData = async (data: { startDate: string; endDate: string }) => {
-    // const chartData = await getDateVisits(data);
-    const chartData = dummyDauChartData;
+    const chartData = await getDateVisits(data);
+    // const chartData = dummyDauChartData;
     settingChartData(chartData);
     settingTableData(chartData);
   };
@@ -238,12 +243,9 @@ const DauView = ({ settingPopup }: DauViewType) => {
   const settingChartData = async (chartData: VisitDataType[]) => {
     const columnData: dauChartDataType[] = [];
     chartData.forEach((arr: VisitDataType) => {
-      let result = {
+      const result = {
         name: arr.date,
-        visitCount: arr.visitCount,
-        dau: arr.dau,
-        newVisitorCount: arr.newVisitorCount,
-        returningVisitorCount: arr.returningVisitorCount,
+        ...arr,
       };
       columnData.push(result);
     });

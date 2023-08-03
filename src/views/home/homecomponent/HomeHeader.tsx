@@ -53,12 +53,12 @@ const HomeHeader = ({ dateData }: HomeHeaderType) => {
       endMonth: monthDateFormat(new Date()),
     };
 
-    // const monthVisit = dummyMonthVisit; 
-    // const monthVisitTime = dummyMonthVisitTime; 
-    // const mau = dummyMau; 
-    const monthVisit = await getMonthVisit(dateData);
-    const monthVisitTime = await getMonthTimeVisit(dateData);;
-    const mau = await getMau(mauData);;
+    const monthVisit = dummyMonthVisit;
+    const monthVisitTime = dummyMonthVisitTime;
+    const mau = dummyMau;
+    // const monthVisit = await getMonthVisit(dateData);
+    // const monthVisitTime = await getMonthTimeVisit(dateData);;
+    // const mau = await getMau(mauData);;
 
     const headerData = { monthVisit: '', monthVisitTime: '', mau: '' };
     headerData.monthVisit = monthVisit.toLocaleString();
@@ -92,14 +92,18 @@ const HomeHeader = ({ dateData }: HomeHeaderType) => {
           <div className="text-xs text-gray-500">최근 30일간 방문 횟수</div>
           <div className="flex flex-row justify-start">
             <img className="w-[24px] h-[28px] mt-4 ml-3 mr-auto" src={vector} />
-            <div className="mt-6 font-semibold text-xl">{headerData.monthVisit}</div>
+            <div className="mt-6 font-semibold text-xl">
+              {headerData.monthVisit}
+            </div>
           </div>
         </div>
         <div className="small_box">
           <div className="text-xs text-gray-500">최근 30일간 평균 체류시간</div>
           <div className="flex flex-row">
             <img className="w-[30px] h-[30px] mt-4 ml-2 mr-auto" src={clock} />
-            <div className="mt-6 font-semibold text-xl">{headerData.monthVisitTime}</div>
+            <div className="mt-6 font-semibold text-xl">
+              {headerData.monthVisitTime}
+            </div>
           </div>
         </div>
         <div className="small_box">

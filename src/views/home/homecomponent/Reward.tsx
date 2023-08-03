@@ -11,7 +11,7 @@ interface rewardType {
   achievementScore: number;
   pendingPaymentCount: number;
 }
-
+// msw
 const dummy = {
   data: [
     {
@@ -190,10 +190,14 @@ const Reward = () => {
         ) : (
           <div>
             <div className="flex justify-center items-center w-f h-[320px]">
-              <div className='flex flex-col w-[220px] items-center text-center' >
+              <div className="flex flex-col w-[220px] items-center text-center">
                 <img className="w-[84px] h-[84px]" src={noReward} />
-                <div className='text-lg text-[#FF3D00] font-bold mt-4'>등록된 리워드가 없습니다</div>
-                <div className='text-[11px] mt-3 text-[#1212127A]'>리워드를 등록하고 사용자를 모아보세요!</div>
+                <div className="text-lg text-[#FF3D00] font-bold mt-4">
+                  등록된 리워드가 없습니다
+                </div>
+                <div className="text-[11px] mt-3 text-[#1212127A]">
+                  리워드를 등록하고 사용자를 모아보세요!
+                </div>
               </div>
             </div>
           </div>
