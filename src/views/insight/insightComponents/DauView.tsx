@@ -1,6 +1,13 @@
 import DateSelete from '../../../components/DateSelete.tsx';
 import classNames from 'classnames';
 import { useState, useEffect } from 'react';
+import icon from '../../../assets/img/icon.png';
+import { dateFormat } from '../../../utils/utils.ts';
+import {
+  getDau,
+  getNewVisitor,
+  getReturnVisitor,
+} from '../../../apis/insightApi/insightapi.ts';
 
 interface DauViewType {
   settingPopup: (
@@ -12,10 +19,27 @@ interface DauViewType {
   ) => void;
 }
 
+export type visitorType = {
+  visitorTotal: number;
+  dau: number;
+  visitor: number;
+  returnVisitor: number;
+};
+
+const dummyDau = 1342232;
+const dummyVisitor = 234232;
+const dummyReturnVisitor = 42232;
+
 const DauView = ({ settingPopup }: DauViewType) => {
   const [tooltip, setTooltip] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
+  const [visitorData, SetVisitorData] = useState<visitorType>({
+    visitorTotal: 0,
+    dau: 0,
+    visitor: 0,
+    returnVisitor: 0,
+  });
   const [datePickerFormat, setDatePickerFormat] =
     useState<string>('yyyy-MM-dd');
 
@@ -73,6 +97,24 @@ const DauView = ({ settingPopup }: DauViewType) => {
     setEndDate(new Date(date));
   };
 
+  const submitInsightData = async () => {
+    const data = {
+      startDate: dateFormat(startDate),
+      endDate: dateFormat(endDate),
+    };
+    // const dau = await getDau(data);
+    // const visitor = await getNewVisitor(data);
+    // const returnVisitor = await getReturnVisitor(data);
+    const dau = dummyDau;
+    const visitor = dummyVisitor;
+    const returnVisitor = dummyReturnVisitor;
+
+    const visitorTotal = dau + visitor + returnVisitor;
+    const result: visitorType = { visitorTotal, dau, visitor, returnVisitor };
+    SetVisitorData(result);
+    // getChartData(data);
+  };
+
   const didate = (start: Date, end: Date, num: number) => {
     const di = end.getTime() - start.getTime();
     const diTime = di / (1000 * 60 * 60 * 24);
@@ -88,62 +130,59 @@ const DauView = ({ settingPopup }: DauViewType) => {
   }, []);
 
   return (
-    <div className="flex ml-auto">
-      <div
-        className={classNames('small_button', {
-          on: didate(startDate, endDate, 1),
-        })}
-        onClick={() => DateSetting(1)}
-      >
-        전일
-      </div>
-      <div
-        className={classNames('small_button', {
-          on: didate(startDate, endDate, 7),
-        })}
-        onClick={() => DateSetting(8)}
-      >
-        일주일
-      </div>
-      <div
-        className={classNames('small_button', {
-          on: didate(startDate, endDate, 30),
-        })}
-        onClick={() => DateSetting(31)}
-      >
-        1개월
-      </div>
-      <div
-        className={classNames('small_button', {
-          on: didate(startDate, endDate, 90),
-        })}
-        onClick={() => DateSetting(91)}
-      >
-        3개월
+    <div className="flex flex-col">
+      <div className="flex ml-auto">
+        <div
+          className={classNames('small_button', {
+            on: didate(startDate, endDate, 1),
+          })}
+          onClick={() => DateSetting(1)}
+        >
+          전일
+        </div>
+        <div
+          className={classNames('small_button', {
+            on: didate(startDate, endDate, 7),
+          })}
+          onClick={() => DateSetting(8)}
+        >
+          일주일
+        </div>
+        <div
+          className={classNames('small_button', {
+            on: didate(startDate, endDate, 30),
+          })}
+          onClick={() => DateSetting(31)}
+        >
+          1개월
+        </div>
+        <div
+          className={classNames('small_button', {
+            on: didate(startDate, endDate, 90),
+          })}
+          onClick={() => DateSetting(91)}
+        >
+          3개월
+        </div>
+
+        <DateSelete
+          startDate={startDate}
+          onChangeStartDate={onChangeStartDate}
+          endDate={endDate}
+          onChangeEndDate={onChangeEndDate}
+          datePickerFormat={datePickerFormat}
+        />
+        <div
+          onClick={submitInsightData}
+          className="bg-og w-[53px] h-[33px] rounded text-white text-base text-center leading-8 ml-4"
+        >
+          조회
+        </div>
       </div>
 
-      <DateSelete
-        startDate={startDate}
-        onChangeStartDate={onChangeStartDate}
-        endDate={endDate}
-        onChangeEndDate={onChangeEndDate}
-        datePickerFormat={datePickerFormat}
-      />
-      <div
-        // onClick={onClickSubmit}
-        className="bg-og w-[53px] h-[33px] rounded text-white text-base text-center leading-8 ml-4"
-      >
-        조회
-      </div>
-    </div>
-  );
-};
-export default DauView;
-
-{
-  /* <div className="text-xl font-bold">조회기간별 방문현황 합계</div>
+      <div className="text-xl font-bold mt-8">조회기간별 방문현황 합계</div>
       <div className="mt-4 flex">
-        <div className="num_container flex-row flex">
+        <div className="num_container flex-col flex">
           <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto flex direction-row relative">
             방문횟수
             <img
@@ -159,25 +198,36 @@ export default DauView;
               </div>
             )}
           </div>
-          <div className="mt-14 mr-4">{visitorData.visitorTotal}</div>
+          <div className="ml-auto mt-5 mr-4 font-semibold text-xl">
+            {visitorData.visitorTotal.toLocaleString()}
+          </div>
         </div>
         <div className="num_container flex-row flex">
           <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto">
             일일활성사용자
           </div>
-          <div className="mt-14 mr-4">{visitorData.dau}</div>
+          <div className="ml-auto mt-5 mr-4 font-semibold text-xl">
+            {visitorData.dau.toLocaleString()}
+          </div>
         </div>
         <div className="num_container flex-row flex">
           <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto">
             신규 방문자 수
           </div>
-          <div className="mt-14 mr-4">{visitorData.visitor}</div>
+          <div className="ml-auto mt-5 mr-4 font-semibold text-xl">
+            {visitorData.visitor.toLocaleString()}
+          </div>
         </div>
         <div className="num_container flex-row flex">
           <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto">
             재 방문자 수
           </div>
-          <div className="mt-14 mr-4">{visitorData.returnVisitor}</div>
+          <div className="ml-auto mt-5 mr-4 font-semibold text-xl">
+            {visitorData.returnVisitor.toLocaleString()}
+          </div>
         </div>
-      </div> */
-}
+      </div>
+    </div>
+  );
+};
+export default DauView;

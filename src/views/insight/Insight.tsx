@@ -9,19 +9,12 @@ import {
   getDateVisits,
   getMau,
 } from '../../apis/insightApi/insightapi.ts';
-import { dateFormat, monthDateFormat } from '../../utils/utils.ts';
+
 import { useState, useEffect } from 'react';
 // import { chartDataType , columnDataType , subDataType } from '../home/Home.tsx';
 import { useLocation } from 'react-router-dom';
 import DauView from '../insight/insightComponents/DauView.tsx';
 import MauView from '../insight/insightComponents/MauView.tsx';
-
-export type visitorType = {
-  visitorTotal: number;
-  dau: number;
-  visitor: number;
-  returnVisitor: number;
-};
 
 type tableDataType = {
   evedau: number | string;
@@ -37,7 +30,7 @@ type tableDataType = {
 
 const Insight = () => {
   const location = useLocation();
-  const [visitorData, SetVisitorData] = useState<Partial<visitorType>>({});
+
   const [dateState, setDateState] = useState<string>('default');
   const [tableData, setTableData] = useState<Partial<tableDataType>[]>();
   const [tabState, setTabState] = useState<string>('DAU');
@@ -73,21 +66,6 @@ const Insight = () => {
   // const onClickSubmit = async () => {
   //   if (tabState === 'DAU') submitInsightData();
   //   if (tabState === 'MAU') submitMauData();
-  // };
-
-  //  /* DAU 탭일때 조회 클릭시 데이터 불러와줌 */
-  // const submitInsightData = async () => {
-  //   const data = {
-  //     startDate: dateFormat(startDate),
-  //     endDate: dateFormat(endDate),
-  //   };
-  //   const dau = await getDau(data);
-  //   const visitor = await getNewVisitor(data);
-  //   const returnVisitor = await getReturnVisitor(data);
-  //   const visitorTotal = dau + visitor + returnVisitor;
-  //   const result: visitorType = { visitorTotal, dau, visitor, returnVisitor };
-  //   SetVisitorData(result);
-  //   getChartData(data);
   // };
 
   //  /* MAU 탭일때 조회 클릭시 데이터 불러와줌 */
