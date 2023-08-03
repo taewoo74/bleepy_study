@@ -1,9 +1,9 @@
 // import { columns } from '../data/data.tsx'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { dauTableDataType } from '../views/insight/insightComponents/DauView';
-
+import { mauTableDataType } from '../views/insight/insightComponents/MauView';
 type TableType = {
-  tableData: dauTableDataType[];
+  tableData: dauTableDataType[] | mauTableDataType[];
   columns: GridColDef[];
 };
 

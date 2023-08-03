@@ -35,12 +35,12 @@ const dauColumns: GridColDef[] = [
   { field: 'returningVisitorCount', headerName: '재방문자수', width: 188 },
 ];
 
-const columns2: GridColDef[] = [
+const mauColumns: GridColDef[] = [
   { field: 'date', headerName: '연.월', width: 228, sortable: true },
   { field: 'visitCount', headerName: '방문횟수', width: 228 },
   { field: 'mau', headerName: '월간활성사용자 (MAU)', width: 228 },
-  { field: 'prevmau', headerName: '전월대비(MAU)', width: 228 },
+  { field: 'prevMau', headerName: '전월대비(MAU)', width: 228 },
   { field: 'returningVisitorCount', headerName: '월간 방문자수', width: 226 },
 ];
 
-export { navigationBarData, dauColumns, columns2 };
+export { navigationBarData, dauColumns, mauColumns };

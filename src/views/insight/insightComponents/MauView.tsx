@@ -7,6 +7,9 @@ import {
   chartSizeType,
 } from '../../../views/home/homeComponent/HomeChart.tsx';
 import Chart from '../../../components/Chart.tsx';
+import xlsx from '../../../assets/img/xlsx.png';
+import { mauColumns } from '../../../data/data.tsx';
+import Table from '../../../components/Table.tsx';
 
 interface MauViewType {
   settingPopup: (
@@ -22,6 +25,15 @@ interface MauDataType {
   yearMonth: string;
   visitCount: number;
   mau: number;
+  returningVisitorCount: number;
+}
+
+export interface mauTableDataType {
+  id: number;
+  date: string;
+  visitCount: number;
+  mau: number;
+  prevMau: number | string;
   returningVisitorCount: number;
 }
 
@@ -63,7 +75,7 @@ const MauView = ({ settingPopup }: MauViewType) => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [datePickerFormat, setDatePickerFormat] = useState<string>('yyyy.MM');
-
+  const [tableData, setTableData] = useState<mauTableDataType[]>();
   const [chartData, setChartData] = useState<Array<mauChartDataType>>([]);
   const [nameData, setNameData] = useState<chartNameType[]>([
     { name: '', dataKey: '', color: '' },
@@ -78,40 +90,38 @@ const MauView = ({ settingPopup }: MauViewType) => {
       startMonth: monthDateFormat(startDate),
       endMonth: monthDateFormat(endDate),
     };
-    const mau = await getMau(mauData);
-    // const mau = dummyMauData;
+    // const mau = await getMau(mauData);
+    const mau = dummyMauData;
     settingChartData(mau);
-    // settingTableData(mau);
+    settingTableData(mau);
   };
 
-  // const settingTableData = (chartData: MauDataType[]) => {
-  //   let result: dauTableDataType[] = [];
-  //   chartData.forEach((val: MauDataType, index: number) => {
-  //     let obj: dauTableDataType = {
-  //       id: 0,
-  //       date: '',
-  //       visitCount: 0,
-  //       dau: 0,
-  //       evedau: '',
-  //       newVisitorCount: 0,
-  //       returningVisitorCount: 0,
-  //     };
+  const settingTableData = (chartData: MauDataType[]) => {
+    let result: mauTableDataType[] = [];
+    chartData.forEach((val: MauDataType, index: number) => {
+      let obj: mauTableDataType = {
+        id: 0,
+        date: '',
+        visitCount: 0,
+        mau: 0,
+        prevMau: '',
+        returningVisitorCount: 0,
+      };
 
-  //     obj.id = index;
-  //     obj.date = val.date;
-  //     obj.visitCount = val.visitCount;
-  //     obj.newVisitorCount = val.newVisitorCount;
-  //     obj.dau = val.dau;
-  //     obj.returningVisitorCount = val.returningVisitorCount;
-  //     if (index === 0) {
-  //       obj.evedau = '-';
-  //     } else {
-  //       obj.evedau = val.dau - chartData[index - 1].dau;
-  //     }
-  //     result.push(obj);
-  //   });
-  //   setTableData(result);
-  // };
+      obj.id = index;
+      obj.date = val.yearMonth;
+      obj.visitCount = val.visitCount;
+      obj.mau = val.mau;
+      obj.returningVisitorCount = val.returningVisitorCount;
+      if (index === 0) {
+        obj.prevMau = '-';
+      } else {
+        obj.prevMau = val.mau - chartData[index - 1].mau;
+      }
+      result.push(obj);
+    });
+    setTableData(result);
+  };
 
   const settingChartData = (chartData: MauDataType[]) => {
     const columnData: mauChartDataType[] = [];
@@ -169,6 +179,16 @@ const MauView = ({ settingPopup }: MauViewType) => {
       return;
     }
     setStartDate(new Date(date));
+  };
+
+  const onClickExcel = () => {
+    settingPopup(
+      '현재 준비중인 서비스입니다.',
+      '조금만 기다려주세요.',
+      '확인',
+      '',
+      true,
+    );
   };
 
   /* 끝나는 일자 바꿔주는 함수 */
@@ -232,7 +252,7 @@ const MauView = ({ settingPopup }: MauViewType) => {
             />
           </div>
 
-          {/* {!!tableData && (
+          {!!tableData && (
             <div className="flex mt-8 w-f flex-col">
               <div
                 onClick={onClickExcel}
@@ -241,9 +261,9 @@ const MauView = ({ settingPopup }: MauViewType) => {
                 <img className="w-[16px] h-[16px] mt-0.5 mr-[3px]" src={xlsx} />
                 엑셀 다운로드
               </div>
-              <Table tableData={tableData} columns={dauColumns} />
+              <Table tableData={tableData} columns={mauColumns} />
             </div>
-          )}  */}
+          )}
         </div>
       </div>
     </div>
