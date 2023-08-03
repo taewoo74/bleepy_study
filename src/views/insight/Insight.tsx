@@ -86,46 +86,6 @@ const Insight = () => {
   //   settingChartData(chartData);
   // };
 
-  /* Chart 데이터 가공해주는 함수 */
-  // const settingChartData = async (chartData: Array<Partial<tableDataType>>) => {
-  //   let columnData: columnDataType[] = [];
-  //   chartData.forEach((arr: any) => {
-  //     if (tabState === 'DAU') arr.name = arr.date;
-  //     if (tabState === 'MAU') arr.name = arr.yearMonth;
-  //     columnData.push(arr);
-  //   });
-
-  //   let subData: subDataType[] = [];
-
-  //   if (tabState === 'MAU') {
-  //     subData = [
-  //       { dataKey: 'visitCount', color: '#FF3D00', name: '방문횟수' },
-  //       { dataKey: 'mau', color: '#FF7A30', name: '월간활성사용자(MAU)' },
-  //       {
-  //         dataKey: 'returningVisitorCount',
-  //         color: '#FFECDE',
-  //         name: '재 방문자 수',
-  //       },
-  //     ];
-  //   }
-
-  //   if (tabState === 'DAU') {
-  //     subData = [
-  //       { dataKey: 'visitCount', color: '#FF3D00', name: '방문횟수' },
-  //       { dataKey: 'dau', color: '#FF7A30', name: '일일활성사용자(DAU)' },
-  //       {
-  //         dataKey: 'newVisitorCount',
-  //         color: '#FCB25C',
-  //         name: '신규 방문자 수',
-  //       },
-  //       {
-  //         dataKey: 'returningVisitorCount',
-  //         color: '#FFECDE',
-  //         name: '재 방문자 수',
-  //       },
-  //     ];
-  //   }
-
   //   const result: chartDataType = {
   //     widht: 1123,
   //     height: 290,
@@ -137,30 +97,6 @@ const Insight = () => {
   // };
 
   /* 테이블 데이터 가공해주는 함수 */
-  const settingTableData = (chartData: Array<Partial<tableDataType>>) => {
-    let result: Array<Partial<tableDataType>> = [];
-    chartData.forEach((val: Partial<tableDataType>, index: number) => {
-      val.id = index;
-      if (tabState === 'DAU') {
-        if (index === 0) {
-          val.evedau = '-';
-        } else {
-          val.evedau = val.dau - chartData[index - 1].dau;
-        }
-      }
-
-      if (tabState === 'MAU') {
-        if (index === 0) {
-          val.prevmau = '-';
-        } else {
-          val.prevmau = val.mau - chartData[index - 1].mau;
-        }
-      }
-
-      result.push(val);
-    });
-    setTableData(result);
-  };
 
   /* 탭 변경시 새로고침 함수 */
   const onClickTabMenu = async (tab: string) => {

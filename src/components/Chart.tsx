@@ -14,8 +14,10 @@ import {
   chartSizeType,
 } from '../views/home/homeComponent/HomeChart';
 
+import { dauChartDataType } from '../views/insight/insightComponents/DauView.tsx';
+
 interface ChartType {
-  chartData: homeChartDataType[];
+  chartData: homeChartDataType[] | dauChartDataType[];
   nameData: chartNameType[];
   chartSize: chartSizeType;
 }

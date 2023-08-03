@@ -7,7 +7,13 @@ import {
   getDau,
   getNewVisitor,
   getReturnVisitor,
+  getDateVisits,
 } from '../../../apis/insightApi/insightapi.ts';
+import {
+  chartNameType,
+  chartSizeType,
+} from '../../../views/home/homeComponent/HomeChart.tsx';
+import Chart from '../../../components/Chart.tsx';
 
 interface DauViewType {
   settingPopup: (
@@ -26,9 +32,72 @@ export type visitorType = {
   returnVisitor: number;
 };
 
+interface VisitDataType {
+  date: string;
+  visitCount: number;
+  dau: number;
+  newVisitorCount: number;
+  returningVisitorCount: number;
+}
+
+export interface dauChartDataType {
+  name: string;
+  visitCount: number;
+  dau: number;
+  newVisitorCount: number;
+  returningVisitorCount: number;
+}
+
+export interface dauTableDataType {
+  id: number;
+  date: string;
+  visitCount: number;
+  dau: number;
+  evedau: number;
+  newVisitorCount: number;
+  returningVisitorCount: number;
+}
+
 const dummyDau = 1342232;
 const dummyVisitor = 234232;
 const dummyReturnVisitor = 42232;
+const dummyDauChartData = [
+  {
+    date: '2023-08-03',
+    visitCount: 184,
+    dau: 935,
+    newVisitorCount: 443,
+    returningVisitorCount: 753,
+  },
+  {
+    date: '2023-08-04',
+    visitCount: 159,
+    dau: 753,
+    newVisitorCount: 486,
+    returningVisitorCount: 426,
+  },
+  {
+    date: '2023-08-05',
+    visitCount: 456,
+    dau: 123,
+    newVisitorCount: 789,
+    returningVisitorCount: 147,
+  },
+  {
+    date: '2023-08-06',
+    visitCount: 746,
+    dau: 956,
+    newVisitorCount: 478,
+    returningVisitorCount: 412,
+  },
+  {
+    date: '2023-08-07',
+    visitCount: 210,
+    dau: 231,
+    newVisitorCount: 154,
+    returningVisitorCount: 675,
+  },
+];
 
 const DauView = ({ settingPopup }: DauViewType) => {
   const [tooltip, setTooltip] = useState<boolean>(false);
@@ -42,6 +111,15 @@ const DauView = ({ settingPopup }: DauViewType) => {
   });
   const [datePickerFormat, setDatePickerFormat] =
     useState<string>('yyyy-MM-dd');
+
+  const [chartData, setChartData] = useState<Array<dauChartDataType>>([]);
+  const [nameData, setNameData] = useState<chartNameType[]>([
+    { name: '', dataKey: '', color: '' },
+  ]);
+  const [chartSize, setChartSize] = useState<chartSizeType>({
+    width: 0,
+    height: 0,
+  });
 
   /* 날짜 바꿨을때 날짜데이터 셋팅해주는 함수 */
   const DateSetting = (date: number) => {
@@ -102,17 +180,77 @@ const DauView = ({ settingPopup }: DauViewType) => {
       startDate: dateFormat(startDate),
       endDate: dateFormat(endDate),
     };
-    // const dau = await getDau(data);
-    // const visitor = await getNewVisitor(data);
-    // const returnVisitor = await getReturnVisitor(data);
-    const dau = dummyDau;
-    const visitor = dummyVisitor;
-    const returnVisitor = dummyReturnVisitor;
+    const dau = await getDau(data);
+    const visitor = await getNewVisitor(data);
+    const returnVisitor = await getReturnVisitor(data);
+    // const dau = dummyDau;
+    // const visitor = dummyVisitor;
+    // const returnVisitor = dummyReturnVisitor;
 
     const visitorTotal = dau + visitor + returnVisitor;
     const result: visitorType = { visitorTotal, dau, visitor, returnVisitor };
     SetVisitorData(result);
-    // getChartData(data);
+    getChartData(data);
+  };
+
+  const getChartData = async (data: { startDate: string; endDate: string }) => {
+    const chartData = await getDateVisits(data);
+    // const chartData = dummyDauChartData;
+    settingChartData(chartData);
+    // settingTableData(chartData);
+  };
+
+  // const settingTableData = (chartData: VisitDataType[]) => {
+  //   let result: dauTableDataType[] = [];
+  //   chartData.forEach((val: VisitDataType, index: number) => {
+  //     val.id = index;
+  //     if (index === 0) {
+  //       val.evedau = '-';
+  //     } else {
+  //       val.evedau = val.dau - chartData[index - 1].dau;
+  //     }
+
+  //     result.push(val);
+  //   });
+  //   setTableData(result);
+  // };
+
+  /* Chart 데이터 가공해주는 함수 */
+  const settingChartData = async (chartData: VisitDataType[]) => {
+    const columnData: dauChartDataType[] = [];
+    chartData.forEach((arr: VisitDataType) => {
+      let result = {
+        name: arr.date,
+        visitCount: arr.visitCount,
+        dau: arr.dau,
+        newVisitorCount: arr.newVisitorCount,
+        returningVisitorCount: arr.returningVisitorCount,
+      };
+      columnData.push(result);
+    });
+    setChartData(columnData);
+
+    const name: chartNameType[] = [
+      { dataKey: 'visitCount', color: '#FF3D00', name: '방문횟수' },
+      { dataKey: 'dau', color: '#FF7A30', name: '일일활성사용자(DAU)' },
+      {
+        dataKey: 'newVisitorCount',
+        color: '#FCB25C',
+        name: '신규 방문자 수',
+      },
+      {
+        dataKey: 'returningVisitorCount',
+        color: '#FFECDE',
+        name: '재 방문자 수',
+      },
+    ];
+    setNameData(name);
+
+    const size: chartSizeType = {
+      width: 1123,
+      height: 290,
+    };
+    setChartSize(size);
   };
 
   const didate = (start: Date, end: Date, num: number) => {
@@ -202,29 +340,54 @@ const DauView = ({ settingPopup }: DauViewType) => {
             {visitorData.visitorTotal.toLocaleString()}
           </div>
         </div>
-        <div className="num_container flex-row flex">
-          <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto">
+        <div className="num_container flex-col flex">
+          <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto flex direction-row">
             일일활성사용자
           </div>
           <div className="ml-auto mt-5 mr-4 font-semibold text-xl">
             {visitorData.dau.toLocaleString()}
           </div>
         </div>
-        <div className="num_container flex-row flex">
-          <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto">
+        <div className="num_container flex-col flex">
+          <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto flex direction-row">
             신규 방문자 수
           </div>
           <div className="ml-auto mt-5 mr-4 font-semibold text-xl">
             {visitorData.visitor.toLocaleString()}
           </div>
         </div>
-        <div className="num_container flex-row flex">
-          <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto">
+        <div className="num_container flex-col flex">
+          <div className="font-semibold text-xs text-gray-400 mt-3 ml-3 mr-auto flex direction-row">
             재 방문자 수
           </div>
           <div className="ml-auto mt-5 mr-4 font-semibold text-xl">
             {visitorData.returnVisitor.toLocaleString()}
           </div>
+        </div>
+      </div>
+
+      <div className="w-f">
+        <div className="mt-10  h-[300px]">
+          <div className="text-xl font-bold">일별 방문현황 그래프</div>
+          <div className="w-f h-[280px]">
+            <Chart
+              chartData={chartData}
+              nameData={nameData}
+              chartSize={chartSize}
+            />
+          </div>
+          {/* {!!tableData && (
+            <div className="mt-8 w-f">
+              <div
+                onClick={onClickExcel}
+                className="flex bg-[#EEEEEE] w-[120px] h-[31px] text-[11px] py-1.5 px-4 ml-auto mb-2 rounded"
+              >
+                <img className="w-[16px] h-[16px] mt-0.5 mr-[3px]" src={xlsx} />
+                엑셀 다운로드
+              </div>
+              <Table tableData={tableData} columns={colums} />
+            </div>
+          )} */}
         </div>
       </div>
     </div>
