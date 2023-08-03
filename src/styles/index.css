@@ -115,3 +115,8 @@ html,
 .scale {
   transform: scaleY(-1);
 }
+
+.popup_box {
+  left: calc(50% - 199px);
+  top: calc(50% - 119px);
+}

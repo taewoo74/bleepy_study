@@ -56,8 +56,8 @@ const HomeHeader = ({ dateData }: HomeHeaderType) => {
     // const monthVisit = dummyMonthVisit; 
     // const monthVisitTime = dummyMonthVisitTime; 
     // const mau = dummyMau; 
-    const monthVisit =await getMonthVisit(dateData);
-    const monthVisitTime = await getMonthTimeVisit(dateData);; 
+    const monthVisit = await getMonthVisit(dateData);
+    const monthVisitTime = await getMonthTimeVisit(dateData);;
     const mau = await getMau(mauData);;
 
     const headerData = { monthVisit: '', monthVisitTime: '', mau: '' };

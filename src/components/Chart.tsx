@@ -23,27 +23,30 @@ interface subDataType {
 
 const Chart = ({ chartData, state }: ChartType) => {
   const [graphData, setGraphData] = useState([]);
-  const [lineData, setLineData] = useState([{name:"" , dataKey:"", color:""}]);
-  const [subdata, setSubdata] = useState<subDataType>({width:0 , height:0});
+  const [lineData, setLineData] = useState([
+    { name: '', dataKey: '', color: '' },
+  ]);
+  const [subdata, setSubdata] = useState<subDataType>({ width: 0, height: 0 });
 
   const settingChartData = (chartData: chartDataType[], state: string) => {
     if (state === 'monthVisit') {
-      const data :any = [];
-      chartData.forEach(one => {
-        data.push({ name:one.date.substring(5) , visitCount:one.visitCount });
+      const data: any = [];
+      chartData.forEach((one) => {
+        data.push({ name: one.date.substring(5), visitCount: one.visitCount });
       });
       setGraphData(data);
       const result = { width: 670, height: 290 };
-      const lineData = [ {name:"visit" , dataKey:"visitCount", color:"#A8C7D1" } ]
+      const lineData = [
+        { name: 'visit', dataKey: 'visitCount', color: '#A8C7D1' },
+      ];
       setLineData(lineData);
       setSubdata(result);
     }
-
   };
 
   useEffect(() => {
     settingChartData(chartData, state);
-  },[chartData]);
+  }, [chartData]);
 
   return (
     <ResponsiveContainer width="100%" height="100%">

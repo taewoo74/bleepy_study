@@ -13,7 +13,7 @@ const App = () => {
   const { popupState } = useSelector((state: RootState) => state.popup);
 
   return (
-    <>
+    <div className="relative">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginView />} />
@@ -25,7 +25,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       {popupState && <Popup />}
-    </>
+    </div>
   );
 };
 
