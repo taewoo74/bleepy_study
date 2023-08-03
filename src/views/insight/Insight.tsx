@@ -36,11 +36,6 @@ type tableDataType = {
 };
 
 const Insight = () => {
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
-  const [datePickerFormat, setDatePickerFormat] =
-    useState<string>('yyyy-MM-dd');
-
   const location = useLocation();
   const [visitorData, SetVisitorData] = useState<Partial<visitorType>>({});
   const [dateState, setDateState] = useState<string>('default');
@@ -54,23 +49,6 @@ const Insight = () => {
     subData: [{ dataKey: '', color: '', name: '' }],
   });
   const dispatch = useAppDispatch();
-
-  /* 날짜 바꿨을때 날짜데이터 셋팅해주는 함수 */
-  const DateSetting = (date: number) => {
-    let d = new Date();
-    let year = d.getFullYear();
-    let month = d.getMonth();
-    let day = d.getDate();
-    setStartDate(new Date(year, month, day - date));
-    setEndDate(new Date(year, month, day - 1));
-
-    // if (state === 'MAU') {
-    // setStartDate(new Date(year - 1, month - 1));
-    // setEndDate(new Date(year, month));
-    // return;
-    // }
-    // setDateState(state);
-  };
 
   /* 팝업창 셋팅하고 열어주는 함수 */
   const settingPopup = (
@@ -89,50 +67,6 @@ const Insight = () => {
         popupState: popupState,
       }),
     );
-  };
-
-  /* 시작 일짜 바꿔주는 함수 */
-  const onChangeStartDate = (date: Date) => {
-    if (endDate.getTime() < date.getTime()) {
-      settingPopup(
-        '조회 일자 확인',
-        '조회 종료일보다 조회 시작일이 클 수 없습니다.',
-        '확인',
-        'error',
-        true,
-      );
-      return;
-    }
-    const diffTime = Math.abs(date.getTime() - endDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays > 90) {
-      settingPopup(
-        '조회 일자 확인',
-        '조회 가능한 일자는 최대 90일입니다.',
-        '확인',
-        'error',
-        true,
-      );
-      return;
-    }
-    setStartDate(new Date(date));
-  };
-
-  /* 끝나는 일자 바꿔주는 함수 */
-  const onChangeEndDate = (date: Date) => {
-    const diffTime = Math.abs(startDate.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays > 90 && tabState != 'MAU') {
-      settingPopup(
-        '조회 일자 확인',
-        '조회 가능한 일자는 최대 90일입니다.',
-        '확인',
-        'error',
-        true,
-      );
-      return;
-    }
-    setEndDate(new Date(date));
   };
 
   /* 조회 클릭시 데이터 불러오는 함수 */
@@ -255,30 +189,10 @@ const Insight = () => {
     window.location.replace(`/insight?${tab}`);
   };
 
-  useEffect(() => {
-    // const tab = location.search;
-    // if (tab === '?MAU') {
-    //   setTabState('MAU');
-    //   DateSetting(0, 'MAU');
-    //   setDatePickerFormat('yyyy-MM');
-    //   return;
-    // }
-    DateSetting(8);
-  }, []);
-
   return (
     <div className="flex flex-col w-[1220px] pt-10 px-10">
       <InsightHeader onClickTabMenu={onClickTabMenu} />
-      {tabState === 'DAU' && (
-        <DauView
-          DateSetting={DateSetting}
-          startDate={startDate}
-          onChangeStartDate={onChangeStartDate}
-          endDate={endDate}
-          onChangeEndDate={onChangeEndDate}
-          datePickerFormat={datePickerFormat}
-        />
-      )}
+      {tabState === 'DAU' && <DauView settingPopup={settingPopup} />}
 
       {/* <MauView /> */}
 
