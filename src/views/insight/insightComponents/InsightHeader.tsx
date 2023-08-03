@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import { MouseEventHandler } from 'react';
+import classNames from 'classnames';
 
 const list = [
   { title: 'DAU', id: 1, dataKey: 'DAU' },
@@ -11,23 +12,10 @@ const list = [
 
 interface InsightHeaderType {
   onClickTabMenu: (str: string) => void; // 탭메뉴를 변경해주는 함수
+  tabState: string;
 }
 
-const InsightHeader = ({ onClickTabMenu }: InsightHeaderType) => {
-  // const tabStyled = (dataKey: string) => {
-  //   if (tabState === dataKey)
-  //     return ''
-  //   else
-  //     return 'text-[#1212127A]'
-  // }
-
-  // const dayStyled = (date: string) => {
-  //   if (date === dateState)
-  //     return ' on'
-  //   else
-  //     return ''
-  // }
-
+const InsightHeader = ({ onClickTabMenu, tabState }: InsightHeaderType) => {
   return (
     <div className="flex w-f flex-col">
       <div className="w-f">
@@ -41,7 +29,9 @@ const InsightHeader = ({ onClickTabMenu }: InsightHeaderType) => {
             {list.map((value) => (
               <div
                 key={value.id}
-                className={'mr-4'}
+                className={classNames('mr-4', {
+                  'text-[#1212127A]': value.dataKey !== tabState,
+                })}
                 onClick={() => onClickTabMenu(value.dataKey)}
               >
                 {value.title}

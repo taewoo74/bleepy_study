@@ -15,9 +15,10 @@ import {
 } from '../views/home/homeComponent/HomeChart';
 
 import { dauChartDataType } from '../views/insight/insightComponents/DauView.tsx';
+import { mauChartDataType } from '../views/insight/insightComponents/MauView.tsx';
 
 interface ChartType {
-  chartData: homeChartDataType[] | dauChartDataType[];
+  chartData: homeChartDataType[] | dauChartDataType[] | mauChartDataType[];
   nameData: chartNameType[];
   chartSize: chartSizeType;
 }

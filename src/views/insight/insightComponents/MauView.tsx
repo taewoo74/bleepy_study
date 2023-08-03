@@ -1,7 +1,14 @@
 import DateSelete from '../../../components/DateSelete.tsx';
 import { useState, useEffect } from 'react';
+import { monthDateFormat } from '../../../utils/utils.ts';
+import { getMau } from '../../../apis/insightApi/insightapi.ts';
+import {
+  chartNameType,
+  chartSizeType,
+} from '../../../views/home/homeComponent/HomeChart.tsx';
+import Chart from '../../../components/Chart.tsx';
 
-interface DauViewType {
+interface MauViewType {
   settingPopup: (
     str: string,
     str2: string,
@@ -11,10 +18,131 @@ interface DauViewType {
   ) => void;
 }
 
-const MauView = ({ settingPopup }: DauViewType) => {
+interface MauDataType {
+  yearMonth: string;
+  visitCount: number;
+  mau: number;
+  returningVisitorCount: number;
+}
+
+export interface mauChartDataType {
+  name: string;
+  visitCount: number;
+  mau: number;
+  returningVisitorCount: number;
+}
+
+const dummyMauData = [
+  {
+    yearMonth: '2023.01',
+    visitCount: 232,
+    mau: 153,
+    returningVisitorCount: 543,
+  },
+  {
+    yearMonth: '2023.02',
+    visitCount: 134,
+    mau: 534,
+    returningVisitorCount: 423,
+  },
+  {
+    yearMonth: '2023.03',
+    visitCount: 432,
+    mau: 641,
+    returningVisitorCount: 340,
+  },
+  {
+    yearMonth: '2023.04',
+    visitCount: 353,
+    mau: 431,
+    returningVisitorCount: 543,
+  },
+];
+
+const MauView = ({ settingPopup }: MauViewType) => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [datePickerFormat, setDatePickerFormat] = useState<string>('yyyy.MM');
+
+  const [chartData, setChartData] = useState<Array<mauChartDataType>>([]);
+  const [nameData, setNameData] = useState<chartNameType[]>([
+    { name: '', dataKey: '', color: '' },
+  ]);
+  const [chartSize, setChartSize] = useState<chartSizeType>({
+    width: 0,
+    height: 0,
+  });
+
+  const submitMauData = async () => {
+    const mauData = {
+      startMonth: monthDateFormat(startDate),
+      endMonth: monthDateFormat(endDate),
+    };
+    const mau = await getMau(mauData);
+    // const mau = dummyMauData;
+    settingChartData(mau);
+    // settingTableData(mau);
+  };
+
+  // const settingTableData = (chartData: MauDataType[]) => {
+  //   let result: dauTableDataType[] = [];
+  //   chartData.forEach((val: MauDataType, index: number) => {
+  //     let obj: dauTableDataType = {
+  //       id: 0,
+  //       date: '',
+  //       visitCount: 0,
+  //       dau: 0,
+  //       evedau: '',
+  //       newVisitorCount: 0,
+  //       returningVisitorCount: 0,
+  //     };
+
+  //     obj.id = index;
+  //     obj.date = val.date;
+  //     obj.visitCount = val.visitCount;
+  //     obj.newVisitorCount = val.newVisitorCount;
+  //     obj.dau = val.dau;
+  //     obj.returningVisitorCount = val.returningVisitorCount;
+  //     if (index === 0) {
+  //       obj.evedau = '-';
+  //     } else {
+  //       obj.evedau = val.dau - chartData[index - 1].dau;
+  //     }
+  //     result.push(obj);
+  //   });
+  //   setTableData(result);
+  // };
+
+  const settingChartData = (chartData: MauDataType[]) => {
+    const columnData: mauChartDataType[] = [];
+    chartData.forEach((arr: MauDataType) => {
+      let result = {
+        name: arr.yearMonth,
+        visitCount: arr.visitCount,
+        mau: arr.mau,
+        returningVisitorCount: arr.returningVisitorCount,
+      };
+      columnData.push(result);
+    });
+    setChartData(columnData);
+
+    const name: chartNameType[] = [
+      { dataKey: 'visitCount', color: '#FF3D00', name: '방문횟수' },
+      { dataKey: 'mau', color: '#FF7A30', name: '월간활성사용자(MAU)' },
+      {
+        dataKey: 'returningVisitorCount',
+        color: '#FFECDE',
+        name: '재 방문자 수',
+      },
+    ];
+    setNameData(name);
+
+    const size: chartSizeType = {
+      width: 1123,
+      height: 290,
+    };
+    setChartSize(size);
+  };
 
   /* 시작 일짜 바꿔주는 함수 */
   const onChangeStartDate = (date: Date) => {
@@ -73,7 +201,7 @@ const MauView = ({ settingPopup }: DauViewType) => {
   }, []);
 
   return (
-    <div className="flex">
+    <div className="flex flex-col">
       <div className="flex ml-auto">
         <DateSelete
           startDate={startDate}
@@ -84,10 +212,38 @@ const MauView = ({ settingPopup }: DauViewType) => {
           state={true}
         />
         <div
-          //   onClick={submitInsightData}
+          onClick={submitMauData}
           className="bg-og w-[53px] h-[33px] rounded text-white text-base text-center leading-8 ml-4"
         >
           조회
+        </div>
+      </div>
+      <div className="w-f flex flex-col">
+        <div className="mt-10 flex w-f flex-col">
+          <div className="flex text-xl font-bold">
+            월별 활성사용자수 (MAU) 그래프
+          </div>
+
+          <div className="flex w-f h-[285px] mt-4">
+            <Chart
+              chartData={chartData}
+              nameData={nameData}
+              chartSize={chartSize}
+            />
+          </div>
+
+          {/* {!!tableData && (
+            <div className="flex mt-8 w-f flex-col">
+              <div
+                onClick={onClickExcel}
+                className="flex bg-[#EEEEEE] w-[120px] h-[31px] text-[11px] py-1.5 px-4 ml-auto mb-2 rounded"
+              >
+                <img className="w-[16px] h-[16px] mt-0.5 mr-[3px]" src={xlsx} />
+                엑셀 다운로드
+              </div>
+              <Table tableData={tableData} columns={dauColumns} />
+            </div>
+          )}  */}
         </div>
       </div>
     </div>
