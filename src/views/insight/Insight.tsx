@@ -100,14 +100,15 @@ const Insight = () => {
 
   /* 탭 변경시 새로고침 함수 */
   const onClickTabMenu = async (tab: string) => {
-    window.location.replace(`/insight?${tab}`);
+    // window.location.replace(`/insight?${tab}`);
+    setTabState(tab);
   };
 
   return (
     <div className="flex flex-col w-[1220px] pt-10 px-10">
       <InsightHeader onClickTabMenu={onClickTabMenu} />
       {tabState === 'DAU' && <DauView settingPopup={settingPopup} />}
-
+      {tabState === 'MAU' && <MauView settingPopup={settingPopup} />}
       {/* <MauView /> */}
 
       {/* <InsightHeader

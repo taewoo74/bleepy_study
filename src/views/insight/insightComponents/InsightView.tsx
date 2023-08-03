@@ -28,17 +28,6 @@ const InsightView = ({
   settingPopup,
   tabState,
 }: InsightViewType) => {
-  /* 엑셀 클릭시 팝업창 생성 */
-  const onClickExcel = () => {
-    settingPopup(
-      '현재 준비중인 서비스입니다.',
-      '조금만 기다려주세요.',
-      '확인',
-      '',
-      true,
-    );
-  };
-
   let colums = columns1;
   if (tabState === 'MAU') colums = columns2;
 

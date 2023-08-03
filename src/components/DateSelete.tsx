@@ -6,6 +6,7 @@ interface DateSeleteType {
   endDate: Date;
   onChangeEndDate: (date: Date) => void;
   datePickerFormat: string;
+  state: boolean;
 }
 
 const DateSelete = ({
@@ -14,6 +15,7 @@ const DateSelete = ({
   endDate,
   onChangeEndDate,
   datePickerFormat,
+  state,
 }: DateSeleteType) => {
   return (
     <>
@@ -22,6 +24,7 @@ const DateSelete = ({
         selected={startDate}
         onChange={(date: Date) => onChangeStartDate(date)}
         dateFormat={datePickerFormat}
+        showMonthYearPicker={state}
       />
 
       <DatePicker
@@ -29,6 +32,7 @@ const DateSelete = ({
         selected={endDate}
         onChange={(date: Date) => onChangeEndDate(date)}
         dateFormat={datePickerFormat}
+        showMonthYearPicker={state}
       />
     </>
   );

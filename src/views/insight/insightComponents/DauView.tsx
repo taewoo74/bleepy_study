@@ -14,6 +14,10 @@ import {
   chartSizeType,
 } from '../../../views/home/homeComponent/HomeChart.tsx';
 import Chart from '../../../components/Chart.tsx';
+import xlsx from '../../../assets/img/xlsx.png';
+import Table from '../../../components/Table.tsx';
+import Table2 from '../../../components/Table2.tsx';
+import { dauColumns } from '../../../data/data.tsx';
 
 interface DauViewType {
   settingPopup: (
@@ -53,7 +57,7 @@ export interface dauTableDataType {
   date: string;
   visitCount: number;
   dau: number;
-  evedau: number;
+  evedau: number | string;
   newVisitorCount: number;
   returningVisitorCount: number;
 }
@@ -64,38 +68,38 @@ const dummyReturnVisitor = 42232;
 const dummyDauChartData = [
   {
     date: '2023-08-03',
-    visitCount: 184,
-    dau: 935,
-    newVisitorCount: 443,
-    returningVisitorCount: 753,
+    visitCount: 18432,
+    dau: 93543,
+    newVisitorCount: 44356,
+    returningVisitorCount: 75376,
   },
   {
     date: '2023-08-04',
-    visitCount: 159,
-    dau: 753,
-    newVisitorCount: 486,
-    returningVisitorCount: 426,
+    visitCount: 14259,
+    dau: 75423,
+    newVisitorCount: 46486,
+    returningVisitorCount: 47526,
   },
   {
     date: '2023-08-05',
-    visitCount: 456,
-    dau: 123,
-    newVisitorCount: 789,
-    returningVisitorCount: 147,
+    visitCount: 12456,
+    dau: 14323,
+    newVisitorCount: 35789,
+    returningVisitorCount: 23147,
   },
   {
     date: '2023-08-06',
-    visitCount: 746,
-    dau: 956,
-    newVisitorCount: 478,
-    returningVisitorCount: 412,
+    visitCount: 12746,
+    dau: 95426,
+    newVisitorCount: 12478,
+    returningVisitorCount: 44312,
   },
   {
     date: '2023-08-07',
-    visitCount: 210,
-    dau: 231,
-    newVisitorCount: 154,
-    returningVisitorCount: 675,
+    visitCount: 52210,
+    dau: 65231,
+    newVisitorCount: 23154,
+    returningVisitorCount: 45675,
   },
 ];
 
@@ -103,6 +107,7 @@ const DauView = ({ settingPopup }: DauViewType) => {
   const [tooltip, setTooltip] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
+  const [tableData, setTableData] = useState<dauTableDataType[]>();
   const [visitorData, SetVisitorData] = useState<visitorType>({
     visitorTotal: 0,
     dau: 0,
@@ -110,7 +115,7 @@ const DauView = ({ settingPopup }: DauViewType) => {
     returnVisitor: 0,
   });
   const [datePickerFormat, setDatePickerFormat] =
-    useState<string>('yyyy-MM-dd');
+    useState<string>('yyyy.MM.dd');
 
   const [chartData, setChartData] = useState<Array<dauChartDataType>>([]);
   const [nameData, setNameData] = useState<chartNameType[]>([
@@ -194,26 +199,40 @@ const DauView = ({ settingPopup }: DauViewType) => {
   };
 
   const getChartData = async (data: { startDate: string; endDate: string }) => {
-    const chartData = await getDateVisits(data);
-    // const chartData = dummyDauChartData;
+    // const chartData = await getDateVisits(data);
+    const chartData = dummyDauChartData;
     settingChartData(chartData);
-    // settingTableData(chartData);
+    settingTableData(chartData);
   };
 
-  // const settingTableData = (chartData: VisitDataType[]) => {
-  //   let result: dauTableDataType[] = [];
-  //   chartData.forEach((val: VisitDataType, index: number) => {
-  //     val.id = index;
-  //     if (index === 0) {
-  //       val.evedau = '-';
-  //     } else {
-  //       val.evedau = val.dau - chartData[index - 1].dau;
-  //     }
+  const settingTableData = (chartData: VisitDataType[]) => {
+    let result: dauTableDataType[] = [];
+    chartData.forEach((val: VisitDataType, index: number) => {
+      let obj: dauTableDataType = {
+        id: 0,
+        date: '',
+        visitCount: 0,
+        dau: 0,
+        evedau: '',
+        newVisitorCount: 0,
+        returningVisitorCount: 0,
+      };
 
-  //     result.push(val);
-  //   });
-  //   setTableData(result);
-  // };
+      obj.id = index;
+      obj.date = val.date;
+      obj.visitCount = val.visitCount;
+      obj.newVisitorCount = val.newVisitorCount;
+      obj.dau = val.dau;
+      obj.returningVisitorCount = val.returningVisitorCount;
+      if (index === 0) {
+        obj.evedau = '-';
+      } else {
+        obj.evedau = val.dau - chartData[index - 1].dau;
+      }
+      result.push(obj);
+    });
+    setTableData(result);
+  };
 
   /* Chart 데이터 가공해주는 함수 */
   const settingChartData = async (chartData: VisitDataType[]) => {
@@ -251,6 +270,17 @@ const DauView = ({ settingPopup }: DauViewType) => {
       height: 290,
     };
     setChartSize(size);
+  };
+
+  /* 엑셀 클릭시 팝업창 생성 */
+  const onClickExcel = () => {
+    settingPopup(
+      '현재 준비중인 서비스입니다.',
+      '조금만 기다려주세요.',
+      '확인',
+      '',
+      true,
+    );
   };
 
   const didate = (start: Date, end: Date, num: number) => {
@@ -309,6 +339,7 @@ const DauView = ({ settingPopup }: DauViewType) => {
           endDate={endDate}
           onChangeEndDate={onChangeEndDate}
           datePickerFormat={datePickerFormat}
+          state={false}
         />
         <div
           onClick={submitInsightData}
@@ -366,9 +397,9 @@ const DauView = ({ settingPopup }: DauViewType) => {
         </div>
       </div>
 
-      <div className="w-f">
-        <div className="mt-10  h-[300px]">
-          <div className="text-xl font-bold">일별 방문현황 그래프</div>
+      <div className="w-f flex">
+        <div className="mt-10 flex w-f flex-col">
+          <div className="flex text-xl font-bold">일별 방문현황 그래프</div>
           <div className="w-f h-[280px]">
             <Chart
               chartData={chartData}
@@ -376,8 +407,8 @@ const DauView = ({ settingPopup }: DauViewType) => {
               chartSize={chartSize}
             />
           </div>
-          {/* {!!tableData && (
-            <div className="mt-8 w-f">
+          {!!tableData && (
+            <div className="flex mt-8 w-f flex-col">
               <div
                 onClick={onClickExcel}
                 className="flex bg-[#EEEEEE] w-[120px] h-[31px] text-[11px] py-1.5 px-4 ml-auto mb-2 rounded"
@@ -385,9 +416,10 @@ const DauView = ({ settingPopup }: DauViewType) => {
                 <img className="w-[16px] h-[16px] mt-0.5 mr-[3px]" src={xlsx} />
                 엑셀 다운로드
               </div>
-              <Table tableData={tableData} columns={colums} />
+              <Table tableData={tableData} columns={dauColumns} />
             </div>
-          )} */}
+          )}
+          {/* <Table2 /> */}
         </div>
       </div>
     </div>

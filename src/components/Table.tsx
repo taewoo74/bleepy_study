@@ -1,11 +1,11 @@
 // import { columns } from '../data/data.tsx'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { dauTableDataType } from '../views/insight/insightComponents/DauView';
 
 type TableType = {
-  tableData: any;
+  tableData: dauTableDataType[];
   columns: GridColDef[];
 };
-
 
 const Table = ({ tableData, columns }: TableType) => {
   return (

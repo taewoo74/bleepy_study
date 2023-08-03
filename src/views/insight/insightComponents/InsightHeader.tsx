@@ -1,5 +1,4 @@
 import { Outlet, useLocation } from 'react-router-dom';
-
 import 'react-datepicker/dist/react-datepicker.css';
 import { MouseEventHandler } from 'react';
 
@@ -12,20 +11,9 @@ const list = [
 
 interface InsightHeaderType {
   onClickTabMenu: (str: string) => void; // 탭메뉴를 변경해주는 함수
-  // dateState: string; //
-  // DateSetting: (num: number, str: string) => void //
-  // onChangeEndDate: (date: Date) => void //
-  // onChangeStartDate: (date: Date) => void //
-  // endDate: Date; //
-  // startDate: Date; //
-  // tabState: string; //
-  // datePickerFormat: string; //
-  // onClickSubmit:MouseEventHandler<HTMLInputElement> //
 }
 
 const InsightHeader = ({ onClickTabMenu }: InsightHeaderType) => {
-  // const { DateSetting, onClickSubmit, onChangeEndDate, onChangeStartDate, startDate, endDate, tabState, onClickTabMenu, dateState, datePickerFormat } = props
-
   // const tabStyled = (dataKey: string) => {
   //   if (tabState === dataKey)
   //     return ''
@@ -59,46 +47,6 @@ const InsightHeader = ({ onClickTabMenu }: InsightHeaderType) => {
                 {value.title}
               </div>
             ))}
-          </div>
-
-          <div className="flex mt-20 ml-auto">
-            {/* {tabState === 'DAU' && (
-              <>
-                <div className={'small_button'} onClick={() => DateSetting(1)} >
-                  전일
-                </div>
-                <div className={'small_button'} onClick={() => DateSetting(8)} >
-                  일주일
-                </div>
-                <div className={'small_button'} onClick={() => DateSetting(31)}>
-                  1개월
-                </div>
-                <div className={'small_button'} onClick={() => DateSetting(91)}>
-                  3개월
-                </div>
-              </>
-            )} */}
-
-            {/* <DatePicker
-              className="select_box"
-              selected={startDate}
-              onChange={(date: Date) => onChangeStartDate(date)}
-              dateFormat={datePickerFormat}
-            />
-
-            <DatePicker
-              className="select_box"
-              selected={endDate}
-              onChange={(date: Date) => onChangeEndDate(date)}
-              dateFormat={datePickerFormat}
-            />
-
-            <div
-              onClick={onClickSubmit}
-              className="bg-og w-[53px] h-[33px] rounded text-white text-base text-center leading-8 ml-4"
-            >
-              조회
-            </div>*/}
           </div>
         </div>
       </div>
