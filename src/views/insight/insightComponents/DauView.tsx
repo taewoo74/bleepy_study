@@ -132,10 +132,10 @@ const DauView = ({ settingPopup }: DauViewType) => {
    * @param date
    */
   const DateSetting = (date: number) => {
-    let d = new Date();
-    let year = d.getFullYear();
-    let month = d.getMonth();
-    let day = d.getDate();
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth();
+    const day = d.getDate();
     setStartDate(new Date(year, month, day - date));
     setEndDate(new Date(year, month, day - 1));
   };
@@ -211,9 +211,9 @@ const DauView = ({ settingPopup }: DauViewType) => {
   };
 
   const settingTableData = (chartData: VisitDataType[]) => {
-    let result: dauTableDataType[] = [];
+    const result: dauTableDataType[] = [];
     chartData.forEach((val: VisitDataType, index: number) => {
-      let obj: dauTableDataType = {
+      const obj: dauTableDataType = {
         id: 0,
         date: '',
         visitCount: 0,

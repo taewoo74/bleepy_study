@@ -97,9 +97,9 @@ const MauView = ({ settingPopup }: MauViewType) => {
   };
 
   const settingTableData = (chartData: MauDataType[]) => {
-    let result: mauTableDataType[] = [];
+    const result: mauTableDataType[] = [];
     chartData.forEach((val: MauDataType, index: number) => {
-      let obj: mauTableDataType = {
+      const obj: mauTableDataType = {
         id: 0,
         date: '',
         visitCount: 0,
@@ -126,7 +126,7 @@ const MauView = ({ settingPopup }: MauViewType) => {
   const settingChartData = (chartData: MauDataType[]) => {
     const columnData: mauChartDataType[] = [];
     chartData.forEach((arr: MauDataType) => {
-      let result = {
+      const result = {
         name: arr.yearMonth,
         visitCount: arr.visitCount,
         mau: arr.mau,
@@ -209,9 +209,9 @@ const MauView = ({ settingPopup }: MauViewType) => {
   };
 
   const settingDate = () => {
-    let d = new Date();
-    let year = d.getFullYear();
-    let month = d.getMonth();
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = d.getMonth();
     setStartDate(new Date(year - 1, month));
     setEndDate(new Date(year, month - 1));
   };

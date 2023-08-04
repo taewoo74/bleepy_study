@@ -11,9 +11,9 @@ export interface dateDataType {
 
 const Home = () => {
   const d = new Date();
-  let year = d.getFullYear();
-  let month = d.getMonth();
-  let day = d.getDate();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const day = d.getDate();
   const dateData = {
     startDate: dateFormat(new Date(year, month, day - 31)),
     endDate: dateFormat(new Date(year, month, day - 1)),
