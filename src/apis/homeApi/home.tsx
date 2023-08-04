@@ -18,10 +18,4 @@ if (token) {
   );
 }
 
-// const instance = axios.create({
-//   baseURL: BASE_URL,
-// });
-
-//
-
 export const homeApi = instance;

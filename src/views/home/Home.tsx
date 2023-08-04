@@ -3,6 +3,7 @@ import HomeChart from './homeComponent/HomeChart.tsx';
 import Reward from './homeComponent/Reward.tsx';
 // import { useState } from 'react';
 import { dateFormat } from '../../utils/utils.ts';
+import HomeTable from '../home/homeComponent/HomeTable.tsx';
 
 export interface dateDataType {
   startDate: string;
@@ -23,7 +24,8 @@ const Home = () => {
     <div className="flex pt-10 px-10  w-[1220px] h-[auto] flex-col">
       <HomeHeader dateData={dateData} />
       <HomeChart dateData={dateData} />
-      <Reward />
+      <HomeTable />
+      {/* <Reward /> */}
     </div>
   );
 };

@@ -30,7 +30,7 @@ const login = async (userInfo: userInfoType) => {
 
 const adminLogin = async (code: codeType) => {
   try {
-    const { data } = await adminApi.post(`/login`, code);
+    const { data } = await adminApi.post('/login', code);
     return data;
   } catch (error) {
     console.error(error);

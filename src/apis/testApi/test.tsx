@@ -1,15 +1,22 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://mvp-api.bleepy.net/api/bleepy-admin/clients/';
-const token = localStorage.getItem('accessToken');
+const baseURL = 'https://mvp-api.bleepy.net/api/bleepy-admin/';
+const token = localStorage.getItem('adminAccessToken');
+const instance = axios.create({ baseURL });
 
-// login;
-// code: 'bleepyAdminDK';
-
-const instance = axios.create({
-  baseURL: BASE_URL,
-});
+if (token) {
+  instance.interceptors.request.use(
+    (config) => {
+      config.headers['Authorization'] = `Bearer ${token}`;
+      return config;
+    },
+    (error) => {
+      console.log(error);
+      return Promise.reject(error);
+    },
+  );
+}
 
 if (token) instance.defaults.headers.common['Authorization'] = token;
 
-export const homeApi = instance;
+export const testApi = instance;

@@ -45,20 +45,15 @@ const LoginView = () => {
     if (!buttonState) {
       return;
     }
-
     const loginInfo = {
       email: id,
       password: passWord,
     };
-
     const accessToken = await login(loginInfo);
-
     localStorage.setItem('accessToken', accessToken.accessToken);
-
     const code = {
       code: 'bleepyAdminDK',
     };
-
     const adminAccessToken = await adminLogin(code);
     localStorage.setItem('adminAccessToken', adminAccessToken.accessToken);
 
