@@ -1,12 +1,13 @@
-import { loginApi } from "./loginapi.ts";
+import axios from 'axios';
 
-const login = async (userInfo: { email : string , password : string }) => {
-  try {
-    const { data } = await loginApi.post("/login", userInfo);
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
+const BASE_URL = 'https://mvp-api.bleepy.net/api/client-admin';
+const ADMIN_URL = 'https://mvp-api.bleepy.net/api/bleepy-admin';
+
+const baseAPI = (url: string) => {
+  return axios.create({
+    baseURL: url,
+  });
 };
 
-export { login };
+export const loginApi = baseAPI(BASE_URL);
+export const adminApi = baseAPI(ADMIN_URL);

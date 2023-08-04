@@ -1,7 +1,7 @@
 import { useState, ChangeEvent } from 'react';
 import InputForm from './loginComponent/InputForm.tsx';
 import FullButton from '../../components/FullButton.tsx';
-import { login } from '../../apis/loginApi/login.ts';
+import { login, adminLogin } from '../../apis/loginApi/loginapi.ts';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../store';
 import popupSlice from '../../store/slice/popup.ts';
@@ -54,6 +54,14 @@ const LoginView = () => {
     const accessToken = await login(loginInfo);
 
     localStorage.setItem('accessToken', accessToken.accessToken);
+
+    const code = {
+      code: 'bleepyAdminDK',
+    };
+
+    const adminAccessToken = await adminLogin(code);
+    localStorage.setItem('adminAccessToken', adminAccessToken.accessToken);
+
     navigate('/home');
   };
 

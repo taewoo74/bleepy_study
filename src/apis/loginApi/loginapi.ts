@@ -1,15 +1,40 @@
-import axios from "axios";
+import { loginApi, adminApi } from './login.ts';
 
-const BASE_URL = 'https://mvp-api.bleepy.net/api/client-admin'
+interface codeType {
+  code: string;
+}
+interface userInfoType {
+  email: string;
+  password: string;
+}
+/**
+ * 클라이언트 어드민 로그인
+ * @param userInfo email: string , password:string
+ * @returns  "accessToken": "string"
+ */
 
-const baseAPI = (url : string) => {
-  return axios.create({
-    baseURL: url,
-    // headers: {
-    //   Authorization: `bearer ${token}`,
-    // },
-  });
+const login = async (userInfo: userInfoType) => {
+  try {
+    const { data } = await loginApi.post('/login', userInfo);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
+/**
+ * 어드민 로그인
+ * @param code 값 string
+ * @returns "accessToken": "string"
+ */
 
-export const loginApi = baseAPI(BASE_URL);
+const adminLogin = async (code: codeType) => {
+  try {
+    const { data } = await adminApi.post(`/login`, code);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { login, adminLogin };

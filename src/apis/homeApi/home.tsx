@@ -1,14 +1,27 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASE_URL = "https://mvp-api.bleepy.net/api/client-admin/";
-const token = localStorage.getItem("accessToken");
+const baseURL = 'https://mvp-api.bleepy.net/api/client-admin/';
+const token = localStorage.getItem('accessToken');
 
-const baseAPI = (url: string) => {
-  return axios.create({
-    baseURL: url,
-    headers: { Authorization: `Bearer ${token ? token : ''} ` }
-  });
-};
+const instance = axios.create({ baseURL });
 
+if (token) {
+  instance.interceptors.request.use(
+    (config) => {
+      config.headers['Authorization'] = `Bearer ${token}`;
+      return config;
+    },
+    (error) => {
+      console.log(error);
+      return Promise.reject(error);
+    },
+  );
+}
 
-export const homeApi = baseAPI(BASE_URL);
+// const instance = axios.create({
+//   baseURL: BASE_URL,
+// });
+
+//
+
+export const homeApi = instance;
