@@ -120,3 +120,11 @@ html,
   left: calc(50% - 199px);
   top: calc(50% - 119px);
 }
+
+.table_header {
+  width: calc(100% - 30px);
+}
+
+.table_container {
+  border: 1px solid #ccc;
+}
