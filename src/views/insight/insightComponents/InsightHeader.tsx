@@ -1,6 +1,5 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
-import { MouseEventHandler } from 'react';
 import classNames from 'classnames';
 
 const list = [

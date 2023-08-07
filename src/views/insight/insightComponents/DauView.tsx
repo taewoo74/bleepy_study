@@ -16,7 +16,6 @@ import {
 import Chart from '../../../components/Chart.tsx';
 import xlsx from '../../../assets/img/xlsx.png';
 import Table from '../../../components/Table.tsx';
-import Table2 from '../../../components/Table2.tsx';
 import { dauColumns } from '../../../data/data.tsx';
 
 interface DauViewType {
