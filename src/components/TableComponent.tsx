@@ -164,29 +164,40 @@ const TableComponent = ({ colunms, rowData }: TableDataType) => {
           ))}
         </div>
       </div>
-      {chartData.map((row: any) => (
-        <div
-          className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold"
-          key={row.id}
-          onClick={() => clickRow(row)}
-        >
-          <input
-            type="checkBox"
-            checked={checkedItems.has(row.id)}
-            onChange={(e) => checkedItemHandler(row.id, e)}
-          />
-          <div className="table_header flex flex-nowrap justify-between">
-            {colunms.map((val) => (
-              <div
-                className="text-center text-xs flex-1 leading-9"
-                key={val.id}
-              >
-                {row[val.datakey]}
+      {chartData.length > 0 ? (
+        <>
+          {chartData.map((row: any) => (
+            <div
+              className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold"
+              key={row.id}
+              onClick={() => clickRow(row)}
+            >
+              <input
+                type="checkBox"
+                checked={checkedItems.has(row.id)}
+                onChange={(e) => checkedItemHandler(row.id, e)}
+              />
+              <div className="table_header flex flex-nowrap justify-between">
+                {colunms.map((val) => (
+                  <div
+                    className={classNames(
+                      'text-center text-xs flex-1 leading-9',
+                      row.tableCustom(val.datakey),
+                    )}
+                    key={val.id}
+                  >
+                    {row[val.datakey]}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </>
+      ) : (
+        <div className="flex items-center justify-center h-f">
+          <div className="text-center">데이터가 존재하지 않습니다.</div>
         </div>
-      ))}
+      )}
     </div>
   );
 };

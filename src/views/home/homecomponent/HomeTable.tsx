@@ -9,8 +9,7 @@ export interface colunmsType {
 }
 
 export interface rowDataType {
-  [index: string]: string;
-  // id: number;
+  tableCustom: (dataKey: string) => string;
   serviceName: string;
   companyName: string;
   serviceCategoryName: string;
@@ -32,12 +31,30 @@ const HomeTable = () => {
     { name: '계약상태', datakey: 'contractStatus', id: 6 },
   ];
 
+  const tableCustom = (dataKey: string) => {
+    if (dataKey == 'serviceCategoryName') {
+      return ' row-red';
+    } else {
+      return '';
+    }
+  };
+
   const getTableData = async () => {
     const params = {
       searchOption: 'SERVICE_NAME',
     };
     const tableData = await TableData(params);
-    setRowData(tableData.data);
+
+    const result: rowDataType[] = [];
+    tableData.data.forEach((one: rowDataType) => {
+      const arr = {
+        ...one,
+        tableCustom: (dataKey: string) => tableCustom(dataKey),
+      };
+      result.push(arr);
+    });
+
+    setRowData(result);
   };
 
   useEffect(() => {
