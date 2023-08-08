@@ -17,6 +17,7 @@ export interface rowDataType {
   registeredAt: string;
   contractStatus: string;
   serviceLogoImageUrl: string;
+  filter: boolean;
 }
 
 export interface pageDataType {
@@ -79,6 +80,7 @@ const HomeTable = () => {
       const arr = {
         ...one,
         tableCustom: (dataKey: string) => tableCustom(dataKey),
+        filter: true,
       };
       result.push(arr);
     });

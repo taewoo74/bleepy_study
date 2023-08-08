@@ -4,7 +4,7 @@ import {
   rowDataType,
   pageDataType,
 } from '../../views/home/homeComponent/HomeTable.tsx';
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { AiOutlineArrowUp } from 'react-icons/ai';
 import PageNation from './PageNation.tsx';
@@ -29,6 +29,37 @@ const TableComponent = ({
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [checkBoxAll, setCheckBoxAll] = useState(false);
   const [partCheck, setPartCheck] = useState(false);
+  const [search, setSearch] = useState<string>('');
+
+  const onChagneSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    const search = event.target.value;
+
+    const result: any = [];
+    chartData.forEach((one: any) => {
+      one.filter = searchFilterObj(one, search);
+      result.push(one);
+    });
+    setChartData(result);
+    setSearch(search);
+  };
+
+  const searchFilterObj = (obj: any, value: string) => {
+    let check = false;
+    Object.keys(obj).find((key) => {
+      let one = obj[key];
+      if (typeof one !== 'string') {
+        return;
+      }
+      one = one.trim().toLocaleLowerCase();
+      value = value.trim().toLocaleLowerCase();
+      if (one.includes(value)) {
+        check = true;
+        return;
+      }
+    });
+    if (check) return true;
+    else return false;
+  };
 
   const clickCheckedAll = () => {
     let result = new Set();
@@ -48,6 +79,8 @@ const TableComponent = ({
     id: number,
     event: ChangeEvent<HTMLInputElement>,
   ) => {
+    // event.preventDefault();
+    event.stopPropagation();
     const isChecked = event.target.checked;
     let result = new Set([...checkedItems]);
     if (isChecked) {
@@ -64,28 +97,22 @@ const TableComponent = ({
    * changeSort: string 클릭된곳의 sort 값을 받음
    */
   const onClickSort = (changeSort: string) => {
+    // 처음 들어 왔을 경우
     if (sort !== changeSort) {
       setSort(changeSort);
       setOrder('asc');
       changeTableData(changeSort, 'asc');
       return;
     }
+    // 같은거 눌렀을 경우
     if (sort === changeSort && order === 'desc') {
       setSort('');
       setOrder('');
-      let result = [...rowData];
-      setChartData(result);
+      setTableData();
     } else {
-      let resultOrder = '';
-      if (order === '') {
-        resultOrder = 'desc';
-      }
-      if (order === 'asc') {
-        resultOrder = 'desc';
-      }
       setSort(changeSort);
-      setOrder(resultOrder);
-      changeTableData(changeSort, resultOrder);
+      setOrder('desc');
+      changeTableData(changeSort, 'desc');
     }
   };
 
@@ -94,8 +121,7 @@ const TableComponent = ({
    */
 
   const changeTableData = (sort: string, order: string) => {
-    let result = [...chartData];
-    result.sort(function (a: any, b: any) {
+    chartData.sort(function (a: any, b: any) {
       var nameA = a[sort];
       var nameB = b[sort];
       if (order === 'asc') {
@@ -116,12 +142,27 @@ const TableComponent = ({
       }
       return 0;
     });
-    setChartData(result);
+    setChartData(chartData);
   };
 
   const setTableData = () => {
-    let result = [...rowData];
-    setChartData(result);
+    const reuslt: any = [];
+    rowData.forEach((row) => {
+      const one = deepCopy(row);
+      reuslt.push(one);
+    });
+    setChartData(reuslt);
+  };
+
+  const deepCopy = (obj: any) => {
+    if (obj === null || typeof obj !== 'object') {
+      return obj;
+    }
+    let copy: any = {};
+    for (let key in obj) {
+      copy[key] = deepCopy(obj[key]);
+    }
+    return copy;
   };
 
   const setPartChecked = (checked: any) => {
@@ -132,7 +173,8 @@ const TableComponent = ({
     setPartCheck(partChecked);
   };
 
-  const clickRow = (val: any) => {
+  const clickRow = (e: MouseEvent<HTMLDivElement>, val: any) => {
+    e.stopPropagation();
     alert(JSON.stringify(val));
   };
 
@@ -143,7 +185,7 @@ const TableComponent = ({
   return (
     <div className="mt-10">
       <div className="flex justify-left">
-        <SearchFilter />
+        <SearchFilter search={search} onChagneSearch={onChagneSearch} />
       </div>
       <div className="flex w-f   flex-col h-[313px] overflow-scroll relative">
         <div className="flex w-f border-y border-gray-400 h-[36px] leading-9 font-semibold sticky top-[0] bg-white">
@@ -183,32 +225,37 @@ const TableComponent = ({
         </div>
         {chartData.length > 0 ? (
           <>
-            {chartData.map((row: any) => (
-              <div
-                className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold"
-                key={row.id}
-                onClick={() => clickRow(row)}
-              >
-                <input
-                  type="checkBox"
-                  checked={checkedItems.has(row.id)}
-                  onChange={(e) => checkedItemHandler(row.id, e)}
-                />
-                <div className="table_header flex flex-nowrap justify-between">
-                  {colunms.map((val) => (
+            {chartData.map(
+              (row: any) =>
+                row.filter && (
+                  <div
+                    className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold"
+                    key={row.id}
+                  >
+                    <input
+                      type="checkBox"
+                      checked={checkedItems.has(row.id)}
+                      onChange={(e) => checkedItemHandler(row.id, e)}
+                    />
                     <div
-                      className={classNames(
-                        'text-center text-xs flex-1 leading-9',
-                        row.tableCustom(val.datakey),
-                      )}
-                      key={val.id}
+                      className="table_header flex flex-nowrap justify-between"
+                      onClick={(e) => clickRow(e, row)}
                     >
-                      {row[val.datakey]}
+                      {colunms.map((val) => (
+                        <div
+                          className={classNames(
+                            'text-center text-xs flex-1 leading-9',
+                            row.tableCustom(val.datakey),
+                          )}
+                          key={val.id}
+                        >
+                          {row[val.datakey]}
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+                  </div>
+                ),
+            )}
           </>
         ) : (
           <div className="flex items-center justify-center h-f">
