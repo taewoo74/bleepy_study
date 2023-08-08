@@ -9,6 +9,8 @@ export interface colunmsType {
 }
 
 export interface rowDataType {
+  [key: string]: string | any;
+  id:number;
   tableCustom: (dataKey: string) => string;
   serviceName: string;
   companyName: string;

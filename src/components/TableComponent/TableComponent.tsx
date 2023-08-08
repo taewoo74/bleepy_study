@@ -5,10 +5,10 @@ import {
   pageDataType,
 } from '../../views/home/homeComponent/HomeTable.tsx';
 import { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
-import { AiOutlineArrowDown } from 'react-icons/ai';
-import { AiOutlineArrowUp } from 'react-icons/ai';
 import PageNation from './PageNation.tsx';
 import SearchFilter from './SearchFilter.tsx';
+import HeaderCell from './HeaderCell.tsx';
+import TableRow from './TableRow.tsx';
 
 interface TableDataType {
   colunms: colunmsType[];
@@ -23,18 +23,21 @@ const TableComponent = ({
   pageData,
   onChangePage,
 }: TableDataType) => {
-  const [chartData, setChartData] = useState<any>([]);
-  const [sort, setSort] = useState('');
-  const [order, setOrder] = useState('');
-  const [checkedItems, setCheckedItems] = useState(new Set());
-  const [checkBoxAll, setCheckBoxAll] = useState(false);
-  const [partCheck, setPartCheck] = useState(false);
+  const [chartData, setChartData] = useState<rowDataType[]>([]);
+  const [sort, setSort] = useState<string>('');
+  const [order, setOrder] = useState<string>('');
+  const [checkedItems, setCheckedItems] = useState<Set<number | unknown>>(
+    new Set(),
+  );
+  const [checkBoxAll, setCheckBoxAll] = useState<boolean>(false);
+  const [partCheck, setPartCheck] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
 
+  // 검색했을때 검색어 저장,검색데이터 필터
   const onChagneSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const search = event.target.value;
-    const result: any = [];
-    chartData.forEach((one: any) => {
+    const result: rowDataType[] = [];
+    chartData.forEach((one: rowDataType) => {
       one.filter = searchFilterObj(one, search);
       result.push(one);
     });
@@ -42,28 +45,23 @@ const TableComponent = ({
     setSearch(search);
   };
 
-  const searchFilterObj = (obj: any, value: string) => {
-    let check = false;
-    Object.keys(obj).find((key) => {
-      let one = obj[key];
-      if (typeof one !== 'string') {
-        return;
+  //filter 구분함수로 사용 obj 와 value를 넣어서 obj에 해당값이 들어있다면 true 리턴
+  const searchFilterObj = (obj: rowDataType, value: string) => {
+    return Object.values(obj).find((val) => {
+      if (typeof val !== 'string') {
+        return false;
       }
-      one = one.trim().toLocaleLowerCase();
+      val = val.trim().toLocaleLowerCase();
       value = value.trim().toLocaleLowerCase();
-      if (one.includes(value)) {
-        check = true;
-        return;
-      }
+      return val.includes(value);
     });
-    if (check) return true;
-    else return false;
   };
 
+  //체크박스 ALL체크 함수
   const clickCheckedAll = () => {
     let result = new Set();
     if (checkBoxAll == false) {
-      chartData.forEach((one: any) => {
+      chartData.forEach((one: rowDataType) => {
         result.add(one.id);
       });
       setCheckBoxAll(true);
@@ -74,12 +72,11 @@ const TableComponent = ({
     setPartChecked(result);
   };
 
+  // 체크박스 함수
   const checkedItemHandler = (
     id: number,
     event: ChangeEvent<HTMLInputElement>,
   ) => {
-    // event.preventDefault();
-    event.stopPropagation();
     const isChecked = event.target.checked;
     let result = new Set([...checkedItems]);
     if (isChecked) {
@@ -92,18 +89,27 @@ const TableComponent = ({
     setPartChecked(result);
   };
 
+  // 부분 체크
+  const setPartChecked = (checked: Set<number | unknown>) => {
+    let partChecked = false;
+    if (0 < checked.size && checked.size < chartData.length) {
+      partChecked = true;
+    }
+    setPartCheck(partChecked);
+  };
+
   /** header를 클릭했을때 호출되는 함수 sort order를 바꿔줌
    * changeSort: string 클릭된곳의 sort 값을 받음
    */
   const onClickSort = (changeSort: string) => {
-    // 처음 들어 왔을 경우
+    // 처음 눌렀을경우 , 다른거 눌렀을경우
     if (sort !== changeSort) {
       setSort(changeSort);
       setOrder('asc');
       changeTableData(changeSort, 'asc');
       return;
     }
-    // 같은거 눌렀을 경우
+    // 같은거 눌렀을 경우 2가지
     if (sort === changeSort && order === 'desc') {
       setSort('');
       setOrder('');
@@ -120,7 +126,7 @@ const TableComponent = ({
    */
 
   const changeTableData = (sort: string, order: string) => {
-    chartData.sort(function (a: any, b: any) {
+    chartData.sort(function (a: rowDataType, b: rowDataType) {
       var nameA = a[sort];
       var nameB = b[sort];
       if (order === 'asc') {
@@ -144,8 +150,9 @@ const TableComponent = ({
     setChartData(chartData);
   };
 
+  // 테이블 데이터 셋팅
   const setTableData = () => {
-    const reuslt: any = [];
+    const reuslt: rowDataType[] = [];
     rowData.forEach((row) => {
       const one = deepCopy(row);
       reuslt.push(one);
@@ -153,7 +160,8 @@ const TableComponent = ({
     setChartData(reuslt);
   };
 
-  const deepCopy = (obj: any) => {
+  // object 안에 몇단이든 모두 복사해줌
+  const deepCopy = (obj: rowDataType) => {
     if (obj === null || typeof obj !== 'object') {
       return obj;
     }
@@ -164,15 +172,8 @@ const TableComponent = ({
     return copy;
   };
 
-  const setPartChecked = (checked: any) => {
-    let partChecked = false;
-    if (0 < checked.size && checked.size < chartData.length) {
-      partChecked = true;
-    }
-    setPartCheck(partChecked);
-  };
-
-  const clickRow = (e: MouseEvent<HTMLDivElement>, val: any) => {
+  // row 클릭시 alert 뛰워줌
+  const clickRow = (e: MouseEvent<HTMLDivElement>, val: rowDataType) => {
     e.stopPropagation();
     alert(JSON.stringify(val));
   };
@@ -181,12 +182,14 @@ const TableComponent = ({
     setTableData();
   }, [rowData]);
 
+  //onMouseDown, onMouseMove, onMouseUp
+
   return (
     <div className="mt-10">
       <div className="flex justify-left">
         <SearchFilter search={search} onChagneSearch={onChagneSearch} />
       </div>
-      <div className="flex w-f   flex-col h-[313px] overflow-scroll relative">
+      <div className="flex w-f   flex-col h-[324px] overflow-y-scroll relative">
         <div className="flex w-f border-y border-gray-400 h-[36px] leading-9 font-semibold sticky top-[0] bg-white">
           <input
             type="checkbox"
@@ -201,60 +204,29 @@ const TableComponent = ({
           ></label>
           <div className="table_header flex flex-nowrap justify-between">
             {colunms.map((val) => (
-              <div
-                className="text-center flex-1 flex-row flex justify-center items-center relative items-center"
-                key={val.id}
-                onClick={() => onClickSort(val.datakey)}
-              >
-                <div className="inline-flex">{val.name}</div>
-                {sort === val.datakey && order == 'desc' && (
-                  <AiOutlineArrowDown
-                    className="inline-flex ml-[2px]"
-                    size="18"
-                  />
-                )}
-                {sort === val.datakey && order == 'asc' && (
-                  <AiOutlineArrowUp
-                    className="inline-flex ml-[2px]"
-                    size="18"
-                  />
-                )}
-                <div className="borderleft"></div>
-              </div>
+              <>
+                <HeaderCell
+                  val={val}
+                  onClickSort={onClickSort}
+                  sort={sort}
+                  order={order}
+                />
+              </>
             ))}
           </div>
         </div>
         {chartData.length > 0 ? (
           <>
             {chartData.map(
-              (row: any) =>
+              (row: rowDataType) =>
                 row.filter && (
-                  <div
-                    className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold"
-                    key={row.id}
-                  >
-                    <input
-                      type="checkBox"
-                      checked={checkedItems.has(row.id)}
-                      onChange={(e) => checkedItemHandler(row.id, e)}
-                    />
-                    <div
-                      className="table_header flex flex-nowrap justify-between"
-                      onClick={(e) => clickRow(e, row)}
-                    >
-                      {colunms.map((val) => (
-                        <div
-                          className={classNames(
-                            'text-center text-xs flex-1 leading-9',
-                            row.tableCustom(val.datakey),
-                          )}
-                          key={val.id}
-                        >
-                          {row[val.datakey]}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <TableRow
+                    row={row}
+                    checkedItems={checkedItems}
+                    checkedItemHandler={checkedItemHandler}
+                    clickRow={clickRow}
+                    colunms={colunms}
+                  />
                 ),
             )}
           </>
@@ -264,7 +236,7 @@ const TableComponent = ({
           </div>
         )}
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-4 mb-4">
         <PageNation pageData={pageData} onChangePage={onChangePage} />
       </div>
     </div>
