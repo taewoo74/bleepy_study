@@ -164,3 +164,14 @@ input[id='check_all']:checked + label.partChecked::after {
   background-color: #fb6218;
   color: white;
 }
+
+.borderleft {
+  width: 2px;
+  height: 21px;
+  background-color: #dde2eb;
+  vertical-align: middle;
+  position: absolute;
+  right: 0px;
+  cursor: col-resize;
+  top: 7px;
+}

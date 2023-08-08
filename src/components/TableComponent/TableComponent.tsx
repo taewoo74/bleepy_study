@@ -33,7 +33,6 @@ const TableComponent = ({
 
   const onChagneSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const search = event.target.value;
-
     const result: any = [];
     chartData.forEach((one: any) => {
       one.filter = searchFilterObj(one, search);
@@ -203,22 +202,24 @@ const TableComponent = ({
           <div className="table_header flex flex-nowrap justify-between">
             {colunms.map((val) => (
               <div
-                className="text-center flex-1 flex-row"
+                className="text-center flex-1 flex-row flex justify-center items-center relative items-center"
                 key={val.id}
                 onClick={() => onClickSort(val.datakey)}
               >
-                <div>
-                  {val.name}
-                  {sort === val.datakey && order == 'desc' && (
-                    <AiOutlineArrowDown
-                      className="inline-flex ml-4"
-                      size="18"
-                    />
-                  )}
-                  {sort === val.datakey && order == 'asc' && (
-                    <AiOutlineArrowUp className="inline-flex ml-4" size="18" />
-                  )}
-                </div>
+                <div className="inline-flex">{val.name}</div>
+                {sort === val.datakey && order == 'desc' && (
+                  <AiOutlineArrowDown
+                    className="inline-flex ml-[2px]"
+                    size="18"
+                  />
+                )}
+                {sort === val.datakey && order == 'asc' && (
+                  <AiOutlineArrowUp
+                    className="inline-flex ml-[2px]"
+                    size="18"
+                  />
+                )}
+                <div className="borderleft"></div>
               </div>
             ))}
           </div>
