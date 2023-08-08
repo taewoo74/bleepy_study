@@ -159,3 +159,8 @@ input[id='check_all']:checked + label.partChecked::after {
 .row-red {
   color: red;
 }
+
+.selectedPage {
+  background-color: #fb6218;
+  color: white;
+}

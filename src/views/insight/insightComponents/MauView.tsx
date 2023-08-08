@@ -9,7 +9,6 @@ import {
 import Chart from '../../../components/Chart.tsx';
 import xlsx from '../../../assets/img/xlsx.png';
 import { mauColumns } from '../../../data/data.tsx';
-import Table from '../../../components/Table.tsx';
 
 interface MauViewType {
   settingPopup: (
@@ -261,7 +260,7 @@ const MauView = ({ settingPopup }: MauViewType) => {
                 <img className="w-[16px] h-[16px] mt-0.5 mr-[3px]" src={xlsx} />
                 엑셀 다운로드
               </div>
-              <Table tableData={tableData} columns={mauColumns} />
+              {/* <Table tableData={tableData} columns={mauColumns} /> */}
             </div>
           )}
         </div>

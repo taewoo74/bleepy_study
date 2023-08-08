@@ -2,17 +2,27 @@ import classNames from 'classnames';
 import {
   colunmsType,
   rowDataType,
-} from '../views/home/homeComponent/HomeTable.tsx';
+  pageDataType,
+} from '../../views/home/homeComponent/HomeTable.tsx';
 import { useState, useEffect, ChangeEvent } from 'react';
 import { AiOutlineArrowDown } from 'react-icons/ai';
 import { AiOutlineArrowUp } from 'react-icons/ai';
+import PageNation from './PageNation.tsx';
+import SearchFilter from './SearchFilter.tsx';
 
 interface TableDataType {
   colunms: colunmsType[];
   rowData: rowDataType[];
+  pageData: pageDataType;
+  onChangePage: (num: number) => void;
 }
 
-const TableComponent = ({ colunms, rowData }: TableDataType) => {
+const TableComponent = ({
+  colunms,
+  rowData,
+  pageData,
+  onChangePage,
+}: TableDataType) => {
   const [chartData, setChartData] = useState<any>([]);
   const [sort, setSort] = useState('');
   const [order, setOrder] = useState('');
@@ -131,73 +141,84 @@ const TableComponent = ({ colunms, rowData }: TableDataType) => {
   }, [rowData]);
 
   return (
-    <div className="flex w-f mt-10  flex-col h-[396px] overflow-scroll relative">
-      <div className="flex w-f border-y border-gray-400 h-[36px] leading-9 font-semibold sticky top-[0] bg-white">
-        <input
-          type="checkbox"
-          className={classNames({ partChecked: partCheck })}
-          id="check_all"
-          onChange={clickCheckedAll}
-          checked={partCheck || checkBoxAll}
-        />
-        <label
-          className={classNames({ partChecked: partCheck })}
-          htmlFor="check_all"
-        ></label>
-        <div className="table_header flex flex-nowrap justify-between">
-          {colunms.map((val) => (
-            <div
-              className="text-center flex-1 flex-row"
-              key={val.id}
-              onClick={() => onClickSort(val.datakey)}
-            >
-              <div>
-                {val.name}
-                {sort === val.datakey && order == 'desc' && (
-                  <AiOutlineArrowDown className="inline-flex ml-4" size="18" />
-                )}
-                {sort === val.datakey && order == 'asc' && (
-                  <AiOutlineArrowUp className="inline-flex ml-4" size="18" />
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="mt-10">
+      <div className="flex justify-left">
+        <SearchFilter />
       </div>
-      {chartData.length > 0 ? (
-        <>
-          {chartData.map((row: any) => (
-            <div
-              className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold"
-              key={row.id}
-              onClick={() => clickRow(row)}
-            >
-              <input
-                type="checkBox"
-                checked={checkedItems.has(row.id)}
-                onChange={(e) => checkedItemHandler(row.id, e)}
-              />
-              <div className="table_header flex flex-nowrap justify-between">
-                {colunms.map((val) => (
-                  <div
-                    className={classNames(
-                      'text-center text-xs flex-1 leading-9',
-                      row.tableCustom(val.datakey),
-                    )}
-                    key={val.id}
-                  >
-                    {row[val.datakey]}
-                  </div>
-                ))}
+      <div className="flex w-f   flex-col h-[313px] overflow-scroll relative">
+        <div className="flex w-f border-y border-gray-400 h-[36px] leading-9 font-semibold sticky top-[0] bg-white">
+          <input
+            type="checkbox"
+            className={classNames({ partChecked: partCheck })}
+            id="check_all"
+            onChange={clickCheckedAll}
+            checked={partCheck || checkBoxAll}
+          />
+          <label
+            className={classNames({ partChecked: partCheck })}
+            htmlFor="check_all"
+          ></label>
+          <div className="table_header flex flex-nowrap justify-between">
+            {colunms.map((val) => (
+              <div
+                className="text-center flex-1 flex-row"
+                key={val.id}
+                onClick={() => onClickSort(val.datakey)}
+              >
+                <div>
+                  {val.name}
+                  {sort === val.datakey && order == 'desc' && (
+                    <AiOutlineArrowDown
+                      className="inline-flex ml-4"
+                      size="18"
+                    />
+                  )}
+                  {sort === val.datakey && order == 'asc' && (
+                    <AiOutlineArrowUp className="inline-flex ml-4" size="18" />
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </>
-      ) : (
-        <div className="flex items-center justify-center h-f">
-          <div className="text-center">데이터가 존재하지 않습니다.</div>
+            ))}
+          </div>
         </div>
-      )}
+        {chartData.length > 0 ? (
+          <>
+            {chartData.map((row: any) => (
+              <div
+                className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold"
+                key={row.id}
+                onClick={() => clickRow(row)}
+              >
+                <input
+                  type="checkBox"
+                  checked={checkedItems.has(row.id)}
+                  onChange={(e) => checkedItemHandler(row.id, e)}
+                />
+                <div className="table_header flex flex-nowrap justify-between">
+                  {colunms.map((val) => (
+                    <div
+                      className={classNames(
+                        'text-center text-xs flex-1 leading-9',
+                        row.tableCustom(val.datakey),
+                      )}
+                      key={val.id}
+                    >
+                      {row[val.datakey]}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </>
+        ) : (
+          <div className="flex items-center justify-center h-f">
+            <div className="text-center">데이터가 존재하지 않습니다.</div>
+          </div>
+        )}
+      </div>
+      <div className="flex justify-center">
+        <PageNation pageData={pageData} onChangePage={onChangePage} />
+      </div>
     </div>
   );
 };

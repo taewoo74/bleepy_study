@@ -15,7 +15,7 @@ import {
 } from '../../../views/home/homeComponent/HomeChart.tsx';
 import Chart from '../../../components/Chart.tsx';
 import xlsx from '../../../assets/img/xlsx.png';
-import Table from '../../../components/Table.tsx';
+// import Table from '../../../components/Table.tsx';
 import { dauColumns } from '../../../data/data.tsx';
 
 interface DauViewType {
@@ -417,7 +417,7 @@ const DauView = ({ settingPopup }: DauViewType) => {
                 <img className="w-[16px] h-[16px] mt-0.5 mr-[3px]" src={xlsx} />
                 엑셀 다운로드
               </div>
-              <Table tableData={tableData} columns={dauColumns} />
+              {/* <Table tableData={tableData} columns={dauColumns} /> */}
             </div>
           )}
           {/* <Table2 /> */}

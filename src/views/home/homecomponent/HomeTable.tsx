@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TableData } from '../../../apis/testApi/testApi.tsx';
-import TableComponent from '../../../components/TableComponent';
+import TableComponent from '../../../components/TableComponent/TableComponent.tsx';
 
 export interface colunmsType {
   name: string;
@@ -19,8 +19,21 @@ export interface rowDataType {
   serviceLogoImageUrl: string;
 }
 
+export interface pageDataType {
+  page: number;
+  pageSize: number;
+  totalElements: number;
+  totalPages: number;
+}
+
 const HomeTable = () => {
   const [rowData, setRowData] = useState<rowDataType[]>([]);
+  const [pageData, setPageData] = useState({
+    page: 1,
+    pageSize: 10,
+    totalElements: 10,
+    totalPages: 0,
+  });
 
   const columns = [
     { name: '회사이름', datakey: 'companyName', id: 1 },
@@ -39,11 +52,27 @@ const HomeTable = () => {
     }
   };
 
+  const onChangePage = (page: number) => {
+    pageData.page = page;
+    setPageData(pageData);
+    getTableData();
+  };
+
   const getTableData = async () => {
     const params = {
       searchOption: 'SERVICE_NAME',
+      page: pageData.page,
+      pageSize: pageData.pageSize,
     };
     const tableData = await TableData(params);
+    const pagingInfo = tableData.pagingInfo;
+    const page = {
+      page: pageData.page,
+      pageSize: pageData.pageSize,
+      totalElements: pagingInfo.totalElements,
+      totalPages: pagingInfo.totalPages,
+    };
+    setPageData(page);
 
     const result: rowDataType[] = [];
     tableData.data.forEach((one: rowDataType) => {
@@ -63,7 +92,12 @@ const HomeTable = () => {
 
   return (
     <div>
-      <TableComponent colunms={columns} rowData={rowData} />
+      <TableComponent
+        colunms={columns}
+        rowData={rowData}
+        pageData={pageData}
+        onChangePage={onChangePage}
+      />
     </div>
   );
 };
