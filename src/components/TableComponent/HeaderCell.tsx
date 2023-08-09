@@ -13,7 +13,6 @@ const HeaderCell = ({ val, onClickSort, sort, order }: HeaderCellType) => {
   return (
     <div
       className="text-center flex-1 flex-row flex justify-center items-center relative items-center"
-      key={val.id}
       onClick={() => onClickSort(val.datakey)}
     >
       <div className="inline-flex">{val.name}</div>

@@ -1,25 +1,30 @@
 import classNames from 'classnames';
 import {
-    colunmsType,
-    rowDataType,
-  } from '../../views/home/homeComponent/HomeTable.tsx';
-import { ChangeEvent , MouseEvent } from 'react';
-
+  colunmsType,
+  rowDataType,
+} from '../../views/home/homeComponent/HomeTable.tsx';
+import { ChangeEvent, MouseEvent } from 'react';
 
 interface TableRowType {
-    row:rowDataType
-    checkedItems: Set<number | unknown>
-    checkedItemHandler: (     id: number, event: ChangeEvent<HTMLInputElement>) => void;
-    clickRow: (e: MouseEvent<HTMLDivElement>, val: rowDataType) => void;
-    colunms:colunmsType[];
+  row: rowDataType;
+  checkedItems: Set<number | unknown>;
+  checkedItemHandler: (
+    id: number,
+    event: ChangeEvent<HTMLInputElement>,
+  ) => void;
+  clickRow: (e: MouseEvent<HTMLDivElement>, val: rowDataType) => void;
+  colunms: colunmsType[];
 }
 
-const TableRow = ({row , checkedItems , checkedItemHandler , clickRow , colunms} : TableRowType) => {
+const TableRow = ({
+  row,
+  checkedItems,
+  checkedItemHandler,
+  clickRow,
+  colunms,
+}: TableRowType) => {
   return (
-    <div
-      className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold"
-      key={row.id}
-    >
+    <div className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold">
       <input
         type="checkBox"
         checked={checkedItems.has(row.id)}

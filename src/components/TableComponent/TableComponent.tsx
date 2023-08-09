@@ -204,14 +204,13 @@ const TableComponent = ({
           ></label>
           <div className="table_header flex flex-nowrap justify-between">
             {colunms.map((val) => (
-              <>
-                <HeaderCell
-                  val={val}
-                  onClickSort={onClickSort}
-                  sort={sort}
-                  order={order}
-                />
-              </>
+              <HeaderCell
+                key={val.id}
+                val={val}
+                onClickSort={onClickSort}
+                sort={sort}
+                order={order}
+              />
             ))}
           </div>
         </div>
@@ -221,6 +220,7 @@ const TableComponent = ({
               (row: rowDataType) =>
                 row.filter && (
                   <TableRow
+                    key={row.id}
                     row={row}
                     checkedItems={checkedItems}
                     checkedItemHandler={checkedItemHandler}
