@@ -14,6 +14,7 @@ interface TableRowType {
   ) => void;
   clickRow: (e: MouseEvent<HTMLDivElement>, val: rowDataType) => void;
   colunms: colunmsType[];
+  widthData: any;
 }
 
 const TableRow = ({
@@ -22,6 +23,7 @@ const TableRow = ({
   checkedItemHandler,
   clickRow,
   colunms,
+  widthData,
 }: TableRowType) => {
   return (
     <div className="flex w-f border-b border-gray-400 h-[36px] leading-9 font-semibold">
@@ -36,8 +38,9 @@ const TableRow = ({
       >
         {colunms.map((val) => (
           <div
+            style={{ width: widthData[val.datakey] }}
             className={classNames(
-              'text-center text-xs flex-1 leading-9',
+              'text-center text-xs leading-9 truncate',
               row.tableCustom(val.datakey),
             )}
             key={val.id}

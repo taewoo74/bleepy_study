@@ -32,7 +32,12 @@ const TableComponent = ({
   const [checkBoxAll, setCheckBoxAll] = useState<boolean>(false);
   const [partCheck, setPartCheck] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
+  // const [dragItem, setDragItem] = useState<number>(0);
+  // const [dragId, setDragId] = useState<string>('');
+  const [widthData, setWidthData] = useState<any>({});
 
+  let dragId = '';
+  let dragItem = 0;
   // 검색했을때 검색어 저장,검색데이터 필터
   const onChagneSearch = (event: ChangeEvent<HTMLInputElement>) => {
     const search = event.target.value;
@@ -178,11 +183,36 @@ const TableComponent = ({
     alert(JSON.stringify(val));
   };
 
+  const mouseMoveHandler = (e: any) => {
+    const width = dragItem - e.screenX;
+    const result = { ...widthData };
+    result[dragId] = widthData[dragId] - width;
+    setWidthData(result);
+  };
+
+  const mouseUpHandler = () => {
+    document.removeEventListener('mousemove', mouseMoveHandler);
+  };
+
+  const onMouseDownDrag = (e: MouseEvent, id: string) => {
+    dragItem = e.screenX;
+    dragId = id;
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+  };
+
+  const settingWidthData = () => {
+    const obj: any = {};
+    colunms.forEach((val) => {
+      obj[val.datakey] = Math.floor(1095 / colunms.length);
+    });
+    setWidthData(obj);
+  };
+
   useEffect(() => {
     setTableData();
+    settingWidthData();
   }, [rowData]);
-
-  //onMouseDown, onMouseMove, onMouseUp
 
   return (
     <div className="mt-10">
@@ -210,6 +240,8 @@ const TableComponent = ({
                 onClickSort={onClickSort}
                 sort={sort}
                 order={order}
+                onMouseDownDrag={onMouseDownDrag}
+                widthData={widthData[val.datakey]}
               />
             ))}
           </div>
@@ -226,6 +258,7 @@ const TableComponent = ({
                     checkedItemHandler={checkedItemHandler}
                     clickRow={clickRow}
                     colunms={colunms}
+                    widthData={widthData}
                   />
                 ),
             )}
