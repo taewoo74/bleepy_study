@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TableData } from '../../../apis/testApi/testApi.tsx';
 import TableComponent from '../../../components/TableComponent/TableComponent.tsx';
+import  testTableData from  '../../../mocks/testApi.tsx'
 
 export interface colunmsType {
   name: string;
@@ -67,7 +68,8 @@ const HomeTable = () => {
       page: pageData.page,
       pageSize: pageData.pageSize,
     };
-    const tableData = await TableData(params);
+    const tableData = await testTableData(params);
+    // const tableData = await TableData(params);
     const pagingInfo = tableData.pagingInfo;
     const page = {
       page: pageData.page,
