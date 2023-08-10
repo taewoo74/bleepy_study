@@ -53,16 +53,17 @@ const TableComponent = ({
 
   let dragId = '';
   let dragItem = 0;
+
   // 검색했을때 검색어 저장,검색데이터 필터
-  const onChagneSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    const search = event.target.value;
+  const onChagneSearch = (event: ChangeEvent<HTMLInputElement> | null) => {
+    const searchWord = event ? event.target.value : search;
     const result: rowDataType[] = [];
     chartData.forEach((one: rowDataType) => {
-      one.filter = searchFilterObj(one, search);
+      one.filter = searchFilterObj(one, searchWord);
       result.push(one);
     });
     setChartData(result);
-    setSearch(search);
+    setSearch(searchWord);
   };
 
   //filter 구분함수로 사용 obj 와 value를 넣어서 obj에 해당값이 들어있다면 true 리턴
@@ -134,6 +135,7 @@ const TableComponent = ({
       setSort('');
       setOrder('');
       setTableData();
+      onChagneSearch(null);
     } else {
       setSort(changeSort);
       setOrder('desc');
@@ -237,11 +239,11 @@ const TableComponent = ({
     setSort('');
   };
 
-  // 페이지 변경 함수 호출시에 reset함수 같이 호출 
+  // 페이지 변경 함수 호출시에 reset함수 같이 호출
   const changPage = (page: number) => {
     onChangePage(page);
     resetData();
-  }
+  };
 
   useEffect(() => {
     setTableData();
