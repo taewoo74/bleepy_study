@@ -247,8 +247,11 @@ const TableComponent = ({
 
   useEffect(() => {
     setTableData();
-    settingWidthData();
   }, [rowData]);
+
+  useEffect(() => {
+    settingWidthData();
+  },[]);
 
   return (
     <div className="mt-10">
