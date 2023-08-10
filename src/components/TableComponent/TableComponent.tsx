@@ -17,6 +17,16 @@ interface TableDataType {
   onChangePage: (num: number) => void;
 }
 
+interface widthDataType {
+  [key: string]: number;
+  companyName: number;
+  email: number;
+  serviceCategoryName: number;
+  serviceName: number;
+  registeredAt: number;
+  contractStatus: number;
+}
+
 const TableComponent = ({
   colunms,
   rowData,
@@ -32,9 +42,14 @@ const TableComponent = ({
   const [checkBoxAll, setCheckBoxAll] = useState<boolean>(false);
   const [partCheck, setPartCheck] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
-  // const [dragItem, setDragItem] = useState<number>(0);
-  // const [dragId, setDragId] = useState<string>('');
-  const [widthData, setWidthData] = useState<any>({});
+  const [widthData, setWidthData] = useState<widthDataType>({
+    companyName: 0,
+    email: 0,
+    serviceCategoryName: 0,
+    serviceName: 0,
+    registeredAt: 0,
+    contractStatus: 0,
+  });
 
   let dragId = '';
   let dragItem = 0;
@@ -64,7 +79,7 @@ const TableComponent = ({
 
   //체크박스 ALL체크 함수
   const clickCheckedAll = () => {
-    let result = new Set();
+    const result = new Set();
     if (checkBoxAll == false) {
       chartData.forEach((one: rowDataType) => {
         result.add(one.id);
@@ -83,7 +98,7 @@ const TableComponent = ({
     event: ChangeEvent<HTMLInputElement>,
   ) => {
     const isChecked = event.target.checked;
-    let result = new Set([...checkedItems]);
+    const result = new Set([...checkedItems]);
     if (isChecked) {
       result.add(id);
       setCheckedItems(result);
@@ -170,8 +185,8 @@ const TableComponent = ({
     if (obj === null || typeof obj !== 'object') {
       return obj;
     }
-    let copy: any = {};
-    for (let key in obj) {
+    const copy: any = {};
+    for (const key in obj) {
       copy[key] = deepCopy(obj[key]);
     }
     return copy;
@@ -202,12 +217,31 @@ const TableComponent = ({
   };
 
   const settingWidthData = () => {
-    const obj: any = {};
+    const obj: widthDataType = {
+      companyName: 0,
+      email: 0,
+      serviceCategoryName: 0,
+      serviceName: 0,
+      registeredAt: 0,
+      contractStatus: 0,
+    };
     colunms.forEach((val) => {
       obj[val.datakey] = Math.floor(1095 / colunms.length);
     });
     setWidthData(obj);
   };
+
+  const resetData = () => {
+    setSearch('');
+    setOrder('');
+    setSort('');
+  };
+
+  // 페이지 변경 함수 호출시에 reset함수 같이 호출 
+  const changPage = (page: number) => {
+    onChangePage(page);
+    resetData();
+  }
 
   useEffect(() => {
     setTableData();
@@ -270,7 +304,7 @@ const TableComponent = ({
         )}
       </div>
       <div className="flex justify-center mt-4 mb-4">
-        <PageNation pageData={pageData} onChangePage={onChangePage} />
+        <PageNation pageData={pageData} onChangePage={changPage} />
       </div>
     </div>
   );
