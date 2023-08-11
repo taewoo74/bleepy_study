@@ -135,17 +135,6 @@ const makeDummy = (num: number) => {
   return { data, pagingInfo };
 };
 
-const deepCopy = (obj: any) => {
-  if (obj === null || typeof obj !== 'object') {
-    return obj;
-  }
-  const copy: any = {};
-  for (const key in obj) {
-    copy[key] = deepCopy(obj[key]);
-  }
-  return copy;
-};
-
 const dummy0 = makeDummy(0);
 const dummy2 = makeDummy(2);
 const dummy3 = makeDummy(3);

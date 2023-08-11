@@ -17,16 +17,14 @@ const HeaderCell = ({
   sort, // sort 값
   order, // order 값
   onMouseDownDrag, // width 조절 등록 함수
-  widthData, // width 값 array 
+  widthData, // width 값 array
 }: HeaderCellType) => {
   const [iconState, setIconState] = useState(false);
 
   return (
     <div
       style={{ width: widthData }}
-      className={classNames(
-        'text-center flex-row  justify-center items-center relative items-center truncate',
-      )}
+      className="text-center flex-row  justify-center items-center relative items-center truncate"
       onMouseOver={() => setIconState(true)}
       onMouseLeave={() => setIconState(false)}
     >
