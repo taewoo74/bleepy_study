@@ -59,8 +59,9 @@ const TableComponent = ({
     const searchWord = event ? event.target.value : search;
     const result: rowDataType[] = [];
     chartData.forEach((one: rowDataType) => {
-      one.filter = searchFilterObj(one, searchWord);
-      result.push(one);
+      const obj = deepCopy(one);
+      obj.filter = searchFilterObj(obj, searchWord);
+      result.push(obj);
     });
     setChartData(result);
     setSearch(searchWord);
@@ -135,7 +136,7 @@ const TableComponent = ({
       setSort('');
       setOrder('');
       setTableData();
-      onChagneSearch(null);
+      // onChagneSearch(null);
     } else {
       setSort(changeSort);
       setOrder('desc');
@@ -200,7 +201,7 @@ const TableComponent = ({
     alert(JSON.stringify(val));
   };
 
-  // 마우스 움직인만큼 table width 조절 
+  // 마우스 움직인만큼 table width 조절
   const mouseMoveHandler = (e: any) => {
     const width = dragItem - e.screenX;
     const result = { ...widthData };
@@ -213,7 +214,7 @@ const TableComponent = ({
     document.removeEventListener('mousemove', mouseMoveHandler);
   };
 
-  // 클릭시 handler함수 , handler제거 함수 생성 
+  // 클릭시 handler함수 , handler제거 함수 생성
   const onMouseDownDrag = (e: MouseEvent, id: string) => {
     dragItem = e.screenX;
     dragId = id;
@@ -237,14 +238,14 @@ const TableComponent = ({
     setWidthData(obj);
   };
 
-  // 리셋함수 
+  // 리셋함수
   const resetData = () => {
     setSearch('');
     setOrder('');
     setSort('');
     setCheckBoxAll(false);
     setPartCheck(false);
-    setCheckedItems(new Set())
+    setCheckedItems(new Set());
   };
 
   // 페이지 변경 함수 호출시에 reset함수 같이 호출
