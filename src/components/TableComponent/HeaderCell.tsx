@@ -34,7 +34,7 @@ const HeaderCell = ({
       <AiOutlineArrowUp
         onClick={() => onClickSort(val.datakey)}
         className={classNames('inline-flex ml-[2px] cursor-pointer', {
-          ' scale': order !== 'desc' && sort === val.datakey,
+          ' scale': order === 'desc' && sort === val.datakey,
         })}
         size="18"
         // 현재 sort 값이 해당 headerCell 인경우와 order 값이 없을때 black  아닐시 안보임 마우스 오버시 회색
