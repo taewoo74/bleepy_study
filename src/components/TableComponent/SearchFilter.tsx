@@ -2,8 +2,8 @@ import { CiSearch } from 'react-icons/ci';
 import { ChangeEvent } from 'react';
 
 interface searchFilterType {
-  search: string;
-  onChagneSearch: (event: ChangeEvent<HTMLInputElement>) => void;
+  search: string; // 검색값
+  onChagneSearch: (event: ChangeEvent<HTMLInputElement>) => void; // 검색했을때 함수 
 }
 
 const SearchFilter = ({ search, onChagneSearch }: searchFilterType) => {

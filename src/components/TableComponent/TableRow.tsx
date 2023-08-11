@@ -6,15 +6,15 @@ import {
 import { ChangeEvent, MouseEvent } from 'react';
 
 interface TableRowType {
-  row: rowDataType;
-  checkedItems: Set<number | unknown>;
+  row: rowDataType; // 데이터값
+  checkedItems: Set<number | unknown>; // 체크박스값
   checkedItemHandler: (
     id: number,
     event: ChangeEvent<HTMLInputElement>,
-  ) => void;
-  clickRow: (e: MouseEvent<HTMLDivElement>, val: rowDataType) => void;
-  colunms: colunmsType[];
-  widthData: any;
+  ) => void; // 체크박스 함수
+  clickRow: (e: MouseEvent<HTMLDivElement>, val: rowDataType) => void; // row클릭시 해당 데이터 alret 함수
+  colunms: colunmsType[]; // colunms데이터
+  widthData: any; // width값 정해주는 변수
 }
 
 const TableRow = ({

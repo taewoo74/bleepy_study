@@ -12,12 +12,12 @@ interface HeaderCellType {
 }
 
 const HeaderCell = ({
-  val,
-  onClickSort,
-  sort,
-  order,
-  onMouseDownDrag,
-  widthData,
+  val, // header 데이터
+  onClickSort, // sort 함수
+  sort, // sort 값
+  order, // order 값
+  onMouseDownDrag, // width 조절 등록 함수
+  widthData, // width 값 array 
 }: HeaderCellType) => {
   const [iconState, setIconState] = useState(false);
 

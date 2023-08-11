@@ -28,10 +28,10 @@ interface widthDataType {
 }
 
 const TableComponent = ({
-  colunms,
-  rowData,
-  pageData,
-  onChangePage,
+  colunms, // Header값을 찍어주는 colunms 값
+  rowData, // table의 데이터값을 가지고 있는 객체
+  pageData, // page pagesize totalElements number 를 모두 넣은 객체
+  onChangePage, // 페이지 이동 함수
 }: TableDataType) => {
   const [chartData, setChartData] = useState<rowDataType[]>([]);
   const [sort, setSort] = useState<string>('');
@@ -200,6 +200,7 @@ const TableComponent = ({
     alert(JSON.stringify(val));
   };
 
+  // 마우스 움직인만큼 table width 조절 
   const mouseMoveHandler = (e: any) => {
     const width = dragItem - e.screenX;
     const result = { ...widthData };
@@ -207,10 +208,12 @@ const TableComponent = ({
     setWidthData(result);
   };
 
+  // 클릭끝난시점 handler함수 제거
   const mouseUpHandler = () => {
     document.removeEventListener('mousemove', mouseMoveHandler);
   };
 
+  // 클릭시 handler함수 , handler제거 함수 생성 
   const onMouseDownDrag = (e: MouseEvent, id: string) => {
     dragItem = e.screenX;
     dragId = id;
@@ -218,6 +221,7 @@ const TableComponent = ({
     document.addEventListener('mouseup', mouseUpHandler);
   };
 
+  // 테이블 widht값 설정
   const settingWidthData = () => {
     const obj: widthDataType = {
       companyName: 0,
@@ -233,6 +237,7 @@ const TableComponent = ({
     setWidthData(obj);
   };
 
+  // 리셋함수 
   const resetData = () => {
     setSearch('');
     setOrder('');
@@ -251,7 +256,7 @@ const TableComponent = ({
 
   useEffect(() => {
     settingWidthData();
-  },[]);
+  }, []);
 
   return (
     <div className="mt-10">
