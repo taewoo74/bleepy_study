@@ -1,4 +1,4 @@
-import { testApi } from '../testApi/test.tsx';
+import { tableApi } from './table.tsx';
 
 interface TableDataType {
   searchOption: string;
@@ -8,7 +8,7 @@ interface TableDataType {
 
 const TableData = async (params: TableDataType) => {
   try {
-    const { data } = await testApi.get(`clients`, { params });
+    const { data } = await tableApi.get(`clients`, { params });
     return data;
   } catch (error) {
     console.error(error);

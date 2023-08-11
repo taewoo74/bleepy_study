@@ -19,4 +19,4 @@ if (token) {
 
 if (token) instance.defaults.headers.common['Authorization'] = token;
 
-export const testApi = instance;
+export const tableApi = instance;

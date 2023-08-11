@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TableData } from '../../../apis/testApi/testApi.tsx';
+import { TableData } from '../../../apis/tabeApi/tableApi.tsx';
 import TableComponent from '../../../components/TableComponent/TableComponent.tsx';
 import  testTableData from  '../../../mocks/testApi.tsx'
 
