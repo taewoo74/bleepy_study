@@ -242,6 +242,9 @@ const TableComponent = ({
     setSearch('');
     setOrder('');
     setSort('');
+    setCheckBoxAll(false);
+    setPartCheck(false);
+    setCheckedItems(new Set())
   };
 
   // 페이지 변경 함수 호출시에 reset함수 같이 호출
