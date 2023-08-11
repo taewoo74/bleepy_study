@@ -81,7 +81,7 @@ const TableComponent = ({
   //체크박스 ALL체크 함수
   const clickCheckedAll = () => {
     const result = new Set();
-    if (checkBoxAll == false) {
+    if (checkBoxAll === false && partCheck === false) {
       chartData.forEach((one: rowDataType) => {
         result.add(one.id);
       });
