@@ -68,8 +68,8 @@ const HomeTable = () => {
       page: pageData.page,
       pageSize: pageData.pageSize,
     };
-    const tableData = await testTableData(params);
-    // const tableData = await TableData(params);
+    // const tableData = await testTableData(params);
+    const tableData = await TableData(params);
     const pagingInfo = tableData.pagingInfo;
     const page = {
       page: pageData.page,

@@ -131,7 +131,7 @@ const makeDummy = (num: number) => {
     one.serviceName = one.serviceName + num;
     one.companyName = one.companyName + num;
   });
-  const pagingInfo = { ...dummy1.pagingInfo, pageSize: num };
+  const pagingInfo = { ...dummy1.pagingInfo, pageNumber: num };
   return { data, pagingInfo };
 };
 
@@ -146,6 +146,7 @@ const deepCopy = (obj: any) => {
   return copy;
 };
 
+const dummy0 = makeDummy(0);
 const dummy2 = makeDummy(2);
 const dummy3 = makeDummy(3);
 const dummy4 = makeDummy(4);
@@ -161,6 +162,7 @@ const dummy13 = makeDummy(13);
 const dummy14 = makeDummy(14);
 
 export {
+  dummy0,
   dummy1,
   dummy2,
   dummy3,

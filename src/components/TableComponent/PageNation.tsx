@@ -9,28 +9,26 @@ import {
 } from 'react-icons/md';
 
 interface PageNationType {
-  pageData: pageDataType;
-  onChangePage: (num: number) => void;
+  pageData: pageDataType; // pageData 객체
+  onChangePage: (num: number) => void; // page 바꿨을때 호출하는 함수
 }
 
 const PageNation = ({ pageData, onChangePage }: PageNationType) => {
-  const [firstPage, setFristPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(10);
   const [pageBox, setPageBox] = useState<number[]>([]);
 
+  // 보여줄수있는 페이지값 계산해서 배열에 담아주는 함수 
   const setPageData = () => {
-    const firstPage = Math.floor(pageData.page / pageData.pageSize) * 10 + 1;
-    setFristPage(firstPage);
+    let firstPage = Math.floor(pageData.page / pageData.pageSize) * 10;
+    if (pageData.page % pageData.pageSize === 0) firstPage = firstPage - 10;
 
     let maxPage = firstPage + 10;
-    if (maxPage > pageData.totalPages) {
+    if (pageData.totalPages !== 0 && maxPage > pageData.totalPages) {
       maxPage = pageData.totalPages;
     }
-    setMaxPage(maxPage);
-
-    const arr = Array(maxPage)
-      .fill(1)
-      .map((_v: number, i) => i + 1);
+    const pageArr = maxPage - firstPage;
+    const arr = Array(pageArr)
+      .fill(firstPage)
+      .map((_v: number, i) => i + firstPage + 1);
     setPageBox(arr);
   };
 

@@ -1,5 +1,6 @@
 import { rest } from 'msw';
 import {
+  dummy0,
   dummy1,
   dummy2,
   dummy3,
@@ -20,6 +21,7 @@ export const handlers = [
   rest.get('/table', (req, res, ctx): any => {
     const page = Number(req.url.searchParams.get('page'));
     const result = [
+      dummy0,
       dummy1,
       dummy2,
       dummy3,
