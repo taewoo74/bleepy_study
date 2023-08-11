@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 
 interface searchFilterType {
   search: string; // 검색값
-  onChagneSearch: (event: ChangeEvent<HTMLInputElement>) => void; // 검색했을때 함수 
+  onChagneSearch: (event: ChangeEvent<HTMLInputElement> , data: any ) => void; // 검색했을때 함수 
 }
 
 const SearchFilter = ({ search, onChagneSearch }: searchFilterType) => {
@@ -14,7 +14,7 @@ const SearchFilter = ({ search, onChagneSearch }: searchFilterType) => {
         className="ml-[5px] border border-b mb-[5px] pl-[4px]"
         type="text"
         value={search}
-        onChange={(event) => onChagneSearch(event)}
+        onChange={(event) => onChagneSearch(event , null)}
       />
       <CiSearch className="top-[5px] right-[5px] absolute " />
     </div>

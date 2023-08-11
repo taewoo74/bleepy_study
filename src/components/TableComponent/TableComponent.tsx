@@ -55,13 +55,19 @@ const TableComponent = ({
   let dragItem = 0;
 
   // 검색했을때 검색어 저장,검색데이터 필터
-  const onChagneSearch = (event: ChangeEvent<HTMLInputElement> | null) => {
+  const onChagneSearch = (
+    event: ChangeEvent<HTMLInputElement> | null,
+    data: any,
+  ) => {
     const searchWord = event ? event.target.value : search;
     const result: rowDataType[] = [];
-    chartData.forEach((one: rowDataType) => {
-      const obj = deepCopy(one);
-      obj.filter = searchFilterObj(obj, searchWord);
-      result.push(obj);
+    let rData = chartData;
+    if (data) {
+      rData = data;
+    }
+    rData.forEach((one: rowDataType) => {
+      one.filter = searchFilterObj(one, searchWord);
+      result.push(one);
     });
     setChartData(result);
     setSearch(searchWord);
@@ -135,7 +141,7 @@ const TableComponent = ({
     if (sort === changeSort && order === 'desc') {
       setSort('');
       setOrder('');
-      setTableData();
+      setTableData('search');
       // onChagneSearch(null);
     } else {
       setSort(changeSort);
@@ -174,13 +180,16 @@ const TableComponent = ({
   };
 
   // 테이블 데이터 셋팅
-  const setTableData = () => {
-    const reuslt: rowDataType[] = [];
+  const setTableData = (str: string | null) => {
+    const result: rowDataType[] = [];
     rowData.forEach((row) => {
       const one = deepCopy(row);
-      reuslt.push(one);
+      result.push(one);
     });
-    setChartData(reuslt);
+    setChartData(result);
+    if (str) {
+      onChagneSearch(null, result);
+    }
   };
 
   // object 안에 몇단이든 모두 복사해줌
@@ -255,7 +264,7 @@ const TableComponent = ({
   };
 
   useEffect(() => {
-    setTableData();
+    setTableData(null);
   }, [rowData]);
 
   useEffect(() => {
