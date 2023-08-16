@@ -1,18 +1,13 @@
-import { RootState } from '../store/reducer';
-import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../store';
-import popupSlice from '../store/slice/popup';
 import error from '../assets/img/Error.png';
 import warning from '../assets/img/warning.png';
+import popupStore from '../zustand/popup/popup.tsx';
 
 const Popup = () => {
-  const { title, text, button, type } = useSelector(
-    (state: RootState) => state.popup,
-  );
-  const dispatch = useAppDispatch();
+  const { popupData, setState } = popupStore();
+  const { type, title, text, button } = popupData;
 
   const popupClose = () => {
-    dispatch(popupSlice.actions.setPopup({ popupState: false }));
+    setState({ ...popupData, popupState: false });
   };
 
   return (

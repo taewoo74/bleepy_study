@@ -17,16 +17,7 @@ import Chart from '../../../components/Chart.tsx';
 import xlsx from '../../../assets/img/xlsx.png';
 // import Table from '../../../components/Table.tsx';
 import { dauColumns } from '../../../data/data.tsx';
-
-interface DauViewType {
-  settingPopup: (
-    str: string,
-    str2: string,
-    str3: string,
-    str4: string,
-    bol: boolean,
-  ) => void;
-}
+import popupStore from '../../../zustand/popup/popup.tsx';
 
 export type visitorType = {
   visitorTotal: number;
@@ -102,7 +93,8 @@ const dummyDauChartData = [
   },
 ];
 
-const DauView = ({ settingPopup }: DauViewType) => {
+const DauView = () => {
+  const { setState } = popupStore();
   const [tooltip, setTooltip] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
@@ -142,26 +134,26 @@ const DauView = ({ settingPopup }: DauViewType) => {
   /* 시작 일짜 바꿔주는 함수 */
   const onChangeStartDate = (date: Date) => {
     if (endDate.getTime() < date.getTime()) {
-      settingPopup(
-        '조회 일자 확인',
-        '조회 종료일보다 조회 시작일이 클 수 없습니다.',
-        '확인',
-        'error',
-        true,
-      );
+      setState({
+        title: '조회 일자 확인',
+        text: '조회 종료일보다 조회 시작일이 클 수 없습니다.',
+        button: '확인',
+        type: 'error',
+        popupState: true,
+      });
       DateSetting(8);
       return;
     }
     const diffTime = Math.abs(date.getTime() - endDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     if (diffDays > 90) {
-      settingPopup(
-        '조회 일자 확인',
-        '조회 가능한 일자는 최대 90일입니다.',
-        '확인',
-        'error',
-        true,
-      );
+      setState({
+        title: '조회 일자 확인',
+        text: '조회 가능한 일자는 최대 90일입니다.',
+        button: '확인',
+        type: 'error',
+        popupState: true,
+      });
       return;
     }
     setStartDate(new Date(date));
@@ -172,13 +164,13 @@ const DauView = ({ settingPopup }: DauViewType) => {
     const diffTime = Math.abs(startDate.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     if (diffDays > 90) {
-      settingPopup(
-        '조회 일자 확인',
-        '조회 가능한 일자는 최대 90일입니다.',
-        '확인',
-        'error',
-        true,
-      );
+      setState({
+        title: '조회 일자 확인',
+        text: '조회 가능한 일자는 최대 90일입니다.',
+        button: '확인',
+        type: 'error',
+        popupState: true,
+      });
       return;
     }
     setEndDate(new Date(date));
@@ -275,13 +267,13 @@ const DauView = ({ settingPopup }: DauViewType) => {
 
   /* 엑셀 클릭시 팝업창 생성 */
   const onClickExcel = () => {
-    settingPopup(
-      '현재 준비중인 서비스입니다.',
-      '조금만 기다려주세요.',
-      '확인',
-      '',
-      true,
-    );
+    setState({
+      title: '현재 준비중인 서비스입니다.',
+      text: '조금만 기다려주세요.',
+      button: '확인',
+      type: 'error',
+      popupState: true,
+    });
   };
 
   const didate = (start: Date, end: Date, num: number) => {

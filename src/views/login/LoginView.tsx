@@ -3,25 +3,22 @@ import InputForm from './loginComponent/InputForm.tsx';
 import FullButton from '../../components/FullButton.tsx';
 import { login, adminLogin } from '../../apis/loginApi/loginapi.ts';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../store';
-import popupSlice from '../../store/slice/popup.ts';
+import popupStore from '../../zustand/popup/popup.tsx';
 
 const LoginView = () => {
+  const { setState } = popupStore();
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [passWord, setPassWord] = useState(''); // 한개로
-  const dispatch = useAppDispatch();
 
   const openPopup = () => {
-    dispatch(
-      popupSlice.actions.setPopup({
-        title: '현재 준비중인 서비스입니다.',
-        text: '조금만 기다려주세요.',
-        button: '확인',
-        type: 'default',
-        popupState: true,
-      }),
-    );
+    setState({
+      title: '현재 준비중인 서비스입니다.',
+      text: '조금만 기다려주세요.',
+      button: '확인',
+      type: 'default',
+      popupState: true,
+    });
   };
 
   const InputChangeValue = (

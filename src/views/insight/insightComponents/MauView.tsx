@@ -9,16 +9,7 @@ import {
 import Chart from '../../../components/Chart.tsx';
 import xlsx from '../../../assets/img/xlsx.png';
 import { mauColumns } from '../../../data/data.tsx';
-
-interface MauViewType {
-  settingPopup: (
-    str: string,
-    str2: string,
-    str3: string,
-    str4: string,
-    bol: boolean,
-  ) => void;
-}
+import popupStore from '../../../zustand/popup/popup.tsx';
 
 interface MauDataType {
   yearMonth: string;
@@ -70,7 +61,8 @@ const dummyMauData = [
   },
 ];
 
-const MauView = ({ settingPopup }: MauViewType) => {
+const MauView = () => {
+  const { setState } = popupStore();
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [datePickerFormat, setDatePickerFormat] = useState<string>('yyyy.MM');
@@ -156,38 +148,38 @@ const MauView = ({ settingPopup }: MauViewType) => {
   /* 시작 일짜 바꿔주는 함수 */
   const onChangeStartDate = (date: Date) => {
     if (endDate.getTime() < date.getTime()) {
-      settingPopup(
-        '조회 일자 확인',
-        '조회 종료일보다 조회 시작일이 클 수 없습니다.',
-        '확인',
-        'error',
-        true,
-      );
+      setState({
+        title: '조회 일자 확인',
+        text: '조회 종료일보다 조회 시작일이 클 수 없습니다.',
+        button: '확인',
+        type: 'error',
+        popupState: true,
+      });
       return;
     }
     const diffTime = Math.abs(date.getTime() - endDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     if (diffDays > 365) {
-      settingPopup(
-        '조회 일자 확인',
-        '조회 가능한 일자는 최대 1년 입니다.',
-        '확인',
-        'error',
-        true,
-      );
+      setState({
+        title: '조회 일자 확인',
+        text: '조회 가능한 일자는 최대 1년 입니다.',
+        button: '확인',
+        type: 'error',
+        popupState: true,
+      });
       return;
     }
     setStartDate(new Date(date));
   };
 
   const onClickExcel = () => {
-    settingPopup(
-      '현재 준비중인 서비스입니다.',
-      '조금만 기다려주세요.',
-      '확인',
-      '',
-      true,
-    );
+    setState({
+      title: '현재 준비중인 서비스입니다.',
+      text: '조금만 기다려주세요.',
+      button: '확인',
+      type: 'error',
+      popupState: true,
+    });
   };
 
   /* 끝나는 일자 바꿔주는 함수 */
@@ -195,13 +187,13 @@ const MauView = ({ settingPopup }: MauViewType) => {
     const diffTime = Math.abs(startDate.getTime() - date.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     if (diffDays > 365) {
-      settingPopup(
-        '조회 일자 확인',
-        '조회 가능한 일자는 최대 1년 입니다.',
-        '확인',
-        'error',
-        true,
-      );
+      setState({
+        title: '조회 일자 확인',
+        text: '조회 가능한 일자는 최대 1년 입니다.',
+        button: '확인',
+        type: 'error',
+        popupState: true,
+      });
       return;
     }
     setEndDate(new Date(date));
