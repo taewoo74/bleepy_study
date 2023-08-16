@@ -16,7 +16,7 @@ interface PageNationType {
 const PageNation = ({ pageData, onChangePage }: PageNationType) => {
   const [pageBox, setPageBox] = useState<number[]>([]);
 
-  // 보여줄수있는 페이지값 계산해서 배열에 담아주는 함수 
+  // 보여줄수있는 페이지값 계산해서 배열에 담아주는 함수
   const setPageData = () => {
     let firstPage = Math.floor(pageData.page / pageData.pageSize) * 10;
     if (pageData.page % pageData.pageSize === 0) firstPage = firstPage - 10;
@@ -47,25 +47,23 @@ const PageNation = ({ pageData, onChangePage }: PageNationType) => {
   };
 
   const onClickNextPage = () => {
-    if (pageData.page == pageData.totalPages) {
+    if (pageData.page === pageData.totalPages) {
       return;
     }
     onChangePage(pageData.page + 1);
   };
 
   const onClickLastPage = () => {
-    if (pageData.page == pageData.totalPages) {
+    if (pageData.page === pageData.totalPages) {
       return;
     }
     onChangePage(pageData.totalPages);
   };
 
-  let fPage = false;
+  const fPage = pageData.page === 1 ? false : true;
+
   let lPage = false;
-  if (pageData.page == 1) {
-    fPage = true;
-  }
-  if (pageData.page == pageData.totalPages) {
+  if (pageData.page === pageData.totalPages) {
     lPage = true;
   }
 
@@ -90,7 +88,7 @@ const PageNation = ({ pageData, onChangePage }: PageNationType) => {
         <div
           className={classNames(
             'w-[20px] h-[20px] cursor-pointer text-center leading-5 mt-1',
-            { ' selectedPage': pageData.page === val },
+            { selectedPage: pageData.page === val },
           )}
           key={val}
           onClick={() => onChangePage(val)}

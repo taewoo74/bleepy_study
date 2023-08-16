@@ -69,6 +69,7 @@ const TableComponent = ({
       one.filter = searchFilterObj(one, searchWord);
       result.push(one);
     });
+    // rData.filter
     setChartData(result);
     setSearch(searchWord);
   };
