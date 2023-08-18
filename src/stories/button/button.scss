@@ -48,26 +48,29 @@
   box-shadow: 0 0 0 4px #e0d5d5;
 }
 
-//
+.default {
+  background-color: #0060ce;
+}
 
-/* .storybook-button--primary {
-  color: white;
-  background-color: #1ea7fd;
+.success {
+  background-color: #7cbb3f;
 }
-.storybook-button--secondary {
-  color: #333;
-  background-color: transparent;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
+
+.warning {
+  background-color: #ff8e0d;
 }
-.storybook-button--small {
-  font-size: 12px;
-  padding: 10px 16px;
+
+.danger {
+  background-color: #ff3232;
 }
-.storybook-button--medium {
-  font-size: 14px;
-  padding: 11px 20px;
+
+.black {
+  background-color: #000;
 }
-.storybook-button--large {
-  font-size: 16px;
-  padding: 12px 24px;
-} */
+
+.white {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+}

@@ -1,0 +1,110 @@
+.inputComponent {
+  width: 140px;
+  height: 26px;
+  padding: 0 3px;
+  line-height: 26px;
+}
+
+.inputComponent.s {
+  width: 100px;
+  height: 22px;
+  line-height: 22px;
+}
+
+.inputComponent.m {
+  width: 120px;
+  height: 24px;
+  line-height: 24px;
+}
+
+.inputComponent.l {
+  width: 140px;
+  height: 26px;
+  line-height: 26px;
+}
+
+.inputComponent.xl {
+  width: 160px;
+  height: 28px;
+  line-height: 28px;
+}
+
+.title_sub {
+  color: red;
+  margin-left: 3px;
+}
+
+.input_title.s {
+  font-size: 12px;
+}
+
+.input_title.m {
+  font-size: 14px;
+}
+
+.input_title.l {
+  font-size: 16px;
+}
+
+.input_title.xl {
+  font-size: 18px;
+}
+
+.Contained {
+  border-radius: 3px;
+  background-color: #ccc;
+  border: 0;
+}
+
+.Outlined {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.Underlined {
+  border: 1px solid #aaa;
+  border-width: 0px 0px 1px 0px;
+}
+
+.inputComponent.error {
+  border: 1px solid red;
+}
+
+.inputComponent.disabled {
+  border-radius: 3px;
+  background-color: #ccc;
+  border: 0;
+}
+
+.inputComponent.focus {
+  border: 1px solid blue;
+}
+
+.subtitleText {
+  color: #ccc;
+}
+
+.subtitleText.error {
+  color: red;
+}
+
+.subtitleText.s {
+  font-size: 10px;
+}
+
+.subtitleText.m {
+  font-size: 12px;
+}
+
+.subtitleText.l {
+  font-size: 14px;
+}
+
+.subtitleText.xl {
+  font-size: 16px;
+}
+
+.warning_icon {
+  margin-top: 3px;
+  vertical-align: sub;
+}

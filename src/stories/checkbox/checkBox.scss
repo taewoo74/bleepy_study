@@ -1,0 +1,81 @@
+.s {
+  width: 11px;
+  height: 11px;
+}
+
+.m {
+  width: 13px;
+  height: 13px;
+}
+.l {
+  width: 15px;
+  height: 15px;
+}
+.xl {
+  width: 17px;
+  height: 17px;
+}
+
+.indeterminate {
+  display: none;
+}
+
+label.indeterminate {
+  content: ' ';
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  text-align: center;
+  vertical-align: middle;
+  background: #fff;
+  border: 1px solid #767676;
+  border-radius: 3px;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+label.indeterminate::after {
+  content: '-';
+  color: #ffffff;
+  background: #0075ff;
+  line-height: 8px;
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 13px;
+  height: 13px;
+}
+
+label.indeterminate.s {
+  width: 11px;
+  height: 11px;
+}
+
+label.indeterminate.s::after {
+  width: 11px;
+  height: 11px;
+  top: -1px;
+}
+
+label.indeterminate.l {
+  width: 15px;
+  height: 15px;
+}
+
+label.indeterminate.l::after {
+  width: 15px;
+  height: 15px;
+  line-height: 11px;
+}
+
+label.indeterminate.xl {
+  width: 17px;
+  height: 17px;
+}
+
+label.indeterminate.xl::after {
+  width: 17px;
+  height: 17px;
+  line-height: 13px;
+}
