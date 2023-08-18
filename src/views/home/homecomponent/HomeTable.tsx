@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { TableData } from '../../../apis/tabeApi/tableApi.tsx';
 import TableComponent from '../../../components/TableComponent/TableComponent.tsx';
-import  testTableData from  '../../../mocks/testApi.tsx'
+import testTableData from '../../../mocks/testApi.tsx';
 
 export interface colunmsType {
   name: string;
@@ -11,7 +11,7 @@ export interface colunmsType {
 
 export interface rowDataType {
   [key: string]: string | any;
-  id:number;
+  id: number;
   tableCustom: (dataKey: string) => string;
   serviceName: string;
   companyName: string;
@@ -49,7 +49,7 @@ const HomeTable = () => {
   ];
 
   const tableCustom = (dataKey: string) => {
-    if (dataKey == 'serviceCategoryName') {
+    if (dataKey === 'serviceCategoryName') {
       return ' row-red';
     } else {
       return '';

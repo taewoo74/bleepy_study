@@ -33,14 +33,14 @@ const PageNation = ({ pageData, onChangePage }: PageNationType) => {
   };
 
   const onClickfirstPage = () => {
-    if (pageData.page == 1) {
+    if (pageData.page === 1) {
       return;
     }
     onChangePage(1);
   };
 
   const onClickPrevPage = () => {
-    if (pageData.page == 1) {
+    if (pageData.page === 1) {
       return;
     }
     onChangePage(pageData.page - 1);

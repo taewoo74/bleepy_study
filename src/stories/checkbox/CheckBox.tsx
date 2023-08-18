@@ -24,11 +24,11 @@ export const CheckBox = ({
       <input
         className={classNames('checkboxComponent', size, { indeterminate })}
         type="checkbox"
-        {...props}
         checked={checked}
         onChange={onChange}
         disabled={disable}
         readOnly={readOnly}
+        {...props}
       />
       <label className={classNames(size, { indeterminate })} />
     </>

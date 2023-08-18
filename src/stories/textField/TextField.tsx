@@ -47,7 +47,7 @@ export const TextField = ({
         onChange={onchange}
         placeholder={placeholder}
         {...props}
-        readOnly={states == 'disabled' ? true : false}
+        readOnly={states === 'disabled' ? true : false}
       />
       <div>
         {subIcon && (

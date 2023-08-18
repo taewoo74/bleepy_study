@@ -1,9 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .storybook-button {
-  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; // @font-face
   font-weight: 700;
   border: 0;
   border-radius: 3em;
@@ -37,7 +33,6 @@
 
 .disabled {
   opacity: 0.5;
-  pointer-events: none;
 }
 
 .hovered:hover {
