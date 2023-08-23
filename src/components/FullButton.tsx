@@ -1,4 +1,6 @@
 import { CheckBox } from '../stories/checkbox/checkBox';
+import { Button } from '../stories/button/Button';
+import { MouseEvent } from 'react';
 
 interface propsType {
   text: string;
@@ -18,7 +20,7 @@ const FullButton = ({ text, LoginSubmit, buttonState }: propsType) => {
       >
         <span className={buttonState ? ' text-white' : ''}>{text}</span>
       </div>
-      <CheckBox option={'readonly'} />
+      {/* <Button /> */}
     </>
   );
 };

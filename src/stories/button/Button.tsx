@@ -1,41 +1,52 @@
-import './button.scss';
-import classNames from 'classnames';
-import spinner from '../assets/Spinner-1s-200px.gif';
+import './button.css';
 import { ButtonHTMLAttributes } from 'react';
+import { defaultComponentType, shapeType } from '../TypeStories';
+import { StyledButton } from './ButtonStyle';
 
-type themeType =
-  | 'default'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'black'
-  | 'white'; // 공통으로 사용
-
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    defaultComponentType {
+  hover?: boolean;
+  focus?: boolean;
+  shape?: shapeType;
   loading?: boolean;
-  active?: boolean;
-  theme: themeType; // 커스텀 가능하도록
-  size: 'medium' | 'small' | 'large'; // 공통으로 사용
-  label: string;
+  loadingPostion?: 'left' | 'right';
+  leftIcon?: React.ReactNode;
+  righticon?: React.ReactNode;
+  buttonText?: React.ReactNode;
 }
 
-// 공통으로 타입 따로 선언해서 가져옴 , 여기서만 쓰는것만 씀
-
 export const Button = ({
+  disable = false,
+  color = 'primary',
+  focus = false,
+  hover = false,
+  shape = 'contained',
+  size = 'medium',
   loading = false,
-  size, // 디폴트값 넣어줘야함  디폴트는 항상 프라이머리 (스타일 , 테마)
-  theme,
-  label,
+  loadingPostion = 'left',
+  leftIcon,
+  righticon,
+  buttonText = '확인',
   ...props
 }: ButtonProps) => {
   return (
-    <button
-      className={classNames('storybook-button', size, theme)}
-      type="button"
+    <StyledButton
+      color={color}
+      size={size}
+      hover={hover}
+      shape={shape}
+      focus={focus}
+      disabled={disable}
       {...props}
     >
-      {loading && <img className="spinner_size" src={spinner} />}
-      {!loading && label}
-    </button>
+      {loading && loadingPostion === 'left' && <span className="loader"></span>}
+      {leftIcon && leftIcon}
+      {buttonText}
+      {righticon && righticon}
+      {loading && loadingPostion === 'right' && (
+        <span className="loader"></span>
+      )}
+    </StyledButton>
   );
 };
