@@ -27,26 +27,26 @@ const backgroundColor = (color: string | undefined) => {
 };
 
 // 버튼 사이즈 css 리턴 , 커스텀 가능
-const buttonSize = (size: sizeType) => {
-  if (size === 'medium') {
+const buttonSize = (itemSize: sizeType) => {
+  if (itemSize === 'medium') {
     return;
   }
 
-  if (size === 'large') {
+  if (itemSize === 'large') {
     return {
       fontSize: '1.125rem',
       padding: '6px 20px',
     };
   }
 
-  if (size === 'small') {
+  if (itemSize === 'small') {
     return {
       padding: '4px 14px',
       minWidth: '60px',
     };
   }
 
-  return size;
+  return itemSize;
 };
 
 // 모양과 색상을 받아 해당 모양의 css 를 리턴 해줌
@@ -117,9 +117,9 @@ export const StyledButton = styled.button<ButtonProps>`
   
  /* size */
   ${(props) => {
-    if (props.size) {
+    if (props.itemSize) {
       return css`
-        ${buttonSize(props.size)}
+        ${buttonSize(props.itemSize)}
       `;
     }
   }}

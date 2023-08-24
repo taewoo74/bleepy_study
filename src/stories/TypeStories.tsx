@@ -5,5 +5,5 @@ export type shapeType = 'contained' | 'outlined' | 'plain' | 'soft' | string;
 export type defaultComponentType = {
   disable?: boolean;
   color?: colorType;
-  size?: sizeType;
+  itemSize?: sizeType;
 };

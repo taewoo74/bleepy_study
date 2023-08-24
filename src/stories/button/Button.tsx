@@ -22,7 +22,7 @@ export const Button = ({
   focus = false,
   hover = false,
   shape = 'contained',
-  size = 'medium',
+  itemSize = 'medium',
   loading = false,
   loadingPostion = 'left',
   leftIcon,
@@ -33,7 +33,7 @@ export const Button = ({
   return (
     <StyledButton
       color={color}
-      size={size}
+      itemSize={itemSize}
       hover={hover}
       shape={shape}
       focus={focus}

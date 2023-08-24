@@ -1,0 +1,26 @@
+label[data-custom='indeterminate'] {
+  content: ' ';
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  text-align: center;
+  vertical-align: middle;
+  background: #fff;
+  border: 1px solid #767676;
+  border-radius: 3px;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+label[data-custom='indeterminate']::after {
+  content: '-';
+  color: #ffffff;
+  background: #0075ff;
+  line-height: 8px;
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 13px;
+  height: 13px;
+}
